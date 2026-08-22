@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dp1hcgqbdfac"]
-
-[ext_resource type="Script" path="res://scripts/objects/ground_platform.gd" id="1"]
-
-[node name="GroundPlatform" type="StaticBody2D" unique_id=1273881249]
-script = ExtResource("1")

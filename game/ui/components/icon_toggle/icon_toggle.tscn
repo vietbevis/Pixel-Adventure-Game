@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://ui/shared/controls/checkbox_off.png" id="1"]
+[ext_resource type="Texture2D" path="res://ui/shared/controls/checkbox_on.png" id="2"]
+
+[node name="IconToggle" type="TextureButton"]
+custom_minimum_size = Vector2(32, 32)
+toggle_mode = true
+ignore_texture_size = true
+stretch_mode = 4
+texture_normal = ExtResource("1")
+texture_pressed = ExtResource("2")

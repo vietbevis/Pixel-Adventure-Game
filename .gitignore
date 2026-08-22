@@ -6,6 +6,7 @@
 game/.godot/
 
 # Raw downloaded asset pack (from itch.io). Not referenced by the Godot
-# project itself — game/assets/ already has its own copies of what's used.
+# project itself — the game/ tree already has its own copies of what's used
+# (see the per-feature sprites/ folders under game/player, game/objects, etc.).
 /Free/
 /Pixel Adventure 1.zip

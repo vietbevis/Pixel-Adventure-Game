@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bhykirliujg86"]
+
+[ext_resource type="Script" uid="uid://dhc2wm7fjccb1" path="res://objects/goal_flag/goal_flag.gd" id="1"]
+[ext_resource type="Texture2D" path="res://objects/goal_flag/sprites/End (Idle).png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(24, 64)
+
+[node name="GoalFlag" type="Area2D" unique_id=1389448575]
+script = ExtResource("1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1054334749]
+texture = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1102963254]
+shape = SubResource("RectangleShape2D_1")
