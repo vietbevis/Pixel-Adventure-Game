@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Godot 4 editor/import cache — regenerated automatically by the editor,
+# no need to track it.
+game/.godot/
+
+# Raw downloaded asset pack (from itch.io). Not referenced by the Godot
+# project itself — game/assets/ already has its own copies of what's used.
+/Free/
+/Pixel Adventure 1.zip
