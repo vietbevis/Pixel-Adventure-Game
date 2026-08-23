@@ -16,8 +16,9 @@ func _on_resume() -> void:
 	queue_free()
 
 func _on_restart() -> void:
-	SceneTransition.goto("res://levels/level_1/level_1.tscn")
+	GameManager.start_new_run(GameManager.current_level_id)
+	SceneTransition.goto(LevelData.get_scene_path(GameManager.current_level_id))
 
 func _on_menu() -> void:
 	GameManager.has_checkpoint = false
-	SceneTransition.goto("res://ui/main_menu/main_menu.tscn")
+	SceneTransition.goto("res://ui/level_select/level_select.tscn")

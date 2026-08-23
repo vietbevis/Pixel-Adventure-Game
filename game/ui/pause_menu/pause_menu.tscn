@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://ui/pause_menu/pause_menu.gd" id="1"]
 [ext_resource type="Texture2D" path="res://ui/shared/buttons/Restart.png" id="2"]
@@ -10,20 +10,67 @@ corner_radius_top_right = 8
 corner_radius_bottom_left = 8
 corner_radius_bottom_right = 8
 
+[sub_resource type="Animation" id="Animation_pop_in"]
+resource_name = "pop_in"
+length = 0.18
+tracks = [{
+"type": "value",
+"path": NodePath("DimBackground:color"),
+"interp": 1,
+"loop_wrap": true,
+"keys": {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.55)]
+}
+}, {
+"type": "value",
+"path": NodePath("CenterContainer/Panel:scale"),
+"interp": 1,
+"loop_wrap": true,
+"keys": {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.85, 0.85), Vector2(1, 1)]
+}
+}, {
+"type": "value",
+"path": NodePath("CenterContainer/Panel:modulate"),
+"interp": 1,
+"loop_wrap": true,
+"keys": {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+}]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
+_data = {
+"pop_in": SubResource("Animation_pop_in")
+}
+
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1")
 
 [node name="DimBackground" type="ColorRect" parent="."]
+process_mode = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.55)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+process_mode = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Panel" type="PanelContainer" parent="CenterContainer"]
+process_mode = 3
+pivot_offset = Vector2(110, 90)
 theme_override_styles/panel = SubResource("StyleBoxFlat_1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel"]
@@ -36,6 +83,7 @@ theme_override_font_sizes/font_size = 26
 text = "PAUSED"
 
 [node name="ResumeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+theme_type_variation = &"PrimaryButton"
 text = "Resume"
 
 [node name="RestartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
@@ -43,4 +91,12 @@ icon = ExtResource("2")
 text = "  Restart"
 
 [node name="MenuButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
-text = "Back to Menu"
+theme_type_variation = &"DangerButton"
+text = "Back to Levels"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_1")
+}
+autoplay = "pop_in"

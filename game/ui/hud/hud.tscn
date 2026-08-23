@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://dskiaf5lay5qv"]
+[gd_scene load_steps=4 format=3 uid="uid://dskiaf5lay5qv"]
 
 [ext_resource type="Script" uid="uid://cy0uw4sa5pail" path="res://ui/hud/hud.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dcvgxrl3ckyx0" path="res://ui/shared/controls/heart_full.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bs170b6ubrnvs" path="res://ui/shared/controls/heart_empty.png" id="3"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1868046227]
 script = ExtResource("1")
@@ -18,8 +20,35 @@ theme_override_constants/separation = 6
 [node name="FruitLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=792078380]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
+theme_override_constants/outline_size = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 text = "Fruits: 0"
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_constants/outline_size = 4
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+text = "Time: 0:00"
 
 [node name="HeartsRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=985118212]
 layout_mode = 2
 theme_override_constants/separation = 4
+
+[node name="Heart1" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("2")
+stretch_mode = 5
+
+[node name="Heart2" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("2")
+stretch_mode = 5
+
+[node name="Heart3" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("2")
+stretch_mode = 5

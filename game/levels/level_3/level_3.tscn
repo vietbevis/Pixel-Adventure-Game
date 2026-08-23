@@ -1,0 +1,155 @@
+[gd_scene format=4 uid="uid://dxk3g9m1p8e7l"]
+
+[ext_resource type="Script" uid="uid://bx2mpgsy8w0fp" path="res://levels/level_1/level_1.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://objects/fruit/fruit.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://db3204psc4vcl" path="res://objects/checkpoint/checkpoint.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://bhykirliujg86" path="res://objects/goal_flag/goal_flag.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://cblmi7knwsi3a" path="res://objects/enemies/saw/saw.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://dskiaf5lay5qv" path="res://ui/hud/hud.tscn" id="9"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/Yellow.png" id="10"]
+[ext_resource type="PackedScene" path="res://objects/start_marker/start_marker.tscn" id="11"]
+[ext_resource type="SpriteFrames" uid="uid://caayogg3m32em" path="res://objects/fruit/sprites/bananas_frames.tres" id="12"]
+[ext_resource type="SpriteFrames" uid="uid://bpdou2hedlhkl" path="res://objects/fruit/sprites/cherries_frames.tres" id="13"]
+[ext_resource type="SpriteFrames" uid="uid://b5m5uip5tcheh" path="res://objects/fruit/sprites/apple_frames.tres" id="13_tk2t7"]
+[ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="14"]
+[ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="15"]
+[ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
+[ext_resource type="PackedScene" path="res://objects/enemies/walker/walker.tscn" id="22"]
+[ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("1")
+camera_limit_left = -16
+camera_limit_right = 1200
+camera_limit_top = -180
+camera_limit_bottom = 260
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-16, -220)
+scale = Vector2(19.0, 7.5)
+texture = ExtResource("10")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="Terrain" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD//+z/BQAHAAUAAAD//+3/BQAHAAUAAAD//+7/BQAHAAUAAAD//+//BQAHAAUAAAD///D/BQAHAAUAAAD///H/BQAHAAUAAAD///L/BQAHAAUAAAD///P/BQAHAAUAAAD///T/BQAHAAUAAAD///X/BQAHAAUAAAD///b/BQAHAAUAAAD///f/BQAHAAUAAAD///j/BQAHAAUAAAD///n/BQAHAAUAAAD///r/BQAHAAUAAAD///v/BQAHAAUAAAD///z/BQAHAAUAAAD///3/BQAHAAUAAAD///7/BQAHAAUAAAD/////BQAHAAUAAAD//wAABQAHAAUAAAD//wEABQAHAAUAAAD//wIABQAHAAUAAAD//wMABQAHAAUAAAD//wQABQAHAAUAAAD//wUABQAHAAUAAAD//wYABQAHAAUAAAD//wcABQAHAAUAAAD//wgABQAHAAUAAAD//wkABQAHAAUAAAD//woABQAHAAUAAAD//wsABQAHAAUAAAD//wwABQAHAAUAAAD//w0ABQAHAAUAAAD//w4ABQAHAAUAAAD//w8ABQAHAAUAAAD//xAABQAHAAUAAAAAAA4ABQAGAAQAAAAAAA8ABQAGAAUAAAAAABAABQAGAAUAAAABAA4ABQAHAAQAAAABAA8ABQAHAAUAAAABABAABQAHAAUAAAACAA4ABQAHAAQAAAACAA8ABQAHAAUAAAACABAABQAHAAUAAAADAA4ABQAHAAQAAAADAA8ABQAHAAUAAAADABAABQAHAAUAAAAEAA4ABQAHAAQAAAAEAA8ABQAHAAUAAAAEABAABQAHAAUAAAAFAA4ABQAIAAQAAAAFAA8ABQAIAAUAAAAFABAABQAIAAUAAAAJAAwABQAGAAQAAAAJAA0ABQAGAAUAAAAJAA4ABQAGAAUAAAAKAAwABQAHAAQAAAAKAA0ABQAHAAUAAAAKAA4ABQAHAAUAAAALAAwABQAHAAQAAAALAA0ABQAHAAUAAAALAA4ABQAHAAUAAAAMAAwABQAIAAQAAAAMAA0ABQAIAAUAAAAMAA4ABQAIAAUAAAAQAA0ABQAGAAQAAAAQAA4ABQAGAAUAAAAQAA8ABQAGAAUAAAARAA0ABQAHAAQAAAARAA4ABQAHAAUAAAARAA8ABQAHAAUAAAASAA0ABQAIAAQAAAASAA4ABQAIAAUAAAASAA8ABQAIAAUAAAAWAAoABQAGAAQAAAAWAAsABQAGAAUAAAAWAAwABQAGAAUAAAAXAAoABQAHAAQAAAAXAAsABQAHAAUAAAAXAAwABQAHAAUAAAAYAAoABQAHAAQAAAAYAAsABQAHAAUAAAAYAAwABQAHAAUAAAAZAAoABQAIAAQAAAAZAAsABQAIAAUAAAAZAAwABQAIAAUAAAAdAAwABQAGAAQAAAAdAA0ABQAGAAUAAAAdAA4ABQAGAAUAAAAeAAwABQAHAAQAAAAeAA0ABQAHAAUAAAAeAA4ABQAHAAUAAAAfAAwABQAIAAQAAAAfAA0ABQAIAAUAAAAfAA4ABQAIAAUAAAAjAAsABQAGAAQAAAAjAAwABQAGAAUAAAAjAA0ABQAGAAUAAAAkAAsABQAHAAQAAAAkAAwABQAHAAUAAAAkAA0ABQAHAAUAAAAlAAsABQAHAAQAAAAlAAwABQAHAAUAAAAlAA0ABQAHAAUAAAAmAAsABQAIAAQAAAAmAAwABQAIAAUAAAAmAA0ABQAIAAUAAAAqAAsABQAGAAQAAAAqAAwABQAGAAUAAAAqAA0ABQAGAAUAAAArAAsABQAHAAQAAAArAAwABQAHAAUAAAArAA0ABQAHAAUAAAAsAAsABQAIAAQAAAAsAAwABQAIAAUAAAAsAA0ABQAIAAUAAAAwAAkABQAGAAQAAAAwAAoABQAGAAUAAAAwAAsABQAGAAUAAAAxAAkABQAHAAQAAAAxAAoABQAHAAUAAAAxAAsABQAHAAUAAAAyAAkABQAHAAQAAAAyAAoABQAHAAUAAAAyAAsABQAHAAUAAAAzAAkABQAIAAQAAAAzAAoABQAIAAUAAAAzAAsABQAIAAUAAAA3AAwABQAGAAQAAAA3AA0ABQAGAAUAAAA3AA4ABQAGAAUAAAA4AAwABQAHAAQAAAA4AA0ABQAHAAUAAAA4AA4ABQAHAAUAAAA5AAwABQAIAAQAAAA5AA0ABQAIAAUAAAA5AA4ABQAIAAUAAAA9AAsABQAGAAQAAAA9AAwABQAGAAUAAAA9AA0ABQAGAAUAAAA+AAsABQAHAAQAAAA+AAwABQAHAAUAAAA+AA0ABQAHAAUAAAA/AAsABQAHAAQAAAA/AAwABQAHAAUAAAA/AA0ABQAHAAUAAABAAAsABQAIAAQAAABAAAwABQAIAAUAAABAAA0ABQAIAAUAAABEAAsABQAGAAQAAABEAAwABQAGAAUAAABEAA0ABQAGAAUAAABFAAsABQAHAAQAAABFAAwABQAHAAUAAABFAA0ABQAHAAUAAABGAAsABQAHAAQAAABGAAwABQAHAAUAAABGAA0ABQAHAAUAAABHAAsABQAHAAQAAABHAAwABQAHAAUAAABHAA0ABQAHAAUAAABIAAsABQAHAAQAAABIAAwABQAHAAUAAABIAA0ABQAHAAUAAABJAAsABQAIAAQAAABJAAwABQAIAAUAAABJAA0ABQAIAAUAAABKAOz/BQAHAAUAAABKAO3/BQAHAAUAAABKAO7/BQAHAAUAAABKAO//BQAHAAUAAABKAPD/BQAHAAUAAABKAPH/BQAHAAUAAABKAPL/BQAHAAUAAABKAPP/BQAHAAUAAABKAPT/BQAHAAUAAABKAPX/BQAHAAUAAABKAPb/BQAHAAUAAABKAPf/BQAHAAUAAABKAPj/BQAHAAUAAABKAPn/BQAHAAUAAABKAPr/BQAHAAUAAABKAPv/BQAHAAUAAABKAPz/BQAHAAUAAABKAP3/BQAHAAUAAABKAP7/BQAHAAUAAABKAP//BQAHAAUAAABKAAAABQAHAAUAAABKAAEABQAHAAUAAABKAAIABQAHAAUAAABKAAMABQAHAAUAAABKAAQABQAHAAUAAABKAAUABQAHAAUAAABKAAYABQAHAAUAAABKAAcABQAHAAUAAABKAAgABQAHAAUAAABKAAkABQAHAAUAAABKAAoABQAHAAUAAABKAAsABQAHAAUAAABKAAwABQAHAAUAAABKAA0ABQAHAAUAAABKAA4ABQAHAAUAAABKAA8ABQAHAAUAAABKABAABQAHAAUAAAA=")
+tile_set = ExtResource("16_iwr0g")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="StartMarker" parent="Interactables" instance=ExtResource("11")]
+position = Vector2(16, 208)
+
+[node name="GoalFlag" parent="Interactables" instance=ExtResource("6")]
+position = Vector2(1120, 144)
+
+[node name="Checkpoint" parent="Interactables" instance=ExtResource("5")]
+position = Vector2(576, 148)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Walker1" parent="Enemies" instance=ExtResource("22")]
+position = Vector2(32, 203)
+patrol_distance = Vector2(32, 0)
+patrol_speed = 26.0
+
+[node name="Spikes2" parent="Enemies" instance=ExtResource("8")]
+position = Vector2(160, 176)
+
+[node name="Saw3" parent="Enemies" instance=ExtResource("7")]
+position = Vector2(272, 189)
+
+[node name="Spikes4" parent="Enemies" instance=ExtResource("8")]
+position = Vector2(368, 144)
+
+[node name="Saw5" parent="Enemies" instance=ExtResource("7")]
+position = Vector2(480, 173)
+
+[node name="Spikes6" parent="Enemies" instance=ExtResource("8")]
+position = Vector2(576, 160)
+
+[node name="Saw7" parent="Enemies" instance=ExtResource("7")]
+position = Vector2(688, 157)
+
+[node name="Spikes8" parent="Enemies" instance=ExtResource("8")]
+position = Vector2(784, 128)
+
+[node name="Saw9" parent="Enemies" instance=ExtResource("7")]
+position = Vector2(896, 173)
+
+[node name="Spikes10" parent="Enemies" instance=ExtResource("8")]
+position = Vector2(992, 160)
+
+[node name="Walker11" parent="Enemies" instance=ExtResource("22")]
+position = Vector2(1120, 155)
+patrol_distance = Vector2(32, 0)
+patrol_speed = 26.0
+
+[node name="Flyer1" parent="Enemies" instance=ExtResource("23")]
+position = Vector2(224, -320)
+patrol_distance = Vector2(40, 0)
+patrol_speed = 45.0
+
+[node name="Flyer4" parent="Enemies" instance=ExtResource("23")]
+position = Vector2(528, -336)
+patrol_distance = Vector2(40, 0)
+patrol_speed = 45.0
+
+[node name="Flyer7" parent="Enemies" instance=ExtResource("23")]
+position = Vector2(848, -368)
+patrol_distance = Vector2(40, 0)
+patrol_speed = 45.0
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(16, 208)
+
+[node name="HUD" parent="." instance=ExtResource("9")]
+
+[node name="Fruits" type="Node2D" parent="."]
+
+[node name="Fruit1" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(32, 192)
+variant_frames = ExtResource("12")
+
+[node name="Fruit2" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(160, 160)
+variant_frames = ExtResource("13")
+
+[node name="Fruit3" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(272, 176)
+variant_frames = ExtResource("14")
+
+[node name="Fruit4" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(368, 128)
+variant_frames = ExtResource("15")
+
+[node name="Fruit5" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(480, 160)
+variant_frames = ExtResource("13_tk2t7")
+
+[node name="Fruit6" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(576, 144)
+variant_frames = ExtResource("12")
+
+[node name="Fruit7" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(688, 144)
+variant_frames = ExtResource("13")
+
+[node name="Fruit8" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(784, 112)
+variant_frames = ExtResource("14")
+
+[node name="Fruit9" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(896, 160)
+variant_frames = ExtResource("15")
+
+[node name="Fruit10" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(992, 144)
+variant_frames = ExtResource("13_tk2t7")
+
+[node name="Fruit11" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(1120, 144)
+variant_frames = ExtResource("12")

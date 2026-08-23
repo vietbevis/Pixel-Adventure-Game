@@ -8,6 +8,7 @@ extends Area2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ## Đổi loại quả (Apple/Bananas/Cherries/...) — set file trong objects/fruit/sprites/.
 ## Để trống thì giữ nguyên hình mặc định đã bake sẵn trong fruit.tscn (Táo).
@@ -38,4 +39,7 @@ func _on_body_entered(body: Node2D) -> void:
 	collected = true
 	GameManager.score += 1
 	collision.set_deferred("disabled", true)
-	queue_free()
+	# Hiệu ứng "collect" (phóng to + mờ dần) được dựng bằng AnimationPlayer trong
+	# fruit.tscn (Godot editor), script chỉ phát rồi xoá node khi chạy xong.
+	animation_player.animation_finished.connect(func(_name: StringName) -> void: queue_free())
+	animation_player.play("collect")

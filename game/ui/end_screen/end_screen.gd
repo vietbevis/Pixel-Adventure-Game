@@ -17,8 +17,17 @@ const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
 
 func _ready() -> void:
 	var won := GameManager.last_result == "win"
+	var time_taken := GameManager.elapsed_time()
+	var previous_best := SaveManager.get_best_time(GameManager.current_level_id)
+	var is_new_best := won and (previous_best < 0.0 or time_taken < previous_best)
+	SaveManager.record_result(GameManager.current_level_id, GameManager.score, won, time_taken)
 	title_label.text = "YOU WIN!" if won else "GAME OVER"
 	score_label.text = "Fruits collected: %d" % GameManager.score
+	if won:
+		score_label.text += "\nTime: %s%s" % [
+			LevelData.format_time(time_taken),
+			"  (New Best!)" if is_new_best else "",
+		]
 	# Đổi ảnh nền lát theo kết quả: vàng ấm áp khi thắng, xám trầm khi thua
 	background.texture = WIN_BG_TEXTURE if won else LOSE_BG_TEXTURE
 	# Hiệu ứng confetti và khung nền vàng chỉ hiện khi thắng, tạo cảm giác ăn mừng
@@ -43,12 +52,11 @@ func _ready() -> void:
 ## Chơi lại: nếu vừa thắng thì phải bắt đầu lại từ đầu (bỏ checkpoint cũ).
 ## Tim (hearts) sẽ tự được làm đầy khi level_1.gd chạy lại (_enter_tree).
 func _on_retry() -> void:
-	if GameManager.last_result == "win":
-		# Completed the level: a fresh retry starts over from the beginning.
-		GameManager.has_checkpoint = false
-	SceneTransition.goto("res://levels/level_1/level_1.tscn")
+	# Completed or failed: either way retry starts this level over from the beginning.
+	GameManager.start_new_run(GameManager.current_level_id)
+	SceneTransition.goto(LevelData.get_scene_path(GameManager.current_level_id))
 
-## Quay về màn hình chính, xoá checkpoint để lần chơi tiếp theo bắt đầu sạch
+## Quay về màn chọn level, xoá checkpoint để lần chơi tiếp theo bắt đầu sạch
 func _on_menu() -> void:
 	GameManager.has_checkpoint = false
-	SceneTransition.goto("res://ui/main_menu/main_menu.tscn")
+	SceneTransition.goto("res://ui/level_select/level_select.tscn")

@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://core/scene_transition.gd" id="1"]
+
+[sub_resource type="Animation" id="Animation_fade_in"]
+resource_name = "fade_in"
+length = 0.25
+tracks = [{
+"type": "value",
+"path": NodePath("ColorRect:color"),
+"interp": 1,
+"loop_wrap": true,
+"keys": {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+}]
+
+[sub_resource type="Animation" id="Animation_fade_out"]
+resource_name = "fade_out"
+length = 0.25
+tracks = [{
+"type": "value",
+"path": NodePath("ColorRect:color"),
+"interp": 1,
+"loop_wrap": true,
+"keys": {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+}]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
+_data = {
+"fade_in": SubResource("Animation_fade_in"),
+"fade_out": SubResource("Animation_fade_out")
+}
+
+[node name="SceneTransition" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+process_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_1")
+}
