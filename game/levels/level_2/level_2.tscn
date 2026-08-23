@@ -87,12 +87,8 @@ leash_radius = 160.0
 chase_speed = 70.0
 return_speed = 50.0
 
-[node name="Saw1" parent="Enemies" unique_id=925070779 instance=ExtResource("7")]
-position = Vector2(48, 205)
-move_distance = Vector2(24, 0)
-
 [node name="Saw2" parent="Enemies" unique_id=531717961 instance=ExtResource("7")]
-position = Vector2(224, 205)
+position = Vector2(230, 204)
 move_distance = Vector2(24, 0)
 
 [node name="Saw3" parent="Enemies" unique_id=202127489 instance=ExtResource("7")]
@@ -113,12 +109,17 @@ angular_speed = -1.5
 position = Vector2(607, -1008)
 
 [node name="MovingPlatform1" parent="Enemies" unique_id=277475551 instance=ExtResource("20")]
-position = Vector2(304, 232)
+position = Vector2(312, 232)
 move_distance = Vector2(0, -40)
 move_speed = 35.0
 
 [node name="Walker1" parent="Enemies" unique_id=1696903399 instance=ExtResource("22")]
-position = Vector2(120, 203)
+position = Vector2(81, 203)
+patrol_distance = Vector2(50, 0)
+patrol_speed = 26.0
+
+[node name="Walker2" parent="Enemies" unique_id=1970547177 instance=ExtResource("22")]
+position = Vector2(613, 202)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
@@ -135,11 +136,11 @@ position = Vector2(32, 208)
 [node name="Fruits" type="Node2D" parent="." unique_id=1418984959]
 
 [node name="Fruit1" parent="Fruits" unique_id=1069371500 instance=ExtResource("4")]
-position = Vector2(16, 208)
+position = Vector2(711, 205)
 variant_frames = ExtResource("12")
 
 [node name="Fruit3" parent="Fruits" unique_id=2142219594 instance=ExtResource("4")]
-position = Vector2(80, 208)
+position = Vector2(66, 206)
 variant_frames = ExtResource("14")
 
 [node name="Fruit4" parent="Fruits" unique_id=538543044 instance=ExtResource("4")]
@@ -147,7 +148,7 @@ position = Vector2(192, 208)
 variant_frames = ExtResource("15")
 
 [node name="Fruit6" parent="Fruits" unique_id=1047668048 instance=ExtResource("4")]
-position = Vector2(256, 208)
+position = Vector2(275, 208)
 variant_frames = ExtResource("12")
 
 [node name="Fruit7" parent="Fruits" unique_id=597563277 instance=ExtResource("4")]
@@ -155,11 +156,11 @@ position = Vector2(352, 208)
 variant_frames = ExtResource("13")
 
 [node name="Fruit9" parent="Fruits" unique_id=382158730 instance=ExtResource("4")]
-position = Vector2(416, 208)
+position = Vector2(438, 206)
 variant_frames = ExtResource("15")
 
 [node name="Fruit10" parent="Fruits" unique_id=281994842 instance=ExtResource("4")]
-position = Vector2(448, 208)
+position = Vector2(615, 62)
 variant_frames = ExtResource("13_tk2t7")
 
 [node name="Fruit11" parent="Fruits" unique_id=654252436 instance=ExtResource("4")]
