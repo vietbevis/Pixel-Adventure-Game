@@ -32,7 +32,7 @@ level_subtitle = "Tường Thành"
 camera_limit_left = -48
 camera_limit_right = 1264
 camera_limit_top = -80
-camera_limit_bottom = 400
+camera_limit_bottom = 440
 
 [node name="Parallax" parent="." instance=ExtResource("3")]
 

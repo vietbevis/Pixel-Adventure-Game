@@ -33,7 +33,7 @@ level_subtitle = "Hành Lang Ngai"
 camera_limit_left = -48
 camera_limit_right = 1360
 camera_limit_top = -100
-camera_limit_bottom = 400
+camera_limit_bottom = 440
 
 [node name="Parallax" parent="." instance=ExtResource("3")]
 
