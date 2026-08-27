@@ -700,7 +700,21 @@ Làm ngay sau Combat để playtest Android sớm. **Không có lớp `PlayerInp
 
 ---
 
-### Phase 10 — Audio & Polish  *(FINALIZED)*
+### Phase 10 — Audio & Polish  🔨 CODE XONG (audio + juice) — chờ verify
+
+> **P10 code xong (autonomous run 2026-08-28), chờ verify in-editor:**
+> - `core/audio_manager.gd` autoload + `audio/game_bus_layout.tres` (Master/Music/SFX) + `[audio]` trong project.godot.
+>   Nhạc `.ogg` loop theo world (`level_base._ready` → `WorldData.world_of(id)`); SFX pool 6 player, nghe Events
+>   (player_damaged→hurt, enemy_died, ability/collectible/checkpoint/heart→pickup); player.gd gọi thẳng
+>   `play_sfx("jump"/"attack")`. `settings_menu` volume slider bật lại → `set_master_volume` (persist "volume").
+>   File: SFX từ GothicVania Cemetery demo (CC0), nhạc SunnyLand / Cold Corridors / Cemetery.
+> - `components/camera_shake.gd` (child của player Camera2D) — trauma² model, nghe Events. player.gd emit
+>   `Events.player_damaged(1)` trong `_on_hurt`.
+> - Bụi tiếp đất: player.gd spawn `dust.tscn` khi vừa chạm đất lúc rơi nhanh (`_fall_speed_prev > 180`).
+> **CÒN LẠI (cần device/verify):** particle hit-spark từ Free Smoke Fx, safe-area touch controls, perf pass
+> mobile, gamepad hints. Không chặn demo.
+
+### Phase 10 — Audio & Polish  (spec cũ)
 
 > **Cập nhật:** fullscreen persist + volume-setting infra đã có (P2.5). P10 = audio thật + juice + phần mobile còn lại từ "P9".
 
@@ -894,6 +908,8 @@ P2b Player attack + enemy reactions . ✅ a88272b
 P2.5 Mobile touch controls ......... ✅ 05684cf  (APK chưa build)
 P3-P8 ............................... ✅ (xem các note ở trên)
 P9  Level & World Redesign .......... 🔨 CODE XONG — 6 màn + boss + hub, chờ playtest in-editor
+P10 Audio & Polish ................. 🔨 CODE XONG — AudioManager (nhạc/SFX/volume), camera shake, bụi tiếp đất
+P11 Achievements .................... 🔨 CODE XONG — 6 mốc, Toast; challenge mode chưa làm
 ```
 
 **Còn lại** (spec đã FINALIZED ở trên):
