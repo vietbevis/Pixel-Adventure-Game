@@ -23,6 +23,7 @@ SceneTransition="*res://core/scene_transition.tscn"
 SaveManager="*res://core/save_manager.gd"
 Progression="*res://core/progression.gd"
 AudioManager="*res://core/audio_manager.gd"
+Achievements="*res://core/achievement_manager.gd"
 Toast="*res://ui/toast/toast.tscn"
 Dialogue="*res://ui/dialogue/dialogue.tscn"
 

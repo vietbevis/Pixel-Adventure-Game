@@ -19,12 +19,16 @@ func _ready() -> void:
 	Events.ability_unlocked.connect(_on_ability_unlocked)
 	Events.max_hp_increased.connect(_on_max_hp_increased)
 	Events.collectible_collected.connect(_on_collectible_collected)
+	Events.achievement_unlocked.connect(_on_achievement)
 
 func _on_ability_unlocked(id: String) -> void:
 	_show("Đã học %s!" % String(DISPLAY.get(id, id.capitalize())))
 
 func _on_max_hp_increased(_new_max: int) -> void:
 	_show("Vương Ấn hoàn chỉnh!  +1 ♥ tối đa")
+
+func _on_achievement(_id: String, title: String) -> void:
+	_show("★ Thành tựu:  %s" % title)
 
 func _on_collectible_collected(id: String, kind: String) -> void:
 	if kind != "diamond" or id not in SEAL_SHARDS:

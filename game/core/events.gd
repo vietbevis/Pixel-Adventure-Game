@@ -31,6 +31,7 @@ signal fruit_collected(total: int)
 signal collectible_collected(id: String, kind: String)
 signal checkpoint_activated(position: Vector2)
 signal ability_unlocked(id: String)
+signal achievement_unlocked(id: String, title: String)
 
 # --- Flow ---
 signal level_started(level_id: String)

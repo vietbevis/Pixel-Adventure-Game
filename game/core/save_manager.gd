@@ -21,6 +21,8 @@ var defeated_bosses: Array = []
 var collected_secrets: Array = []
 ## Số tim tối đa cộng thêm vĩnh viễn từ phần thưởng (heart container). Xem core/progression.gd.
 var max_hp_bonus: int = 0
+## Danh sách id achievement đã mở. Xem core/achievement_manager.gd.
+var achievements: Array = []
 ## Màn chơi gần nhất (cho nút Continue ở main menu). "" = chưa chơi lần nào.
 var last_level: String = ""
 
@@ -115,6 +117,17 @@ func record_result(level_id: String, score: int, won: bool, time_taken: float = 
 	if score > get_high_score(level_id):
 		high_scores[level_id] = score
 	save_data()
+	if won:
+		Events.level_completed.emit(level_id)
+
+func has_achievement(id: String) -> bool:
+	return id in achievements
+
+func unlock_achievement(id: String) -> void:
+	if id in achievements:
+		return
+	achievements.append(id)
+	save_data()
 
 func save_data() -> void:
 	var data := {
@@ -126,6 +139,7 @@ func save_data() -> void:
 		"defeated_bosses": defeated_bosses,
 		"collected_secrets": collected_secrets,
 		"max_hp_bonus": max_hp_bonus,
+		"achievements": achievements,
 		"last_level": last_level,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -148,4 +162,5 @@ func load_data() -> void:
 		defeated_bosses = parsed.get("defeated_bosses", [])
 		collected_secrets = parsed.get("collected_secrets", [])
 		max_hp_bonus = int(parsed.get("max_hp_bonus", 0))
+		achievements = parsed.get("achievements", [])
 		last_level = parsed.get("last_level", "")
