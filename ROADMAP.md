@@ -892,6 +892,8 @@ P1.5 Multi-hero (King + Captain) .... ✅ 11a9bdb
 P2a Damage pipeline migration ....... ✅ a747cf1
 P2b Player attack + enemy reactions . ✅ a88272b
 P2.5 Mobile touch controls ......... ✅ 05684cf  (APK chưa build)
+P3-P8 ............................... ✅ (xem các note ở trên)
+P9  Level & World Redesign .......... 🔨 CODE XONG — 6 màn + boss + hub, chờ playtest in-editor
 ```
 
 **Còn lại** (spec đã FINALIZED ở trên):
