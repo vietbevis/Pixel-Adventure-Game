@@ -654,6 +654,14 @@ Level Select nhóm 3 world; không regression 5 màn cũ.
 > **P9-3 ✅ commit `6505640`** — 4 bẫy (`game/objects/traps/{trampoline,fire_trap,spiked_ball,arrow_shooter}/`)
 > do agent phụ `agy` (Gemini 3.1 Pro) viết theo `P9_HANDOFF.md`, agent chính review + sửa (cast type
 > trampoline, mũi tên cắm tường tắt hitbox, bỏ 5 uid giả). Chưa wire vào màn nào — đặt ở P9-4..P9-6.
+>
+> **P9-2 ✅ commit `50ad4f8`** — story layer. `objects/story_sign/` + `objects/ability_relic/` (agy viết,
+> review OK). `npc.gd` +`sprite_faces_right`. `progression.gd` BOSS_REWARDS = `{}` (Dash chuyển sang relic
+> cuối level_2, King Pig chỉ mở world Hầm Ngục). `toast.gd` relore VN + toast mỗi mảnh Vương Ấn. `hub.tscn`
+> mở rộng + NPC Dân làng (King frames) + Heo đào ngũ + biển lore; thoại Cố vấn viết lại. `level_2.tscn`
+> +`DashRelic` gần cờ (chỗ tạm — dời khi rebuild ở P9-4).
+>
+> **P9-D1 🔄 giao agy** — 3 decor phát sáng (torch/dungeon_torch/candle) + enemy `cannon` + `cannonball`.
 
 ---
 
