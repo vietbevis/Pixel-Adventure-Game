@@ -16,7 +16,7 @@
 [ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="14"]
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="15"]
 [ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
-[ext_resource type="PackedScene" path="res://objects/enemies/walker/walker.tscn" id="22"]
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
 
 [node name="Level3" type="Node2D" unique_id=25532388]

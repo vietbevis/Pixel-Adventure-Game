@@ -116,8 +116,9 @@ func _physics_process(delta: float) -> void:
 	_update_animation(on_wall)
 
 func _update_animation(on_wall: bool) -> void:
-	# Đòn đánh giữ nguyên anim "attack" cho tới khi phát xong (_on_sprite_animation_finished).
-	if is_attacking:
+	# Giữ nguyên anim "attack" cho tới khi phát xong. Điều kiện kèm `animation == attack`
+	# để nếu đòn bị anim khác cắt ngang (vd trúng đòn → "hit") thì không kẹt.
+	if is_attacking and sprite.animation == ATTACK_ANIM:
 		return
 	# Chỉ giữ nguyên khung hình "hit" trong lúc animation đang chạy; phát xong rồi
 	# thì phải nhả ra cho các animation khác (idle/run/...) vì giờ trúng bẫy không
@@ -154,8 +155,12 @@ func _on_sprite_frame_changed() -> void:
 
 func _on_sprite_animation_finished() -> void:
 	if sprite.animation == ATTACK_ANIM:
-		hitbox.disable()
-		is_attacking = false
+		_end_attack()
+
+## Kết thúc đòn đánh (phát xong, hoặc bị cắt ngang do trúng đòn / chết).
+func _end_attack() -> void:
+	is_attacking = false
+	hitbox.disable()
 
 ## Khựng hình cực ngắn khi đòn trúng — làm cú đánh "đã tay" hơn.
 func _on_hit_landed(_target: Hurtbox) -> void:
@@ -181,6 +186,7 @@ func hit(force_reposition: bool = false) -> void:
 		# HealthComponent vừa phát `died` (xử lý đồng bộ) → _on_health_died đã tiếp quản.
 		return
 
+	_end_attack()
 	sprite.play("hit")
 	if force_reposition:
 		# Rơi khỏi map: còn tim vẫn phải bung ngay về respawn, tránh gọi hit() mỗi frame.
@@ -200,13 +206,13 @@ func _on_checkpoint_activated(_position: Vector2) -> void:
 ## chỉ phản ứng hình ảnh (nếu đòn chí mạng thì _on_health_died đã lo, is_dead = true).
 func _on_hurt(_source: Area2D) -> void:
 	if not is_dead:
+		_end_attack()
 		sprite.play("hit")
 
 ## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
 func _on_health_died() -> void:
 	is_dead = true
-	is_attacking = false
-	hitbox.disable()
+	_end_attack()
 	velocity = Vector2.ZERO
 	sprite.play("hit")
 	Events.player_died.emit()

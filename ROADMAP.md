@@ -452,7 +452,11 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 3 — Enemy AI Base + Pig Migration  *(FINALIZED — next up)*
+### Phase 3 — Enemy AI Base + Pig Migration
+
+> **Status:** ✅ DONE — verified cả 5 màn. `EnemyBase` (CharacterBody2D + FSM + `FloorCheck`), `EnemyStats`, `pig.tscn`/`pig_ambusher.tscn` (Kings and Pigs pig xanh). Thay 18 quái trong 5 màn (spike_head/walker→pig, chaser→pig_ambusher; gỡ override chaser cũ). Flyer + traps giữ nguyên.
+> Bug fix lúc test: player animation kẹt khi trúng đòn lúc đang chém (`_end_attack` cho mọi đường cắt ngang); pig `sprite_faces_right` (sprite Kings and Pigs quay trái).
+> Nợ (→ P7): đoạn leo shaft L2 (cột chaser dọc) + vài chỗ L5 vốn thiết kế cho quái gắn tường — grounded pig chỉ đứng bệ, cần redesign khi repurpose màn thành world. Folder `walker/spike_head/chaser_spike` giữ lại (bỏ tham chiếu), xoá sau.
 
 **Goal:** `EnemyBase` (`CharacterBody2D`) + FSM tái sử dụng; thay walker/spike_head/chaser_spike/flyer bằng hệ **Pig** (Kings and Pigs). Knockback vị trí thật.
 **Why:** Gỡ copy-paste patrol khỏi 6 script; cho quái "phản ứng" (tiền đề của boss); art nhất quán với hero King + boss King Pig.

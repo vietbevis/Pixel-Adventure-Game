@@ -18,8 +18,8 @@
 [ext_resource type="PackedScene" path="res://objects/enemies/orbit_saw/orbit_saw.tscn" id="18"]
 [ext_resource type="PackedScene" path="res://objects/enemies/falling_spike/falling_spike.tscn" id="19"]
 [ext_resource type="PackedScene" path="res://objects/moving_platform/moving_platform.tscn" id="20"]
-[ext_resource type="PackedScene" path="res://objects/enemies/chaser_spike/chaser_spike.tscn" id="21"]
-[ext_resource type="PackedScene" path="res://objects/enemies/walker/walker.tscn" id="22"]
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig_ambusher.tscn" id="21"]
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
 
 [node name="Level2" type="Node2D" unique_id=264605257]
@@ -54,38 +54,18 @@ position = Vector2(704, -380)
 
 [node name="ChaserSpike1" parent="Enemies" unique_id=286778859 instance=ExtResource("21")]
 position = Vector2(704, 10)
-detect_radius = 90.0
-leash_radius = 160.0
-chase_speed = 70.0
-return_speed = 50.0
 
 [node name="ChaserSpike2" parent="Enemies" unique_id=1171335236 instance=ExtResource("21")]
 position = Vector2(704, -182)
-detect_radius = 90.0
-leash_radius = 160.0
-chase_speed = 70.0
-return_speed = 50.0
 
 [node name="ChaserSpike3" parent="Enemies" unique_id=679573302 instance=ExtResource("21")]
 position = Vector2(704, -374)
-detect_radius = 90.0
-leash_radius = 160.0
-chase_speed = 70.0
-return_speed = 50.0
 
 [node name="ChaserSpike4" parent="Enemies" unique_id=1125196503 instance=ExtResource("21")]
 position = Vector2(704, -566)
-detect_radius = 90.0
-leash_radius = 160.0
-chase_speed = 70.0
-return_speed = 50.0
 
 [node name="ChaserSpike5" parent="Enemies" unique_id=636934366 instance=ExtResource("21")]
 position = Vector2(704, -758)
-detect_radius = 90.0
-leash_radius = 160.0
-chase_speed = 70.0
-return_speed = 50.0
 
 [node name="Saw2" parent="Enemies" unique_id=531717961 instance=ExtResource("7")]
 position = Vector2(230, 204)

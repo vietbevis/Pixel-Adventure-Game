@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="1"]
+[ext_resource type="Resource" path="res://objects/enemies/pig/pig_ambusher_stats.tres" id="2"]
+
+[node name="PigAmbusher" instance=ExtResource("1")]
+behavior = 1
+stats = ExtResource("2")

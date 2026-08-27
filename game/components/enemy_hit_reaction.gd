@@ -4,8 +4,9 @@ extends Node
 ## Gắn vào scene quái cạnh HealthComponent — KHÔNG cần sửa script quái.
 ##
 ## Chết: dừng `_process`/`_physics_process` của quái, tắt mọi CollisionShape2D
-## (hết gây contact damage + hết bị đánh), phát `Events.enemy_died`, rồi tween
-## "pop" và tự huỷ. Knockback vị trí thật để dành Phase 3 (khi quái là CharacterBody2D).
+## (hết gây contact damage + hết bị đánh), phát `Events.enemy_died`, rồi mờ dần
+## + tự huỷ. Nếu sprite có animation "dead" thì để nó chạy (mờ chậm hơn, không
+## phóng to); không thì "pop" phóng to nhanh (quái trừu tượng chưa có anim chết).
 
 @export var health_component: HealthComponent
 ## Node để nháy / phóng to khi trúng (thường là AnimatedSprite2D của quái).
@@ -39,11 +40,15 @@ func _on_died() -> void:
 		shape.set_deferred("disabled", true)
 	Events.enemy_died.emit(enemy, enemy.global_position)
 
+	var has_dead_anim: bool = sprite is AnimatedSprite2D \
+		and sprite.sprite_frames != null and sprite.sprite_frames.has_animation("dead")
+	var dur := 0.5 if has_dead_anim else 0.18
+
 	var tween := create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(enemy, "modulate:a", 0.0, 0.18)
-	if sprite:
-		tween.tween_property(sprite, "scale", sprite.scale * 1.4, 0.18)
+	tween.tween_property(enemy, "modulate:a", 0.0, dur).set_delay(dur * 0.4)
+	if sprite and not has_dead_anim:
+		tween.tween_property(sprite, "scale", sprite.scale * 1.4, dur)
 	await tween.finished
 	if is_instance_valid(enemy):
 		enemy.queue_free()

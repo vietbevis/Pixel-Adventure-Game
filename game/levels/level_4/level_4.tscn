@@ -16,8 +16,8 @@
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="15"]
 [ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
 [ext_resource type="PackedScene" path="res://objects/moving_platform/moving_platform.tscn" id="20"]
-[ext_resource type="PackedScene" path="res://objects/enemies/chaser_spike/chaser_spike.tscn" id="21"]
-[ext_resource type="PackedScene" path="res://objects/enemies/walker/walker.tscn" id="22"]
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig_ambusher.tscn" id="21"]
+[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/enemies/falling_spike/falling_spike.tscn" id="19"]
 
 [node name="Level4" type="Node2D"]
@@ -54,7 +54,6 @@ position = Vector2(688, 148)
 
 [node name="ChaserSpike1" parent="Enemies" instance=ExtResource("21")]
 position = Vector2(64, 202)
-detect_radius = 80.0
 
 [node name="Walker2" parent="Enemies" instance=ExtResource("22")]
 position = Vector2(304, 171)
@@ -66,7 +65,6 @@ position = Vector2(512, 208)
 
 [node name="ChaserSpike4" parent="Enemies" instance=ExtResource("21")]
 position = Vector2(736, 154)
-detect_radius = 80.0
 
 [node name="Walker5" parent="Enemies" instance=ExtResource("22")]
 position = Vector2(960, 187)
