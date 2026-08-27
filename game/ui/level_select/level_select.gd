@@ -1,4 +1,4 @@
-## Màn chọn level: hiện 1 nút cho mỗi màn trong LevelData.LEVELS.
+## Màn chọn level: nhóm theo world (WorldData.WORLDS), mỗi world 1 tiêu đề + các màn của nó.
 ## Màn đã mở (unlock) thì bấm được, kèm điểm cao nhất; màn chưa mở thì khoá (disabled).
 extends Control
 
@@ -12,8 +12,18 @@ func _ready() -> void:
 func _populate_levels() -> void:
 	for child in levels_box.get_children():
 		child.queue_free()
-	for level in LevelData.LEVELS:
-		_add_level_button(level["id"], level["name"])
+	for world: Dictionary in WorldData.WORLDS:
+		_add_world_header(world["name"])
+		for level_id: String in world["levels"]:
+			_add_level_button(level_id, _level_name(level_id))
+
+func _add_world_header(world_name: String) -> void:
+	var label := Label.new()
+	label.text = world_name.to_upper()
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color(0.85, 0.78, 0.55))
+	levels_box.add_child(label)
 
 func _add_level_button(level_id: String, level_name: String) -> void:
 	var unlocked := SaveManager.is_level_unlocked(level_id)
@@ -42,3 +52,8 @@ func _on_level_chosen(level_id: String) -> void:
 
 func _on_back() -> void:
 	SceneTransition.goto("res://levels/hub/hub.tscn")
+
+## Tên hiển thị của từng màn — tra từ LevelData để không lặp chuỗi.
+func _level_name(level_id: String) -> String:
+	var idx := LevelData.get_index(level_id)
+	return LevelData.LEVELS[idx]["name"] if idx != -1 else level_id
