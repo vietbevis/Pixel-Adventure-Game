@@ -57,7 +57,10 @@ Pattern: 1 nhiệm vụ = 1 `Node`/`Area2D` con, gắn vào scene, nối qua `@e
 
 - **`HealthComponent`** (Node) — máu + i-frame. Thuần logic, không biết Events/UI. Owner nghe signal (`died`, `health_changed`, `invincibility_started`...) và tự forward lên `Events` nếu cần.
 - **`Hitbox`** (Area2D) — vùng GÂY sát thương. Bị động (`monitoring=false`), chỉ chứa `damage`/`knockback`. `enable()`/`disable()` trong khung hình tấn công.
-- **`Hurtbox`** (Area2D) — vùng NHẬN sát thương. Chủ động: `area_entered` → đọc `damage` từ `Hitbox` (hoặc mặc định 1 nếu là Area2D bẫy thường trên đúng layer) → `health_component.damage()`, phát `hurt(source)`. Gán `health_component` trong Inspector.
+- **`Hurtbox`** (Area2D) — vùng NHẬN sát thương. Chủ động: `area_entered` → đọc `damage` từ `Hitbox` (hoặc mặc định 1 nếu là Area2D bẫy thường trên đúng layer) → `health_component.damage()`, phát `hurt(source)`.
+- **`EnemyHitReaction`** (Node) — gắn cạnh `HealthComponent` của quái: flash trắng khi `damaged`, khi `died` thì đóng băng quái + tắt collision + phát `Events.enemy_died` + tween "pop" rồi `queue_free`.
+
+Cả 4 component tự tìm `HealthComponent` / `AnimatedSprite2D` anh em nếu không gán `@export` (bố cục chuẩn: các component cùng là con của owner). NodePath viết tay trong `.tscn` cho `@export` node đôi khi không resolve — cứ để trống, để component tự tìm.
 
 ## Trước khi mở PR / commit
 

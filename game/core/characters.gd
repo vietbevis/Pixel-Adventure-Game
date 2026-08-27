@@ -13,10 +13,14 @@ const CHARACTERS := {
 	"King": {
 		"display": "King",
 		"offset": Vector2(0, 6),
+		"attack_reach": 24.0,  # búa dài
+		"attack_damage": 1,
 	},
 	"Captain": {
 		"display": "Captain",
 		"offset": Vector2(0, 9),
+		"attack_reach": 18.0,  # kiếm ngắn hơn
+		"attack_damage": 1,
 	},
 }
 
@@ -44,3 +48,13 @@ static func get_display(character_name: String) -> String:
 	if CHARACTERS.has(character_name):
 		return CHARACTERS[character_name]["display"]
 	return character_name
+
+static func get_attack_reach(character_name: String) -> float:
+	if CHARACTERS.has(character_name):
+		return CHARACTERS[character_name].get("attack_reach", 20.0)
+	return 20.0
+
+static func get_attack_damage(character_name: String) -> int:
+	if CHARACTERS.has(character_name):
+		return CHARACTERS[character_name].get("attack_damage", 1)
+	return 1

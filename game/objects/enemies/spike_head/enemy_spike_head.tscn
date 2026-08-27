@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c5jkn7n1tcts8" path="res://objects/enemies/spike_head/sprites/Blink (54x52).png" id="2"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="3"]
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="4"]
+[ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1"]
 atlas = ExtResource("2")
@@ -73,3 +74,6 @@ health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_hurt")
+
+[node name="HitReaction" type="Node" parent="."]
+script = ExtResource("5")

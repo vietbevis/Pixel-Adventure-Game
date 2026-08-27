@@ -434,7 +434,9 @@ Input layer → Mobile controls
 > **Điều chỉnh (revision):** mỗi nhân vật roster mới có anim **attack** thật → dùng nó + AnimatedSprite `frame_changed` để bật/tắt Hitbox theo frame (thay slash placeholder). Nhân vật Bomber: attack = spawn projectile bom (có thể làm bản đơn giản trước). Gộp luôn migrate collision layer + gỡ `body.hit()` (hoãn từ P1). Knockback vị trí cho enemy vẫn hoãn → P3. Hit-stop tối giản: làm ở P2.
 >
 > **Phase 2a (pipeline migration):** ✅ DONE — verified. `hurtbox.gd` nhận Area2D thường + tự tìm `HealthComponent` anh em nếu export null; migrate collision layer (player→2/1, enemy+trap→layer 64 mask 0, checkpoint/goal/fruit→8/2, moving_platform→1/0, falling_spike DetectZone→mask 2); gỡ `body_entered→body.hit()` khỏi 6 script quái/bẫy; xoá `spikes.gd`; `player.gd` connect `hurtbox.hurt`→`_on_hurt`. (Bug: `monitoring=false` trên Area2D quái chặn cả việc bị detect → đã bỏ.)
-> **Phase 2b (combat feel):** chưa bắt đầu.
+> **Phase 2b (combat feel):** ✅ DONE — verified. `hitbox.gd` chủ động (`monitoring`, mask `enemy_hurtbox`, signal `hit_landed`); `player.gd` attack (phím J → `_start_attack` → đặt Hitbox theo `facing`, bật/tắt theo `frame_changed`/`animation_finished`) + hit-stop `Engine.time_scale`; `CharacterData` thêm `attack_reach`/`attack_damage`; `enemy_hit_reaction.gd` (flash + death pop + `Events.enemy_died`) gắn vào walker/flyer/spike_head; `scene_transition` reset `time_scale`.
+>
+> **Phase 2 (2a + 2b) HOÀN THÀNH.**
 
 **Goal:** Player chém được; enemy nhận sát thương, hurt/knockback, chết; contact damage enemy→player chuyển qua Hitbox.
 **Why:** Vòng lặp "Fight" trong gameplay loop. Không có combat thì metroidvania vô nghĩa.

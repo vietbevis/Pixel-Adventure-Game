@@ -2,24 +2,30 @@ class_name Hitbox
 extends Area2D
 ## Vùng GÂY sát thương (đòn đánh của player, đòn chạm của quái, bẫy).
 ##
-## Bị động: chỉ chứa dữ liệu (damage, knockback). KHÔNG tự dò va chạm — Hurtbox
-## là bên chủ động phát hiện và đọc `damage` từ đây. Xem hurtbox.gd.
+## `monitorable = true` để Hurtbox địch nhìn thấy và TỰ áp sát thương (Hitbox không
+## tự gọi damage). `monitoring = true` chỉ để Hitbox biết "đòn đã trúng" → phát
+## `hit_landed` cho owner rung / hit-stop.
 ##
 ## Mặc định tắt (CollisionShape2D.disabled = true) — bật bằng enable() trong khung
-## hình tấn công (qua AnimationPlayer call track), tắt lại khi hết đòn. Với đòn
-## "luôn bật" (bẫy gai, chạm quái) thì set shape không disabled sẵn trong .tscn.
+## hình tấn công, tắt lại khi hết đòn. Đòn "luôn bật" (bẫy) thì để shape không disabled.
 
 ## Sát thương gây ra cho HealthComponent của mục tiêu.
 @export var damage: int = 1
 ## Lực đẩy lùi mục tiêu (px/giây). 0 = không đẩy.
 @export var knockback_force: float = 0.0
 
+## Phát khi Hitbox này chạm Hurtbox địch — owner dùng cho hit-stop / screen shake.
+signal hit_landed(target: Hurtbox)
+
 @onready var _shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
-	# Bị động: không theo dõi ai, chỉ để Hurtbox nhìn thấy mình.
-	monitoring = false
 	monitorable = true
+	area_entered.connect(_on_area_entered)
+
+func _on_area_entered(area: Area2D) -> void:
+	if area is Hurtbox:
+		hit_landed.emit(area)
 
 func enable() -> void:
 	if _shape:

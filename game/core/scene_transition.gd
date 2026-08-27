@@ -8,6 +8,8 @@ extends CanvasLayer
 
 func goto(path: String) -> void:
 	get_tree().paused = false
+	# An toàn: nếu đổi scene ngay giữa lúc hit-stop (player.gd) chưa kịp khôi phục.
+	Engine.time_scale = 1.0
 	animation_player.play("fade_in")
 	await animation_player.animation_finished
 	get_tree().change_scene_to_file(path)

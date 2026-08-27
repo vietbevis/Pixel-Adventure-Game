@@ -12,14 +12,24 @@ const WALL_SLIDE_SPEED := 60.0
 ## tường vô hạn (giữ phím hướng tường + spam nhảy thì lock hết hạn là bám lại nhảy
 ## tiếp) — phải kết hợp với last_wall_jump_dir bên dưới.
 const WALL_JUMP_LOCK_DURATION := 0.18
+## Freeze frame ngắn khi đòn đánh trúng (giây thực, không theo Engine.time_scale).
+const HIT_STOP_DURATION := 0.05
+
+const ATTACK_ANIM := &"attack"
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## Nguồn thật của số tim + trạng thái bất tử. Xem components/health_component.gd.
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
+@onready var hitbox: Hitbox = $Hitbox
 
 var jumps_left: int = MAX_JUMPS
 var wall_jump_lock_timer: float = 0.0
+## Hướng nhìn (-1 trái / +1 phải), cập nhật khi có input trái/phải. Dùng đặt Hitbox.
+var facing: int = 1
+## true trong lúc animation "attack" đang chạy (khoá tái kích hoạt + khoá _update_animation).
+var is_attacking: bool = false
+var _hit_stop_active: bool = false
 ## Hướng pháp tuyến (sign của get_wall_normal().x: -1 / +1) của lần wall-jump gần nhất.
 ## Chặn wall-jump lại CÙNG một mặt tường cho tới khi chạm đất hoặc chạm mặt tường
 ## đối diện — nhờ đó không leo vô hạn trên 1 bức tường, nhưng vẫn zig-zag được giữa
@@ -39,6 +49,9 @@ func _ready() -> void:
 	health.invincibility_ended.connect(_on_invincibility_ended)
 	Events.checkpoint_activated.connect(_on_checkpoint_activated)
 	hurtbox.hurt.connect(_on_hurt)
+	hitbox.hit_landed.connect(_on_hit_landed)
+	sprite.frame_changed.connect(_on_sprite_frame_changed)
+	sprite.animation_finished.connect(_on_sprite_animation_finished)
 	# Đồng bộ mirror + HUD ngay lúc vào màn (HealthComponent._ready đã emit trước khi ta connect).
 	_on_health_changed(health.hp, health.max_hp)
 
@@ -79,7 +92,12 @@ func _physics_process(delta: float) -> void:
 			jumps_left -= 1
 			sprite.play("double_jump")
 
+	if Input.is_action_just_pressed("attack") and not is_attacking:
+		_start_attack()
+
 	var direction := Input.get_axis("move_left", "move_right")
+	if direction != 0:
+		facing = -1 if direction < 0 else 1
 	if wall_jump_lock_timer > 0.0:
 		# Đang trong lúc bị đẩy ra khỏi tường sau wall-jump: bỏ qua input trái/phải
 		# để lực đẩy có tác dụng, tránh bị kéo dính ngược lại tường ngay lập tức.
@@ -98,6 +116,9 @@ func _physics_process(delta: float) -> void:
 	_update_animation(on_wall)
 
 func _update_animation(on_wall: bool) -> void:
+	# Đòn đánh giữ nguyên anim "attack" cho tới khi phát xong (_on_sprite_animation_finished).
+	if is_attacking:
+		return
 	# Chỉ giữ nguyên khung hình "hit" trong lúc animation đang chạy; phát xong rồi
 	# thì phải nhả ra cho các animation khác (idle/run/...) vì giờ trúng bẫy không
 	# còn chắc chắn dẫn tới chết nữa (còn tim thì vẫn chơi tiếp được).
@@ -113,6 +134,39 @@ func _update_animation(on_wall: bool) -> void:
 		sprite.play("jump")
 	else:
 		sprite.play("fall")
+
+## --- Đòn đánh ---
+## Hitbox (con của Player) được đặt trước mặt theo `facing`, bật/tắt theo frame của
+## animation "attack" (mỗi nhân vật có bộ attack riêng — xem CharacterData). Hitbox
+## KHÔNG tự gây damage: Hurtbox của quái tự phát hiện và áp. Xem components/hitbox.gd.
+func _start_attack() -> void:
+	is_attacking = true
+	var character := GameManager.selected_character
+	hitbox.damage = CharacterData.get_attack_damage(character)
+	hitbox.position = Vector2(CharacterData.get_attack_reach(character) * facing, 0.0)
+	sprite.flip_h = facing < 0
+	sprite.play(ATTACK_ANIM)
+
+func _on_sprite_frame_changed() -> void:
+	# Bật Hitbox từ frame thứ 2 của đòn đánh (lúc vũ khí thực sự quét tới).
+	if is_attacking and sprite.animation == ATTACK_ANIM and sprite.frame >= 1:
+		hitbox.enable()
+
+func _on_sprite_animation_finished() -> void:
+	if sprite.animation == ATTACK_ANIM:
+		hitbox.disable()
+		is_attacking = false
+
+## Khựng hình cực ngắn khi đòn trúng — làm cú đánh "đã tay" hơn.
+func _on_hit_landed(_target: Hurtbox) -> void:
+	if _hit_stop_active:
+		return
+	_hit_stop_active = true
+	Engine.time_scale = 0.05
+	# ignore_time_scale = true → timer đếm theo giây thực, không bị time_scale làm chậm.
+	await get_tree().create_timer(HIT_STOP_DURATION, true, false, true).timeout
+	Engine.time_scale = 1.0
+	_hit_stop_active = false
 
 ## Trừ 1 tim "từ ngoài" — hiện chỉ dùng cho rơi khỏi map (level_base gọi mỗi frame
 ## trong lúc rơi). Sát thương do chạm bẫy/quái giờ đi qua Hurtbox → _on_hurt.
@@ -151,6 +205,8 @@ func _on_hurt(_source: Area2D) -> void:
 ## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
 func _on_health_died() -> void:
 	is_dead = true
+	is_attacking = false
+	hitbox.disable()
 	velocity = Vector2.ZERO
 	sprite.play("hit")
 	Events.player_died.emit()
