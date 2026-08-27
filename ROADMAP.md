@@ -594,7 +594,8 @@ Input layer → Mobile controls
 
 ### Phase 8 — Metroidvania Content  *(FINALIZED)*
 
-> **Cập nhật:** collectible = **Diamond** (`Kings and Pigs/12-Live and Coins/Big Diamond`, 18×14) theo pattern `fruit.gd` (`@tool` + `@export variant_frames`). Reward đầu tiên = **heart container** (tăng `HealthComponent.max_hp` vĩnh viễn — cần `SaveManager` lưu `max_hp_bonus`).
+> **Status:** ✅ DONE — verified in editor ("phase 8 oke"), commit trên branch `feat/phase-0-foundation`. Nợ → P9: bố trí lại secret khi redesign map (Rừng còn 2 màn, `diamond_forest_3` phải dời khỏi level_3). `SaveManager` +`collected_secrets[]` + `max_hp_bonus` + API (`is_secret_collected`/`collect_secret`/`get_max_hp_bonus`/`add_max_hp_bonus`). `objects/collectible_diamond/` (`@tool` Area2D, `@export secret_id`, persist — tự `queue_free` nếu đã nhặt; nhặt → `SaveManager.collect_secret` + `Events.collectible_collected(id,"diamond")` + tween biến mất). `objects/secret_alcove/` (bệ nổi + `AbilityGate` "dash" chắn ngang giữa). `Progression` +`FOREST_SECRETS` (3 id) + `_on_collectible_collected` → đủ 3 → `add_max_hp_bonus(1)` + `Events.max_hp_increased`. `Events` +`max_hp_increased`. `player.gd` cộng bonus vào `health.max_hp` lúc `_ready` + nghe `max_hp_increased` tăng ngay. `hud.gd` dựng lại HeartsRow theo `maximum` (2→5 tim) + nhãn `◆ n/3`. `Toast` +"Heart Container!". 3 màn Forest: `Secrets/SecretAlcoveN` + `DiamondN` (`diamond_forest_1..3`) — **toạ độ tạm, user căn lại trong editor**.
+> **Cập nhật:** collectible = **Diamond** (`Kings and Pigs/12-Live and Coins/Big Diamond`, 18×14). Reward đầu tiên = **heart container** (tăng `HealthComponent.max_hp` vĩnh viễn — `SaveManager.max_hp_bonus`).
 
 **Goal:** 2-3 dash-gate trong World 1 (Forest) mở đường/secret; 1-2 secret room có Diamond; reward backtrack.
 **Why:** "Quay lại khu vực cũ" — thứ làm nó là metroidvania.

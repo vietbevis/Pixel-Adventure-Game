@@ -13,6 +13,8 @@ extends Node
 
 # --- Player ---
 signal player_health_changed(current: int, maximum: int)
+## Số tim tối đa vừa tăng vĩnh viễn (heart container). new_max = max_hp mới.
+signal max_hp_increased(new_max: int)
 signal player_damaged(amount: int)
 signal player_healed(amount: int)
 signal player_died

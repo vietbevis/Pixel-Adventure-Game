@@ -17,6 +17,10 @@ var settings: Dictionary = {}
 var unlocked_abilities: Array = []
 ## Danh sách boss_id đã hạ ("forest_boss"...).
 var defeated_bosses: Array = []
+## Danh sách id vật phẩm bí mật đã nhặt ("diamond_forest_1"...). Mỗi id chỉ nhặt 1 lần.
+var collected_secrets: Array = []
+## Số tim tối đa cộng thêm vĩnh viễn từ phần thưởng (heart container). Xem core/progression.gd.
+var max_hp_bonus: int = 0
 ## Màn chơi gần nhất (cho nút Continue ở main menu). "" = chưa chơi lần nào.
 var last_level: String = ""
 
@@ -34,6 +38,24 @@ func unlock_ability(id: String) -> void:
 	if id in unlocked_abilities:
 		return
 	unlocked_abilities.append(id)
+	save_data()
+
+func is_secret_collected(id: String) -> bool:
+	return id in collected_secrets
+
+func collect_secret(id: String) -> void:
+	if id == "" or id in collected_secrets:
+		return
+	collected_secrets.append(id)
+	save_data()
+
+func get_max_hp_bonus() -> int:
+	return max_hp_bonus
+
+func add_max_hp_bonus(amount: int) -> void:
+	if amount <= 0:
+		return
+	max_hp_bonus += amount
 	save_data()
 
 func is_boss_defeated(id: String) -> bool:
@@ -98,6 +120,8 @@ func save_data() -> void:
 		"settings": settings,
 		"unlocked_abilities": unlocked_abilities,
 		"defeated_bosses": defeated_bosses,
+		"collected_secrets": collected_secrets,
+		"max_hp_bonus": max_hp_bonus,
 		"last_level": last_level,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -118,4 +142,6 @@ func load_data() -> void:
 		settings = parsed.get("settings", {})
 		unlocked_abilities = parsed.get("unlocked_abilities", [])
 		defeated_bosses = parsed.get("defeated_bosses", [])
+		collected_secrets = parsed.get("collected_secrets", [])
+		max_hp_bonus = int(parsed.get("max_hp_bonus", 0))
 		last_level = parsed.get("last_level", "")

@@ -55,6 +55,12 @@ func _ready() -> void:
 	_apply_sprite_frames()
 	global_position = GameManager.respawn_position
 	sprite.play("idle")
+	# Heart container (Phase 8): tim tối đa cộng thêm vĩnh viễn từ phần thưởng đã lưu.
+	var hp_bonus := SaveManager.get_max_hp_bonus()
+	if hp_bonus > 0:
+		health.max_hp += hp_bonus
+		health.hp = health.max_hp
+	Events.max_hp_increased.connect(_on_max_hp_increased)
 	health.died.connect(_on_health_died)
 	health.health_changed.connect(_on_health_changed)
 	health.invincibility_started.connect(_on_invincibility_started)
@@ -241,6 +247,11 @@ func _on_health_changed(current: int, maximum: int) -> void:
 
 func _on_checkpoint_activated(_position: Vector2) -> void:
 	health.heal_to_full()
+
+## Nhặt đủ Diamond → tim tối đa tăng ngay tại chỗ (không phải đợi load màn mới).
+func _on_max_hp_increased(new_max: int) -> void:
+	health.max_hp = new_max
+	health.heal(new_max)  # heal() tự kẹp ở max_hp → lấp đầy phần tim mới
 
 ## Hurtbox vừa chạm bẫy/quái — sát thương đã được chuyển vào HealthComponent, ở đây
 ## chỉ phản ứng hình ảnh (nếu đòn chí mạng thì _on_health_died đã lo, is_dead = true).

@@ -1,0 +1,101 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://13fllo0ver8t"]
+
+[ext_resource type="Texture2D" uid="uid://d0wjfu5l7obo1" path="res://objects/collectible_diamond/sprites/diamond_idle.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://didajk5y7hx74" path="res://objects/collectible_diamond/sprites/diamond_hit.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="h0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="h1"]
+atlas = ExtResource("2")
+region = Rect2(18, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i1"]
+atlas = ExtResource("1")
+region = Rect2(18, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i2"]
+atlas = ExtResource("1")
+region = Rect2(36, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i3"]
+atlas = ExtResource("1")
+region = Rect2(54, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i4"]
+atlas = ExtResource("1")
+region = Rect2(72, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i5"]
+atlas = ExtResource("1")
+region = Rect2(90, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i6"]
+atlas = ExtResource("1")
+region = Rect2(108, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i7"]
+atlas = ExtResource("1")
+region = Rect2(126, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i8"]
+atlas = ExtResource("1")
+region = Rect2(144, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="i9"]
+atlas = ExtResource("1")
+region = Rect2(162, 0, 18, 14)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("h0")
+}, {
+"duration": 1.0,
+"texture": SubResource("h1")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("i0")
+}, {
+"duration": 1.0,
+"texture": SubResource("i1")
+}, {
+"duration": 1.0,
+"texture": SubResource("i2")
+}, {
+"duration": 1.0,
+"texture": SubResource("i3")
+}, {
+"duration": 1.0,
+"texture": SubResource("i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("i5")
+}, {
+"duration": 1.0,
+"texture": SubResource("i6")
+}, {
+"duration": 1.0,
+"texture": SubResource("i7")
+}, {
+"duration": 1.0,
+"texture": SubResource("i8")
+}, {
+"duration": 1.0,
+"texture": SubResource("i9")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 12.0
+}]

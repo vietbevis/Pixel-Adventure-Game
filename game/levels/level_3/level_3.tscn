@@ -18,6 +18,8 @@
 [ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
 [ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
+[ext_resource type="PackedScene" path="res://objects/secret_alcove/secret_alcove.tscn" id="24"]
+[ext_resource type="PackedScene" path="res://objects/collectible_diamond/collectible_diamond.tscn" id="25"]
 
 [node name="Level3" type="Node2D" unique_id=25532388]
 script = ExtResource("1")
@@ -103,6 +105,15 @@ patrol_distance = Vector2(40, 0)
 position = Vector2(16, 208)
 
 [node name="HUD" parent="." unique_id=30407518 instance=ExtResource("9")]
+
+[node name="Secrets" type="Node2D" parent="."]
+
+[node name="SecretAlcove3" parent="Secrets" instance=ExtResource("24")]
+position = Vector2(430, 130)
+
+[node name="Diamond3" parent="Secrets" instance=ExtResource("25")]
+position = Vector2(502, 118)
+secret_id = "diamond_forest_3"
 
 [node name="Fruits" type="Node2D" parent="." unique_id=618741481]
 

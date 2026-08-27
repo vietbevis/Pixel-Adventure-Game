@@ -14,9 +14,16 @@ func _ready() -> void:
 	layer = 100
 	_panel.modulate.a = 0.0
 	Events.ability_unlocked.connect(_on_ability_unlocked)
+	Events.max_hp_increased.connect(_on_max_hp_increased)
 
 func _on_ability_unlocked(id: String) -> void:
-	_queue.append("%s unlocked!" % String(DISPLAY.get(id, id.capitalize())))
+	_show("%s unlocked!" % String(DISPLAY.get(id, id.capitalize())))
+
+func _on_max_hp_increased(_new_max: int) -> void:
+	_show("Heart Container!  +1 ♥")
+
+func _show(message: String) -> void:
+	_queue.append(message)
 	if not _busy:
 		_run_queue()
 

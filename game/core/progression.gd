@@ -8,8 +8,13 @@ const BOSS_REWARDS := {
 	"forest_boss": "dash",
 }
 
+## Nhặt đủ toàn bộ Diamond của Forest → +1 tim tối đa (heart container).
+const FOREST_SECRETS: Array[String] = ["diamond_forest_1", "diamond_forest_2", "diamond_forest_3"]
+const MAX_HP_BASE := 3
+
 func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
+	Events.collectible_collected.connect(_on_collectible_collected)
 
 func _on_boss_defeated(boss_id: String) -> void:
 	SaveManager.mark_boss_defeated(boss_id)
@@ -20,3 +25,13 @@ func _on_boss_defeated(boss_id: String) -> void:
 		return
 	SaveManager.unlock_ability(ability)
 	Events.ability_unlocked.emit(ability)
+
+## Nhặt Diamond: khi đủ trọn bộ Forest và chưa từng nhận thưởng → +1 tim tối đa.
+func _on_collectible_collected(_id: String, kind: String) -> void:
+	if kind != "diamond" or SaveManager.get_max_hp_bonus() > 0:
+		return
+	for secret_id: String in FOREST_SECRETS:
+		if not SaveManager.is_secret_collected(secret_id):
+			return
+	SaveManager.add_max_hp_bonus(1)
+	Events.max_hp_increased.emit(MAX_HP_BASE + SaveManager.get_max_hp_bonus())
