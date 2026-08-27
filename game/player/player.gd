@@ -263,6 +263,7 @@ func _on_hurt(_source: Area2D) -> void:
 	if not is_dead:
 		_end_attack()
 		sprite.play("hit")
+		Events.player_damaged.emit(1)
 
 ## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
 func _on_health_died() -> void:
