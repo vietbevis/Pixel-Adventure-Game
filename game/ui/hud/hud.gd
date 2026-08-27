@@ -1,6 +1,6 @@
-## HUD trong lúc chơi: hiển thị số quả đã ăn, thời gian và số tim (máu) còn lại.
-## 3 icon tim được dựng sẵn trong hud.tscn (Godot editor) — script chỉ đổi
-## texture đầy/rỗng theo GameManager.hearts, không tự tạo node bằng code.
+## HUD trong lúc chơi: số quả đã ăn, thời gian, số tim.
+## Tim đọc từ `Events.player_health_changed` (player là nguồn). 3 icon tim dựng sẵn
+## trong hud.tscn (HeartsRow) — script chỉ đổi texture đầy/rỗng.
 extends CanvasLayer
 
 const HEART_FULL := preload("res://ui/shared/controls/heart_full.png")
@@ -10,13 +10,21 @@ const HEART_EMPTY := preload("res://ui/shared/controls/heart_empty.png")
 @onready var time_label: Label = $MarginContainer/VBoxContainer/TimeLabel
 @onready var hearts_row: HBoxContainer = $MarginContainer/VBoxContainer/HeartsRow
 
+var _hearts: int = 3
+
+func _ready() -> void:
+	Events.player_health_changed.connect(_on_health_changed)
+	_update_hearts()
+
+func _on_health_changed(current: int, _maximum: int) -> void:
+	_hearts = current
+	_update_hearts()
+
 func _process(_delta: float) -> void:
 	label.text = "Fruits: %d" % GameManager.score
 	time_label.text = "Time: %s" % LevelData.format_time(GameManager.elapsed_time())
-	_update_hearts()
 
-## Tô lại từng icon tim: đầy nếu còn trong số máu hiện tại, rỗng nếu đã mất
 func _update_hearts() -> void:
 	for i in hearts_row.get_child_count():
 		var heart: TextureRect = hearts_row.get_child(i)
-		heart.texture = HEART_FULL if i < GameManager.hearts else HEART_EMPTY
+		heart.texture = HEART_FULL if i < _hearts else HEART_EMPTY

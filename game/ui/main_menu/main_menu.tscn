@@ -45,6 +45,12 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
+[node name="ContinueButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer"]
+theme_type_variation = &"PrimaryButton"
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+text = "  Continue"
+
 [node name="PlayButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=129655669]
 theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(220, 52)

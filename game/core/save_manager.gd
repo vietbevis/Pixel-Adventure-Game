@@ -15,6 +15,10 @@ var best_times: Dictionary = {}
 var settings: Dictionary = {}
 ## Danh sách id ability đã mở khoá ("dash"...). Xem core/progression.gd.
 var unlocked_abilities: Array = []
+## Danh sách boss_id đã hạ ("forest_boss"...).
+var defeated_bosses: Array = []
+## Màn chơi gần nhất (cho nút Continue ở main menu). "" = chưa chơi lần nào.
+var last_level: String = ""
 
 func _ready() -> void:
 	load_data()
@@ -27,6 +31,25 @@ func unlock_ability(id: String) -> void:
 		return
 	unlocked_abilities.append(id)
 	save_data()
+
+func is_boss_defeated(id: String) -> bool:
+	return id in defeated_bosses
+
+func mark_boss_defeated(id: String) -> void:
+	if id in defeated_bosses:
+		return
+	defeated_bosses.append(id)
+	save_data()
+
+func set_last_level(level_id: String) -> void:
+	if level_id == last_level:
+		return
+	last_level = level_id
+	save_data()
+
+## "" nếu chưa từng chơi màn nào.
+func get_continue_level() -> String:
+	return last_level
 
 ## Đọc 1 tuỳ chọn (default nếu chưa từng lưu). Gameplay/UI chỉ query qua đây, không đọc file.
 func get_setting(key: String, default: Variant) -> Variant:
@@ -70,6 +93,8 @@ func save_data() -> void:
 		"best_times": best_times,
 		"settings": settings,
 		"unlocked_abilities": unlocked_abilities,
+		"defeated_bosses": defeated_bosses,
+		"last_level": last_level,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -88,3 +113,5 @@ func load_data() -> void:
 		best_times = parsed.get("best_times", {})
 		settings = parsed.get("settings", {})
 		unlocked_abilities = parsed.get("unlocked_abilities", [])
+		defeated_bosses = parsed.get("defeated_bosses", [])
+		last_level = parsed.get("last_level", "")

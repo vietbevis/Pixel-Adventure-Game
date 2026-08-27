@@ -549,7 +549,10 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 6 — Progression & Save Expansion  *(FINALIZED)*
+### Phase 6 — Progression & Save Expansion
+
+> **Status:** 🔨 Code xong — chờ verify. Bỏ `GameManager.hearts` mirror (HUD nghe `Events.player_health_changed`; `GameManager` giờ thuần runtime, không còn `MAX_HEARTS`); `SaveManager` +`defeated_bosses` + `last_level` + API; `progression.gd` mark boss; `objects/ability_gate/` (StaticBody, mở khi unlock ability); nút **Continue** ở main menu (→ thẳng màn gần nhất).
+> **`WorldData` hoãn sang P7** (consumer là hub).
 
 > **Cập nhật:** `SaveManager` đã có `settings` dict + `get/set_setting` (từ P2.5). P5 đã thêm bản tối giản `unlocked_abilities`/`is_ability_unlocked`. P6 chính thức hoá: thêm `progress` dict (`defeated_bosses[]`, `collected_secrets[]`, `furthest_world`), và **bỏ `GameManager.hearts` mirror** — nguồn thật là `HealthComponent`, HUD chuyển sang nghe `Events.player_health_changed`. `GameManager` = thuần runtime.
 

@@ -8,7 +8,7 @@ extends Node
 ##
 ## Gán vào node cha, chỉnh `max_hp` / i-frame qua Inspector. Xem ROADMAP.md mục 5.1.
 
-## Máu tối đa. Với Player = số tim (MAX_HEARTS = 3).
+## Máu tối đa. Với Player = số tim (mặc định 3, khớp số icon trong ui/hud/hud.tscn).
 @export var max_hp: int = 3
 ## Sau khi trúng đòn có bật thời gian bất tử tạm thời không (Player: có; quái: thường không).
 @export var invincibility_on_hit: bool = false

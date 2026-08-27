@@ -16,7 +16,6 @@
 [ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="14"]
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="15"]
 [ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
-[ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="17"]
 [ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
 
@@ -50,12 +49,12 @@ position = Vector2(272, 196)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=911449893]
 
-[node name="EnemySpikeHead1" parent="Enemies" unique_id=1036497363 instance=ExtResource("17")]
+[node name="EnemySpikeHead1" parent="Enemies" unique_id=1036497363 instance=ExtResource("22")]
 position = Vector2(125, 202)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 30.0
 
-[node name="EnemySpikeHead2" parent="Enemies" unique_id=2077657579 instance=ExtResource("17")]
+[node name="EnemySpikeHead2" parent="Enemies" unique_id=2077657579 instance=ExtResource("22")]
 position = Vector2(257, 203)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 35.0

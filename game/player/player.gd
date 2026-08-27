@@ -64,8 +64,9 @@ func _ready() -> void:
 	hitbox.hit_landed.connect(_on_hit_landed)
 	sprite.frame_changed.connect(_on_sprite_frame_changed)
 	sprite.animation_finished.connect(_on_sprite_animation_finished)
-	# Đồng bộ mirror + HUD ngay lúc vào màn (HealthComponent._ready đã emit trước khi ta connect).
-	_on_health_changed(health.hp, health.max_hp)
+	# Phát máu ban đầu lên Events — deferred để HUD (instance sau Player trong scene)
+	# kịp connect trước khi nhận.
+	_on_health_changed.call_deferred(health.hp, health.max_hp)
 
 ## player.tscn bake sẵn SpriteFrames của King (nhân vật đầu roster) làm preview
 ## editor. Ở đây đổi sang bộ SpriteFrames + offset của nhân vật người chơi chọn —
@@ -234,10 +235,8 @@ func hit(force_reposition: bool = false) -> void:
 		global_position = GameManager.respawn_position
 		velocity = Vector2.ZERO
 
-## GameManager.hearts giờ chỉ là mirror của HealthComponent (nguồn thật), giữ để HUD
-## và code cũ chưa chuyển vẫn chạy — sẽ dọn ở Phase 6.
+## Nguồn máu thật là HealthComponent; phát lên Events cho HUD / camera shake / ...
 func _on_health_changed(current: int, maximum: int) -> void:
-	GameManager.hearts = current
 	Events.player_health_changed.emit(current, maximum)
 
 func _on_checkpoint_activated(_position: Vector2) -> void:

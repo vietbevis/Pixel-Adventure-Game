@@ -25,9 +25,8 @@ func _enter_tree() -> void:
 	# Runs before any child's _ready(), so Player picks up the right spawn point.
 	if not GameManager.has_checkpoint:
 		GameManager.respawn_position = $Interactables/StartMarker.global_position
-	# Mỗi lần màn chơi được load lại (vào mới hoặc restart) đều cho đầy tim,
-	# tránh trường hợp người chơi bắt đầu với tim còn lại từ lượt chơi trước.
-	GameManager.hearts = GameManager.MAX_HEARTS
+	# (Tim đầy lại tự động: player được tạo mới khi load màn → HealthComponent._ready
+	# đặt hp = max_hp.)
 
 func _ready() -> void:
 	var camera: Camera2D = player.get_node("Camera2D")

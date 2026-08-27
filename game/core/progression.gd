@@ -12,6 +12,7 @@ func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
 
 func _on_boss_defeated(boss_id: String) -> void:
+	SaveManager.mark_boss_defeated(boss_id)
 	if not BOSS_REWARDS.has(boss_id):
 		return
 	var ability: String = BOSS_REWARDS[boss_id]
