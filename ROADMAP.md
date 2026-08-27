@@ -651,8 +651,9 @@ Level Select nhóm 3 world; không regression 5 màn cũ.
 > `castle_tileset.tres` / `dungeon_tileset.tres` (**user vẽ collision polygon + terrain peering trong editor**)
 > + `INVENTORY.md`. `game/shared/backgrounds/{sunnyland,coldcorridors,cemetery}/` — copy layer parallax;
 > `{forest,castle,dungeon}_parallax.tscn` (ParallaxBackground scaffold, **offset/scale cần tune trong editor**).
-> Task P9-3 (4 bẫy: trampoline/fire_trap/spiked_ball/arrow_shooter) giao agent phụ (`agy`, Gemini 3.1 Pro)
-> — file mới trong `game/objects/traps/` only, sprite đã pre-copy, review qua `P9_HANDOFF_REPORT.md` rồi commit.
+> **P9-3 ✅ commit `6505640`** — 4 bẫy (`game/objects/traps/{trampoline,fire_trap,spiked_ball,arrow_shooter}/`)
+> do agent phụ `agy` (Gemini 3.1 Pro) viết theo `P9_HANDOFF.md`, agent chính review + sửa (cast type
+> trampoline, mũi tên cắm tường tắt hitbox, bỏ 5 uid giả). Chưa wire vào màn nào — đặt ở P9-4..P9-6.
 
 ---
 
