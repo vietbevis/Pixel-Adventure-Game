@@ -57,7 +57,7 @@ Pattern: 1 nhiệm vụ = 1 `Node`/`Area2D` con, gắn vào scene, nối qua `@e
 
 - **`HealthComponent`** (Node) — máu + i-frame. Thuần logic, không biết Events/UI. Owner nghe signal (`died`, `health_changed`, `invincibility_started`...) và tự forward lên `Events` nếu cần.
 - **`Hitbox`** (Area2D) — vùng GÂY sát thương. Bị động (`monitoring=false`), chỉ chứa `damage`/`knockback`. `enable()`/`disable()` trong khung hình tấn công.
-- **`Hurtbox`** (Area2D) — vùng NHẬN sát thương. Chủ động: dò `Hitbox` chồng lên → gọi `health_component.damage()`. Gán `health_component` trong Inspector.
+- **`Hurtbox`** (Area2D) — vùng NHẬN sát thương. Chủ động: `area_entered` → đọc `damage` từ `Hitbox` (hoặc mặc định 1 nếu là Area2D bẫy thường trên đúng layer) → `health_component.damage()`, phát `hurt(source)`. Gán `health_component` trong Inspector.
 
 ## Trước khi mở PR / commit
 

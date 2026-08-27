@@ -19,7 +19,6 @@ var _player: Node2D = null
 
 func _ready() -> void:
 	_origin = position
-	body_entered.connect(_on_body_entered)
 
 func _process(delta: float) -> void:
 	match _state:
@@ -41,7 +40,3 @@ func _process(delta: float) -> void:
 func _find_player() -> Node2D:
 	var players := get_tree().get_nodes_in_group("player")
 	return players[0] if players.size() > 0 else null
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("hit"):
-		body.hit()

@@ -13,15 +13,9 @@ var _time: float = 0.0
 
 func _ready() -> void:
 	_origin = position
-	body_entered.connect(_on_body_entered)
 
 func _process(delta: float) -> void:
 	if move_distance == Vector2.ZERO:
 		return
 	_time += delta
 	position = _origin + move_distance * sin(_time * move_speed)
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("hit"):
-		# Cưa là bẫy: chỉ trừ 1 tim tại chỗ, không bung vị trí (force_reposition mặc định false)
-		body.hit()

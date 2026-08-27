@@ -20,7 +20,6 @@ func _ready() -> void:
 	_start = position
 	_end = position + patrol_distance
 	sprite.play("fly")
-	body_entered.connect(_on_body_entered)
 
 func _process(delta: float) -> void:
 	_time += delta
@@ -31,7 +30,3 @@ func _process(delta: float) -> void:
 		if abs(position.x - target.x) < 0.5:
 			_moving_forward = not _moving_forward
 	position.y = _start.y + sin(_time * bob_speed) * bob_amount
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("hit"):
-		body.hit()

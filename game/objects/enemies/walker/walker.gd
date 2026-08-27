@@ -16,7 +16,6 @@ func _ready() -> void:
 	_start = position
 	_end = position + patrol_distance
 	sprite.play("walk")
-	body_entered.connect(_on_body_entered)
 
 func _process(delta: float) -> void:
 	if patrol_distance == Vector2.ZERO:
@@ -26,7 +25,3 @@ func _process(delta: float) -> void:
 	sprite.flip_h = target.x < position.x
 	if position.distance_to(target) < 0.5:
 		_moving_forward = not _moving_forward
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("hit"):
-		body.hit()

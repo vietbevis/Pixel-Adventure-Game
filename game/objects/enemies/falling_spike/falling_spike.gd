@@ -20,7 +20,6 @@ var _fall_velocity: float = 0.0
 
 func _ready() -> void:
 	_origin = position
-	body_entered.connect(_on_body_entered)
 	detect_zone.body_entered.connect(_on_detect_entered)
 
 func _process(delta: float) -> void:
@@ -40,7 +39,3 @@ func _on_detect_entered(body: Node2D) -> void:
 	if _state == State.HANGING and body.is_in_group("player"):
 		_state = State.FALLING
 		_fall_velocity = fall_speed * 0.3
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and body.has_method("hit"):
-		body.hit()

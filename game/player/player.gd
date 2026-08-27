@@ -16,6 +16,7 @@ const WALL_JUMP_LOCK_DURATION := 0.18
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## Nguồn thật của số tim + trạng thái bất tử. Xem components/health_component.gd.
 @onready var health: HealthComponent = $HealthComponent
+@onready var hurtbox: Hurtbox = $Hurtbox
 
 var jumps_left: int = MAX_JUMPS
 var wall_jump_lock_timer: float = 0.0
@@ -37,6 +38,7 @@ func _ready() -> void:
 	health.invincibility_started.connect(_on_invincibility_started)
 	health.invincibility_ended.connect(_on_invincibility_ended)
 	Events.checkpoint_activated.connect(_on_checkpoint_activated)
+	hurtbox.hurt.connect(_on_hurt)
 	# Đồng bộ mirror + HUD ngay lúc vào màn (HealthComponent._ready đã emit trước khi ta connect).
 	_on_health_changed(health.hp, health.max_hp)
 
@@ -112,12 +114,10 @@ func _update_animation(on_wall: bool) -> void:
 	else:
 		sprite.play("fall")
 
-## Player trúng bẫy (gai, cưa, rơi hố...). Trừ 1 tim; hết tim mới thực sự "chết":
-## - Nếu đã có checkpoint: tự bung lại tại checkpoint (không hiện màn Game Over).
-## - Nếu chưa có checkpoint: hiện màn Game Over như bình thường.
-## `force_reposition`: dùng cho trường hợp rơi khỏi map (không thể đứng lại tại
-## chỗ như gai/cưa) nên dù còn tim vẫn phải bung ngay về điểm respawn gần nhất,
-## tránh bị gọi hit() liên tục mỗi frame trong lúc rơi tự do.
+## Trừ 1 tim "từ ngoài" — hiện chỉ dùng cho rơi khỏi map (level_base gọi mỗi frame
+## trong lúc rơi). Sát thương do chạm bẫy/quái giờ đi qua Hurtbox → _on_hurt.
+## `force_reposition`: rơi khỏi map thì dù còn tim vẫn bung ngay về respawn, tránh
+## bị gọi liên tục mỗi frame trong lúc rơi tự do.
 func hit(force_reposition: bool = false) -> void:
 	if is_dead or health.is_invincible():
 		return
@@ -141,6 +141,12 @@ func _on_health_changed(current: int, maximum: int) -> void:
 
 func _on_checkpoint_activated(_position: Vector2) -> void:
 	health.heal_to_full()
+
+## Hurtbox vừa chạm bẫy/quái — sát thương đã được chuyển vào HealthComponent, ở đây
+## chỉ phản ứng hình ảnh (nếu đòn chí mạng thì _on_health_died đã lo, is_dead = true).
+func _on_hurt(_source: Area2D) -> void:
+	if not is_dead:
+		sprite.play("hit")
 
 ## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
 func _on_health_died() -> void:
