@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/decor/dungeon_torch/dungeon_torch.gd" id="1_dtorch"]
+[ext_resource type="Texture2D" path="res://objects/decor/dungeon_torch/sprites/torch.png" id="2_dtorch"]
+[ext_resource type="Texture2D" path="res://objects/decor/dungeon_torch/sprites/torch_off.png" id="3_dtorch"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch1"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch2"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch3"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch4"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch5"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch6"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch7"]
+atlas = ExtResource("2_dtorch")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtorch_off"]
+atlas = ExtResource("3_dtorch")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dtorch"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch7")
+}],
+"loop": true,
+"name": &"burn",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtorch_off")
+}],
+"loop": false,
+"name": &"off",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_dtorch"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dtorch"]
+gradient = SubResource("Gradient_dtorch")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
+
+[node name="DungeonTorch" type="Node2D"]
+script = ExtResource("1_dtorch")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dtorch")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.6, 0.2, 1)
+energy = 0.6
+texture = SubResource("GradientTexture2D_dtorch")

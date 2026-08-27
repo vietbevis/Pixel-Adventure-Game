@@ -1,0 +1,90 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/decor/torch/torch.gd" id="1_torch"]
+[ext_resource type="Texture2D" path="res://objects/decor/torch/sprites/torch.png" id="2_torch"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch1"]
+atlas = ExtResource("2_torch")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch2"]
+atlas = ExtResource("2_torch")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch3"]
+atlas = ExtResource("2_torch")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch4"]
+atlas = ExtResource("2_torch")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch5"]
+atlas = ExtResource("2_torch")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch6"]
+atlas = ExtResource("2_torch")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch7"]
+atlas = ExtResource("2_torch")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_torch8"]
+atlas = ExtResource("2_torch")
+region = Rect2(112, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_torch"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_torch8")
+}],
+"loop": true,
+"name": &"burn",
+"speed": 10.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_torch"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_torch"]
+gradient = SubResource("Gradient_torch")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
+
+[node name="Torch" type="Node2D"]
+script = ExtResource("1_torch")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_torch")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.6, 0.2, 1)
+energy = 0.6
+texture = SubResource("GradientTexture2D_torch")

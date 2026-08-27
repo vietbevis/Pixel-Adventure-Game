@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/decor/candle/candle.gd" id="1_candle"]
+[ext_resource type="Texture2D" path="res://objects/decor/candle/sprites/candles.png" id="2_candle"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle1"]
+atlas = ExtResource("2_candle")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle2"]
+atlas = ExtResource("2_candle")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle3"]
+atlas = ExtResource("2_candle")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle4"]
+atlas = ExtResource("2_candle")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle5"]
+atlas = ExtResource("2_candle")
+region = Rect2(64, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle6"]
+atlas = ExtResource("2_candle")
+region = Rect2(80, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle7"]
+atlas = ExtResource("2_candle")
+region = Rect2(96, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_candle8"]
+atlas = ExtResource("2_candle")
+region = Rect2(112, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_candle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_candle8")
+}],
+"loop": true,
+"name": &"flicker",
+"speed": 8.0
+}]
+
+[node name="Candle" type="Node2D"]
+script = ExtResource("1_candle")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_candle")
+animation = &"flicker"
+autoplay = "flicker"
