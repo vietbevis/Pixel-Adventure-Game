@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://objects/npc/npc.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://objects/enemies/pig/sprites/pig_frames.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://objects/npc/sprites/bubble_frames.tres" id="3"]
+
+[sub_resource type="RectangleShape2D" id="s"]
+size = Vector2(48, 44)
+
+[node name="NPC" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14)
+sprite_frames = ExtResource("2")
+animation = &"idle"
+
+[node name="Bubble" type="AnimatedSprite2D" parent="."]
+position = Vector2(10, -34)
+scale = Vector2(0.9, 0.9)
+sprite_frames = ExtResource("3")
+animation = &"in"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
+shape = SubResource("s")
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -58.0
+offset_right = 40.0
+offset_bottom = -40.0
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+theme_override_constants/outline_size = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.7)
+text = "Press E"

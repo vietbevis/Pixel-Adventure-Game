@@ -286,6 +286,22 @@ func _on_invincibility_started(duration: float) -> void:
 func _on_invincibility_ended() -> void:
 	sprite.modulate.a = 1.0
 
+## Vào cổng dịch chuyển (hub → world): khoá input + đứng yên, chơi anim "chui cửa" nếu
+## nhân vật có (King có door_in; Captain không → đứng idle rồi để SceneTransition fade).
+## Trả về thời lượng anim (giây) để Portal chờ trước khi đổi scene.
+func play_enter_door() -> float:
+	is_dead = true
+	velocity = Vector2.ZERO
+	_end_attack()
+	if sprite.sprite_frames.has_animation(&"door_in"):
+		sprite.play(&"door_in")
+		var frames := sprite.sprite_frames
+		var count := frames.get_frame_count(&"door_in")
+		var speed := frames.get_animation_speed(&"door_in")
+		return count / speed if speed > 0.0 else 0.4
+	sprite.play("idle")
+	return 0.0
+
 func win() -> void:
 	if is_dead:
 		return

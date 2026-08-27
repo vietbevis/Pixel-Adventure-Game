@@ -1,0 +1,52 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/bubble_in.png" id="1"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/bubble_out.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="in_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="in_1"]
+atlas = ExtResource("1")
+region = Rect2(34, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="in_2"]
+atlas = ExtResource("1")
+region = Rect2(68, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="out_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="out_1"]
+atlas = ExtResource("2")
+region = Rect2(34, 0, 34, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("in_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("in_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("in_2")
+}],
+"loop": false,
+"name": &"in",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("out_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("out_1")
+}],
+"loop": false,
+"name": &"out",
+"speed": 14.0
+}]

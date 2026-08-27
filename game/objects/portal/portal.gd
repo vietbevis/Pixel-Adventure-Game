@@ -8,6 +8,7 @@ extends Area2D
 @onready var _prompt: Label = $Prompt
 
 var _player_near: bool = false
+var _entering: bool = false
 
 func _ready() -> void:
 	_prompt.visible = false
@@ -18,6 +19,8 @@ func _ready() -> void:
 	Events.boss_defeated.connect(func(_id: String) -> void: _refresh())
 
 func _process(_delta: float) -> void:
+	if _entering or Dialogue.is_open:
+		return
 	if _player_near and _is_open() and Input.is_action_just_pressed("interact"):
 		_enter()
 
@@ -42,7 +45,14 @@ func _on_body_exited(body: Node2D) -> void:
 		_prompt.visible = false
 
 func _enter() -> void:
+	_entering = true
+	_prompt.visible = false
 	var lvl := WorldData.first_level(world_id)
 	GameManager.current_world = world_id
 	GameManager.start_new_run(lvl)
+	var player := get_tree().get_first_node_in_group("player")
+	if is_instance_valid(player) and player.has_method("play_enter_door"):
+		var wait: float = player.call("play_enter_door")
+		if wait > 0.0:
+			await get_tree().create_timer(wait).timeout
 	SceneTransition.goto(LevelData.get_scene_path(lvl))

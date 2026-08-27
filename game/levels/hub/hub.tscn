@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://levels/hub/hub.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://djs8bnweppet8" path="res://shared/backgrounds/Green.png" id="3"]
 [ext_resource type="PackedScene" path="res://objects/portal/portal.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://objects/hub_sign/hub_sign.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://objects/npc/npc.tscn" id="6"]
 
 [sub_resource type="RectangleShape2D" id="floor"]
 size = Vector2(640, 64)
@@ -63,6 +64,14 @@ world_id = "cave"
 
 [node name="LevelsSign" parent="." instance=ExtResource("5")]
 position = Vector2(500, 178)
+
+[node name="Advisor" parent="." instance=ExtResource("6")]
+position = Vector2(150, 198)
+speaker = "Cố vấn"
+report_abilities = true
+line_1 = "Mừng ngài trở về, thưa Đức Vua."
+line_2 = "Mỗi cánh cổng dẫn tới một vùng đất. Vùng bị khoá cần ngài hạ trùm vùng trước."
+line_3 = "Biển gỗ đằng kia cho ngài chọn nhanh từng màn đã mở."
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(90, 178)

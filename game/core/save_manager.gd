@@ -26,6 +26,10 @@ func _ready() -> void:
 func is_ability_unlocked(id: String) -> bool:
 	return id in unlocked_abilities
 
+## Bản sao danh sách ability đã mở (cho UI liệt kê — vd NPC cố vấn trong hub).
+func get_unlocked_abilities() -> Array:
+	return unlocked_abilities.duplicate()
+
 func unlock_ability(id: String) -> void:
 	if id in unlocked_abilities:
 		return
