@@ -42,6 +42,9 @@ var _hit_stop_active: bool = false
 ## đối diện — nhờ đó không leo vô hạn trên 1 bức tường, nhưng vẫn zig-zag được giữa
 ## 2 tường của khe hẹp. 0 = chưa wall-jump lần nào kể từ lúc chạm đất.
 var last_wall_jump_dir: float = 0.0
+
+## velocity.y của frame trước — để phát bụi tiếp đất khi rơi đủ nhanh.
+var _fall_speed_prev: float = 0.0
 ## true khi đang trong màn thua/thắng (khoá input, không xử lý va chạm nữa)
 var is_dead: bool = false
 
@@ -149,7 +152,14 @@ func _physics_process(delta: float) -> void:
 		jumps_left = MAX_JUMPS
 		last_wall_jump_dir = 0.0
 
+	var was_airborne := not is_on_floor()
 	move_and_slide()
+	# Vừa tiếp đất sau khi rơi đủ nhanh → bụi + tiếng bịch.
+	if was_airborne and is_on_floor() and velocity.y >= 0.0 and _fall_speed_prev > 180.0:
+		var d := DASH_DUST.instantiate()
+		get_parent().add_child(d)
+		d.global_position = global_position + Vector2(0, 10)
+	_fall_speed_prev = velocity.y
 	_update_animation(on_wall)
 
 func _update_animation(on_wall: bool) -> void:
