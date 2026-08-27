@@ -10,6 +10,15 @@ func _ready() -> void:
 	play_button.pressed.connect(_on_play)
 	settings_button.pressed.connect(_on_settings)
 	quit_button.pressed.connect(_on_quit)
+	_apply_saved_fullscreen()
+
+## Áp lại chế độ toàn màn hình đã lưu (settings_menu chỉ đổi lúc đang ở đó).
+func _apply_saved_fullscreen() -> void:
+	var is_fullscreen := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+	var want: bool = SaveManager.get_setting("fullscreen", is_fullscreen)
+	if want != is_fullscreen:
+		var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if want else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.window_set_mode(mode)
 
 ## Sang màn chọn nhân vật để bắt đầu chơi
 func _on_play() -> void:

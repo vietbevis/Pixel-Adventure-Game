@@ -24,7 +24,7 @@ The Godot project root is **`game/`**, not the repo root. Import `game/project.g
 - `Events` (`events.gd`) — global signal-bus autoload: **signals only, no state or logic**. Gameplay `emit`s; HUD / SaveManager / achievements `connect`. Keeps gameplay decoupled from UI/Save. Not yet wired (skeleton from ROADMAP Phase 0).
 - `GameManager` (`game_manager.gd`) — run state that survives scene changes: `selected_character`, `current_level_id`, `score`, `hearts`, `respawn_position`/`has_checkpoint`, `last_result` (`"win"`/`"lose"`), and `_elapsed` playtime (accumulated from `delta`, paused-aware). `start_new_run()` resets everything; `set_checkpoint()` also refills hearts. `MAX_HEARTS` is 3 — changing it requires manually adding/removing Heart icon nodes in `ui/hud/hud.tscn`.
 - `SceneTransition` (`scene_transition.tscn`) — **always** change scenes via `SceneTransition.goto(path)`. It unpauses, plays the fade animation, swaps the scene, never leaves the tree paused.
-- `SaveManager` (`save_manager.gd`) — persists `completed_levels`, `high_scores`, `best_times` to `user://save_data.json` as JSON. `is_level_unlocked()` gates level N on having completed level N-1. `record_result()` is called from the end screen.
+- `SaveManager` (`save_manager.gd`) — persists `completed_levels`, `high_scores`, `best_times`, and a `settings` dict to `user://save_data.json` as JSON. `is_level_unlocked()` gates level N on having completed level N-1. `record_result()` is called from the end screen. `get_setting(key, default)` / `set_setting(key, value)` — UI/gameplay read prefs only through these, never the file (`touch_controls` "auto"/"on"/"off", `fullscreen` bool).
 
 **Non-autoload global classes (`class_name`):**
 - `LevelData` (`core/levels.gd`) — the ordered `LEVELS` array (id / name / scene path) is the single source of truth for level order and unlock chain. Add a level = add one entry here (after creating the scene). Also holds `format_time()`.
@@ -38,7 +38,9 @@ The Godot project root is **`game/`**, not the repo root. Import `game/project.g
 
 **Gameplay objects (`objects/`)** — hazards/enemies are `Area2D` on the `enemy_hitbox` layer (no script logic for damage — the player's `Hurtbox` detects them); `goal_flag` calls `body.win()`; `checkpoint` calls `GameManager.set_checkpoint()` + emits `Events.checkpoint_activated`; `fruit` increments `GameManager.score`. `goal_flag`/`checkpoint`/`fruit` are on the `interactable` layer, mask `player`, and still use `body_entered`. Enemies live in `objects/enemies/<type>/`; movable enemies (`walker`, `flyer`, `spike_head`/`chaser_spike`) also carry `HealthComponent` + `Hurtbox` children (damageable in Phase 2b); pure traps (`spikes`, `saw`/`orbit_saw`, `falling_spike`) do not.
 
-**Flow:** `main_menu` → `character_select` (sets `GameManager.selected_character`) → `level_select` (calls `start_new_run(id)`) → level scene → `end_screen` (records result, offers retry / back to level select).
+**Touch controls (`ui/touch_controls/`)** — a `CanvasLayer` of `TouchScreenButton`s (left/right/jump/attack/pause) whose `action` maps to the same InputMap actions as the keyboard, so `player.gd` needs no touch-specific code. `level_base.gd` instances it per level and connects its `pause_pressed` signal. Visibility: `SaveManager.get_setting("touch_controls")` — "auto" shows it only when `DisplayServer.is_touchscreen_available()`. `project.godot` has `emulate_touch_from_mouse` on so the buttons work with a mouse for desktop testing (set the setting to "on" to see them there).
+
+**Flow:** `main_menu` (re-applies saved fullscreen) → `character_select` (sets `GameManager.selected_character`) → `level_select` (calls `start_new_run(id)`) → level scene → `end_screen` (records result, offers retry / back to level select).
 
 ## Conventions (from CONTRIBUTING.md)
 

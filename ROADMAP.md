@@ -553,6 +553,8 @@ Input layer → Mobile controls
 ### Phase 2.5 — Input Abstraction + Mobile Touch Controls  🆕 (kéo từ P9 lên)
 
 > Nội dung như "Phase 9" cũ bên dưới, nhưng làm ngay sau Combat để playtest Android sớm.
+>
+> **Status:** ✅ DONE — verified trên PC (emulate touch). APK chưa build (để sau, không chặn). **Bỏ lớp `PlayerInput` riêng** — `TouchScreenButton.action` → cùng InputMap action, `player.gd` không đổi. Đã làm: nút cảm ứng sinh bằng Pillow (`ui/touch_controls/sprites/`); `ui/touch_controls/touch_controls.tscn`+`.gd` (5 TouchScreenButton, tự đặt vị trí theo mép + safe-area, `pause_pressed` signal); `level_base.gd` instance + connect; `project.godot` `emulate_touch_from_mouse`; `SaveManager` thêm `settings` dict + `get/set_setting`; `settings_menu` thêm toggle Touch (Auto/On/Off) + persist fullscreen; `main_menu` áp lại fullscreen đã lưu. APK: hướng dẫn user tự export.
 
 **Goal:** `PlayerInput` wrapper; on-screen touch controls (virtual joystick/dpad + Jump + Attack + Pause; ô Dash để trống, nối ở P5); tự hiện trên touch device + toggle trong settings; pass UI scaling / safe-area; export APK thử.
 **Why:** Quyết định B — game target Android, cần chơi được trên máy thật ngay khi có combat.

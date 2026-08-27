@@ -11,9 +11,19 @@ var completed_levels: Dictionary = {}
 var high_scores: Dictionary = {}
 ## level_id -> thời gian (giây) hoàn thành nhanh nhất từng đạt được ở màn đó
 var best_times: Dictionary = {}
+## Tuỳ chọn người dùng: touch_controls ("auto"/"on"/"off"), fullscreen (bool), volume (0..1)...
+var settings: Dictionary = {}
 
 func _ready() -> void:
 	load_data()
+
+## Đọc 1 tuỳ chọn (default nếu chưa từng lưu). Gameplay/UI chỉ query qua đây, không đọc file.
+func get_setting(key: String, default: Variant) -> Variant:
+	return settings.get(key, default)
+
+func set_setting(key: String, value: Variant) -> void:
+	settings[key] = value
+	save_data()
 
 ## Level 1 luôn mở sẵn; các màn sau chỉ mở khi đã thắng màn ngay trước đó.
 func is_level_unlocked(level_id: String) -> bool:
@@ -47,6 +57,7 @@ func save_data() -> void:
 		"completed_levels": completed_levels,
 		"high_scores": high_scores,
 		"best_times": best_times,
+		"settings": settings,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -63,3 +74,4 @@ func load_data() -> void:
 		completed_levels = parsed.get("completed_levels", {})
 		high_scores = parsed.get("high_scores", {})
 		best_times = parsed.get("best_times", {})
+		settings = parsed.get("settings", {})

@@ -59,6 +59,20 @@ text = "Fullscreen"
 [node name="FullscreenCheck" parent="CenterContainer/DialogPanel/VBoxContainer/FullscreenRow" instance=ExtResource("4")]
 layout_mode = 2
 
+[node name="TouchRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TouchLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Touch controls"
+
+[node name="TouchButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+text = "Auto"
+
 [node name="VolumeRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12

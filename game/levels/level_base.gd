@@ -6,6 +6,7 @@ extends Node2D
 ## Đặt ở levels/ (không thuộc màn nào) vì ≥2 màn tham chiếu — xem CONTRIBUTING.md.
 
 const PAUSE_MENU_SCENE := preload("res://ui/pause_menu/pause_menu.tscn")
+const TOUCH_CONTROLS_SCENE := preload("res://ui/touch_controls/touch_controls.tscn")
 
 @export var fall_death_y: float = 500.0
 
@@ -35,6 +36,10 @@ func _ready() -> void:
 	camera.limit_top = camera_limit_top
 	camera.limit_bottom = camera_limit_bottom
 
+	var touch := TOUCH_CONTROLS_SCENE.instantiate()
+	touch.pause_pressed.connect(_on_pause_requested)
+	add_child(touch)
+
 func _process(_delta: float) -> void:
 	if not player.is_dead and player.global_position.y > fall_death_y:
 		# Rơi khỏi map: luôn bung ngay về điểm respawn (force_reposition = true)
@@ -43,6 +48,10 @@ func _process(_delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and not player.is_dead:
+		_open_pause_menu()
+
+func _on_pause_requested() -> void:
+	if not player.is_dead:
 		_open_pause_menu()
 
 func _open_pause_menu() -> void:

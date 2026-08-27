@@ -1,0 +1,49 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://ui/touch_controls/touch_controls.gd" id="1"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/left.png" id="2"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/left_pressed.png" id="3"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/right.png" id="4"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/right_pressed.png" id="5"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/jump.png" id="6"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/jump_pressed.png" id="7"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/attack.png" id="8"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/attack_pressed.png" id="9"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/pause.png" id="10"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/pause_pressed.png" id="11"]
+
+[node name="TouchControls" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="BtnLeft" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("2")
+texture_pressed = ExtResource("3")
+action = &"move_left"
+passby_press = true
+
+[node name="BtnRight" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("4")
+texture_pressed = ExtResource("5")
+action = &"move_right"
+passby_press = true
+
+[node name="BtnJump" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("6")
+texture_pressed = ExtResource("7")
+action = &"jump"
+passby_press = true
+
+[node name="BtnAttack" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("8")
+texture_pressed = ExtResource("9")
+action = &"attack"
+
+[node name="BtnPause" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("10")
+texture_pressed = ExtResource("11")
+action = &"pause"
