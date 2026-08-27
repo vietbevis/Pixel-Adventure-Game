@@ -1,43 +1,17 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://shared/backgrounds/cemetery/background.png" id="1"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/cemetery/mountains.png" id="2"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/cemetery/graveyard.png" id="3"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/dungeon_backdrop.png" id="1"]
 
-[node name="DungeonParallax" type="ParallaxBackground"]
+[node name="DungeonParallax" type="CanvasLayer"]
+layer = -100
 
-[node name="Back" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(1152, 0)
-
-[node name="BackSprite" type="Sprite2D" parent="Back"]
+[node name="Backdrop" type="TextureRect" parent="."]
 texture_filter = 1
-scale = Vector2(3, 3)
-modulate = Color(0.42, 0.42, 0.52, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1")
-centered = false
-offset = Vector2(0, -120)
-
-[node name="Rocks" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.26, 0.26)
-motion_mirroring = Vector2(576, 0)
-
-[node name="RocksSprite" type="Sprite2D" parent="Rocks"]
-texture_filter = 1
-scale = Vector2(3, 3)
-modulate = Color(0.34, 0.34, 0.44, 1)
-texture = ExtResource("2")
-centered = false
-offset = Vector2(0, -40)
-
-[node name="Graves" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.55, 0.55)
-motion_mirroring = Vector2(1152, 0)
-
-[node name="GravesSprite" type="Sprite2D" parent="Graves"]
-texture_filter = 1
-scale = Vector2(3, 3)
-modulate = Color(0.3, 0.3, 0.4, 1)
-texture = ExtResource("3")
-centered = false
-offset = Vector2(0, 120)
+expand_mode = 1
+stretch_mode = 6

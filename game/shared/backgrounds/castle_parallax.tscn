@@ -1,65 +1,17 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://shared/backgrounds/coldcorridors/back.png" id="1"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/coldcorridors/far.png" id="2"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/coldcorridors/middle.png" id="3"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/coldcorridors/near.png" id="4"]
-[ext_resource type="Texture2D" path="res://shared/backgrounds/coldcorridors/foreground.png" id="5"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/castle_backdrop.png" id="1"]
 
-[node name="CastleParallax" type="ParallaxBackground"]
+[node name="CastleParallax" type="CanvasLayer"]
+layer = -100
 
-[node name="Back" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.1, 0.1)
-motion_mirroring = Vector2(96, 0)
-
-[node name="BackSprite" type="Sprite2D" parent="Back"]
+[node name="Backdrop" type="TextureRect" parent="."]
 texture_filter = 1
-scale = Vector2(3, 3)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1")
-centered = false
-offset = Vector2(0, -120)
-
-[node name="Far" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.22, 0.22)
-motion_mirroring = Vector2(96, 0)
-
-[node name="FarSprite" type="Sprite2D" parent="Far"]
-texture_filter = 1
-scale = Vector2(3, 3)
-texture = ExtResource("2")
-centered = false
-offset = Vector2(0, -120)
-
-[node name="Middle" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.4, 0.4)
-motion_mirroring = Vector2(240, 0)
-
-[node name="MiddleSprite" type="Sprite2D" parent="Middle"]
-texture_filter = 1
-scale = Vector2(3, 3)
-texture = ExtResource("3")
-centered = false
-offset = Vector2(0, -120)
-
-[node name="Near" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(0.65, 0.65)
-motion_mirroring = Vector2(672, 0)
-
-[node name="NearSprite" type="Sprite2D" parent="Near"]
-texture_filter = 1
-scale = Vector2(3, 3)
-texture = ExtResource("4")
-centered = false
-offset = Vector2(0, -120)
-
-[node name="Foreground" type="ParallaxLayer" parent="."]
-motion_scale = Vector2(1.15, 1.15)
-motion_mirroring = Vector2(672, 0)
-
-[node name="ForegroundSprite" type="Sprite2D" parent="Foreground"]
-texture_filter = 1
-scale = Vector2(3, 3)
-modulate = Color(1, 1, 1, 0.5)
-texture = ExtResource("5")
-centered = false
-offset = Vector2(0, -120)
+expand_mode = 1
+stretch_mode = 6
