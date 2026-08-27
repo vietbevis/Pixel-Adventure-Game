@@ -9,18 +9,19 @@ const MUSIC := {
 	"castle": "res://audio/music/castle.ogg",
 	"dungeon": "res://audio/music/dungeon.ogg",
 }
-const SFX := {
-	"jump": preload("res://audio/sfx/jump.ogg"),
-	"attack": preload("res://audio/sfx/attack.ogg"),
-	"hurt": preload("res://audio/sfx/hurt.ogg"),
-	"enemy_die": preload("res://audio/sfx/enemy_die.ogg"),
-	"pickup": preload("res://audio/sfx/pickup.ogg"),
+const SFX_PATHS := {
+	"jump": "res://audio/sfx/jump.ogg",
+	"attack": "res://audio/sfx/attack.ogg",
+	"hurt": "res://audio/sfx/hurt.ogg",
+	"enemy_die": "res://audio/sfx/enemy_die.ogg",
+	"pickup": "res://audio/sfx/pickup.ogg",
 }
 const POOL_SIZE := 6
 
 var _music: AudioStreamPlayer
 var _pool: Array[AudioStreamPlayer] = []
 var _current_track: String = "<none>"
+var _sfx_cache: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -64,7 +65,10 @@ func stop_music() -> void:
 	_current_track = "<none>"
 
 func play_sfx(name: String, pitch_var: float = 0.06) -> void:
-	var stream: AudioStream = SFX.get(name)
+	if not _sfx_cache.has(name):
+		var path: String = SFX_PATHS.get(name, "")
+		_sfx_cache[name] = load(path) if (path != "" and ResourceLoader.exists(path)) else null
+	var stream: AudioStream = _sfx_cache[name]
 	if stream == null:
 		return
 	for p: AudioStreamPlayer in _pool:
