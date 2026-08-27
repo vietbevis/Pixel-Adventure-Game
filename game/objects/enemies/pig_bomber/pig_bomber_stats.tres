@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://components/enemy_stats.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+move_speed = 34.0
+chase_speed = 64.0
+damage = 1
+detect_range = 110.0
+leash_range = 220.0
+attack_range = 120.0
+attack_cooldown = 2.5
+knockback_speed = 150.0
+knockback_time = 0.18
