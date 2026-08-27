@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://cq3vvcuok3hge"]
+[gd_scene load_steps=22 format=4 uid="uid://cq3vvcuok3hge"]
 
 [ext_resource type="Script" uid="uid://bx2mpgsy8w0fp" path="res://levels/level_base.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
@@ -6,156 +6,143 @@
 [ext_resource type="PackedScene" uid="uid://db3204psc4vcl" path="res://objects/checkpoint/checkpoint.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://bhykirliujg86" path="res://objects/goal_flag/goal_flag.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://cblmi7knwsi3a" path="res://objects/enemies/saw/saw.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dskiaf5lay5qv" path="res://ui/hud/hud.tscn" id="9"]
-[ext_resource type="Texture2D" uid="uid://djs8bnweppet8" path="res://shared/backgrounds/Green.png" id="10"]
 [ext_resource type="PackedScene" path="res://objects/start_marker/start_marker.tscn" id="11"]
 [ext_resource type="SpriteFrames" uid="uid://caayogg3m32em" path="res://objects/fruit/sprites/bananas_frames.tres" id="12"]
 [ext_resource type="SpriteFrames" uid="uid://bpdou2hedlhkl" path="res://objects/fruit/sprites/cherries_frames.tres" id="13"]
 [ext_resource type="SpriteFrames" uid="uid://b5m5uip5tcheh" path="res://objects/fruit/sprites/apple_frames.tres" id="13_tk2t7"]
 [ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="14"]
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="15"]
-[ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16_iwr0g"]
+[ext_resource type="TileSet" uid="uid://dq10vaqdo45on" path="res://levels/level_1/terrain_tileset.tres" id="16"]
 [ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
-[ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
 [ext_resource type="PackedScene" path="res://objects/secret_alcove/secret_alcove.tscn" id="24"]
 [ext_resource type="PackedScene" path="res://objects/collectible_diamond/collectible_diamond.tscn" id="25"]
+[ext_resource type="PackedScene" path="res://shared/backgrounds/forest_parallax.tscn" id="26"]
+[ext_resource type="PackedScene" path="res://objects/traps/trampoline/trampoline.tscn" id="27"]
+[ext_resource type="PackedScene" path="res://objects/story_sign/story_sign.tscn" id="28"]
+[ext_resource type="PackedScene" path="res://objects/decor/crate/crate.tscn" id="29"]
 
-[node name="Level1" type="Node2D" unique_id=1468723532]
+[node name="Level1" type="Node2D"]
 script = ExtResource("1")
 world_title = "RỪNG RANH GIỚI"
 level_subtitle = "Bìa Rừng"
-camera_limit_right = 800
-camera_limit_top = -96
+camera_limit_left = -16
+camera_limit_right = 1040
+camera_limit_top = -64
+camera_limit_bottom = 260
 
-[node name="Background" type="Sprite2D" parent="." unique_id=1483741611]
-position = Vector2(-16, -193.00002)
-scale = Vector2(12.75, 7.75)
-texture = ExtResource("10")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 64, 64)
+[node name="Parallax" parent="." instance=ExtResource("26")]
 
-[node name="Terrain" type="TileMapLayer" parent="." unique_id=1819199804]
+[node name="Terrain" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD//+z/BQAHAAIAAAD//+3/BQAHAAIAAAD//+7/BQAHAAIAAAD//+//BQAHAAIAAAD///D/BQAHAAIAAAD///H/BQAHAAIAAAD///L/BQAHAAIAAAD///P/BQAHAAIAAAD///T/BQAHAAIAAAD///X/BQAHAAIAAAD///b/BQAHAAIAAAD///f/BQAHAAIAAAD///j/BQAHAAIAAAD///n/BQAHAAIAAAD///r/BQAHAAIAAAD///v/BQAHAAIAAAD///z/BQAHAAIAAAD///3/BQAHAAIAAAD///7/BQAHAAIAAAD/////BQAHAAIAAAD//wAABQAHAAIAAAD//wEABQAHAAIAAAD//wIABQAHAAIAAAD//wMABQAHAAIAAAD//wQABQAHAAIAAAD//wUABQAHAAIAAAD//wYABQAHAAIAAAD//wcABQAHAAIAAAD//wgABQAHAAIAAAD//wkABQAHAAIAAAD//woABQAHAAIAAAD//wsABQAHAAIAAAD//wwABQAHAAIAAAD//w0ABQAHAAIAAAD//w4ABQAHAAIAAAD//w8ABQAHAAIAAAD//xAABQAHAAIAAAAAAA4ABQAGAAAAAAAAAA8ABQAGAAIAAAAAABAABQAGAAIAAAABAA4ABQAHAAAAAAABAA8ABQAHAAIAAAABABAABQAHAAIAAAACAA4ABQAHAAAAAAACAA8ABQAHAAIAAAACABAABQAHAAIAAAADAA4ABQAHAAAAAAADAA8ABQAHAAIAAAADABAABQAHAAIAAAAEAA4ABQAHAAAAAAAEAA8ABQAHAAIAAAAEABAABQAHAAIAAAAFAA4ABQAHAAAAAAAFAA8ABQAHAAIAAAAFABAABQAHAAIAAAAGAA4ABQAHAAAAAAAGAA8ABQAHAAIAAAAGABAABQAHAAIAAAAHAA4ABQAHAAAAAAAHAA8ABQAHAAIAAAAHABAABQAHAAIAAAAIAA4ABQAHAAAAAAAIAA8ABQAHAAIAAAAIABAABQAHAAIAAAAJAA4ABQAIAAAAAAAJAA8ABQAIAAIAAAAJABAABQAIAAIAAAAMAA4ABQAGAAAAAAAMAA8ABQAGAAIAAAAMABAABQAGAAIAAAANAA4ABQAHAAAAAAANAA8ABQAHAAIAAAANABAABQAHAAIAAAAOAA4ABQAHAAAAAAAOAA8ABQAHAAIAAAAOABAABQAHAAIAAAAPAA4ABQAHAAAAAAAPAA8ABQAHAAIAAAAPABAABQAHAAIAAAAQAA4ABQAHAAAAAAAQAA8ABQAHAAIAAAAQABAABQAHAAIAAAARAA4ABQAHAAAAAAARAA8ABQAHAAIAAAARABAABQAHAAIAAAASAA4ABQAHAAAAAAASAA8ABQAHAAIAAAASABAABQAHAAIAAAATAA4ABQAHAAAAAAATAA8ABQAHAAIAAAATABAABQAHAAIAAAAUAA4ABQAHAAAAAAAUAA8ABQAHAAIAAAAUABAABQAHAAIAAAAVAA4ABQAHAAAAAAAVAA8ABQAHAAIAAAAVABAABQAHAAIAAAAWAA4ABQAHAAAAAAAWAA8ABQAHAAIAAAAWABAABQAHAAIAAAAXAA4ABQAIAAAAAAAXAA8ABQAIAAIAAAAXABAABQAIAAIAAAAcAA4ABQAGAAAAAAAcAA8ABQAGAAIAAAAcABAABQAGAAIAAAAdAA4ABQAHAAAAAAAdAA8ABQAHAAIAAAAdABAABQAHAAIAAAAeAA4ABQAHAAAAAAAeAA8ABQAHAAIAAAAeABAABQAHAAIAAAAfAA4ABQAHAAAAAAAfAA8ABQAHAAIAAAAfABAABQAHAAIAAAAgAA4ABQAHAAAAAAAgAA8ABQAHAAIAAAAgABAABQAHAAIAAAAhAA4ABQAHAAAAAAAhAA8ABQAHAAIAAAAhABAABQAHAAIAAAAiAA4ABQAHAAAAAAAiAA8ABQAHAAIAAAAiABAABQAHAAIAAAAjAA4ABQAHAAAAAAAjAA8ABQAHAAIAAAAjABAABQAHAAIAAAAkAA4ABQAHAAAAAAAkAA8ABQAHAAIAAAAkABAABQAHAAIAAAAlAA4ABQAHAAAAAAAlAA8ABQAHAAIAAAAlABAABQAHAAIAAAAmAA4ABQAHAAAAAAAmAA8ABQAHAAIAAAAmABAABQAHAAIAAAAnAA4ABQAIAAAAAAAnAA8ABQAIAAIAAAAnABAABQAIAAIAAAAoAA4ABQAGAAAAAAAoAA8ABQAGAAIAAAApAA0ABQAGAAAAAAApAA4ABQAGAAIAAAApAA8ABQAGAAIAAAAqAAwABQAGAAAAAAAqAA0ABQAGAAIAAAAqAA4ABQAGAAIAAAAqAA8ABQAGAAIAAAArAAsABQAGAAAAAAArAAwABQAGAAIAAAArAA0ABQAGAAIAAAArAA4ABQAGAAIAAAArAA8ABQAGAAIAAAAsAAoABQAGAAAAAAAsAAsABQAGAAIAAAAsAAwABQAGAAIAAAAsAA0ABQAGAAIAAAAsAA4ABQAGAAIAAAAsAA8ABQAGAAIAAAAtAAkABQAGAAAAAAAtAAoABQAGAAIAAAAtAAsABQAGAAIAAAAtAAwABQAGAAIAAAAtAA0ABQAGAAIAAAAtAA4ABQAGAAIAAAAtAA8ABQAGAAIAAAAuAAkABQAGAAAAAAAuAAoABQAGAAIAAAAuAAsABQAGAAIAAAAvAAkABQAHAAAAAAAvAAoABQAHAAIAAAAvAAsABQAHAAIAAAAwAAkABQAIAAAAAAAwAAoABQAIAAIAAAAwAAsABQAIAAIAAAAxAOz/BQAHAAIAAAAxAO3/BQAHAAIAAAAxAO7/BQAHAAIAAAAxAO//BQAHAAIAAAAxAPD/BQAHAAIAAAAxAPH/BQAHAAIAAAAxAPL/BQAHAAIAAAAxAPP/BQAHAAIAAAAxAPT/BQAHAAIAAAAxAPX/BQAHAAIAAAAxAPb/BQAHAAIAAAAxAPf/BQAHAAIAAAAxAPj/BQAHAAIAAAAxAPn/BQAHAAIAAAAxAPr/BQAHAAIAAAAxAPv/BQAHAAIAAAAxAPz/BQAHAAIAAAAxAP3/BQAHAAIAAAAxAP7/BQAHAAIAAAAxAP//BQAHAAIAAAAxAAAABQAHAAIAAAAxAAEABQAHAAIAAAAxAAIABQAHAAIAAAAxAAMABQAHAAIAAAAxAAQABQAHAAIAAAAxAAUABQAHAAIAAAAxAAYABQAHAAIAAAAxAAcABQAHAAIAAAAxAAgABQAHAAIAAAAxAAkABQAHAAIAAAAxAAoABQAHAAIAAAAxAAsABQAHAAIAAAAxAAwABQAHAAIAAAAxAA0ABQAHAAIAAAAxAA4ABQAHAAIAAAAxAA8ABQAHAAIAAAAxABAABQAHAAIAAAAOAAUABQAGAAAAAAAPAAUABQAHAAAAAAAUAAUABQAGAAAAAAAVAAUABQAHAAAAAAAvAAAABQAMAAQAAAAwAAAABQANAAQAAAA=")
-tile_set = ExtResource("16_iwr0g")
+tile_set = ExtResource("16")
 
-[node name="Interactables" type="Node2D" parent="." unique_id=275998026]
+[node name="Interactables" type="Node2D" parent="."]
 
-[node name="StartMarker" parent="Interactables" unique_id=1693259230 instance=ExtResource("11")]
+[node name="StartMarker" parent="Interactables" instance=ExtResource("11")]
 position = Vector2(32, 208)
 
-[node name="GoalFlag" parent="Interactables" unique_id=1863360777 instance=ExtResource("6")]
-position = Vector2(768, 112)
+[node name="GoalFlag" parent="Interactables" instance=ExtResource("6")]
+position = Vector2(1000, 104)
 
-[node name="Checkpoint" parent="Interactables" unique_id=1067136393 instance=ExtResource("5")]
-position = Vector2(272, 196)
+[node name="Checkpoint" parent="Interactables" instance=ExtResource("5")]
+position = Vector2(600, 136)
 
-[node name="Enemies" type="Node2D" parent="." unique_id=911449893]
+[node name="Enemies" type="Node2D" parent="."]
 
-[node name="EnemySpikeHead1" parent="Enemies" unique_id=1036497363 instance=ExtResource("22")]
-position = Vector2(125, 202)
-patrol_distance = Vector2(40, 0)
-patrol_speed = 30.0
-
-[node name="EnemySpikeHead2" parent="Enemies" unique_id=2077657579 instance=ExtResource("22")]
-position = Vector2(257, 203)
+[node name="Pig1" parent="Enemies" instance=ExtResource("22")]
+position = Vector2(250, 200)
 patrol_distance = Vector2(50, 0)
-patrol_speed = 35.0
+patrol_speed = 22.0
 
-[node name="Saw1" parent="Enemies" unique_id=1285517987 instance=ExtResource("7")]
-position = Vector2(547, 205)
-move_distance = Vector2(30, 0)
-move_speed = 1.4
+[node name="Pig2" parent="Enemies" instance=ExtResource("22")]
+position = Vector2(690, 200)
+patrol_distance = Vector2(60, 0)
+patrol_speed = 24.0
 
-[node name="Spikes1" parent="Enemies" unique_id=76363165 instance=ExtResource("8")]
-position = Vector2(279, 208)
+[node name="Pig3" parent="Enemies" instance=ExtResource("22")]
+position = Vector2(772, 196)
+patrol_distance = Vector2(40, 0)
+patrol_speed = 20.0
 
-[node name="Spikes2" parent="Enemies" unique_id=665501543 instance=ExtResource("8")]
-position = Vector2(576, 208)
+[node name="Saw1" parent="Enemies" instance=ExtResource("7")]
+position = Vector2(520, 138)
+move_distance = Vector2(24, 0)
+move_speed = 1.6
 
-[node name="Walker1" parent="Enemies" unique_id=2045443963 instance=ExtResource("22")]
-position = Vector2(360, 203)
-patrol_distance = Vector2(80, 0)
-patrol_speed = 28.0
+[node name="Traps" type="Node2D" parent="."]
 
-[node name="Flyer1" parent="Enemies" unique_id=1183831237 instance=ExtResource("23")]
-position = Vector2(560, 0)
-patrol_distance = Vector2(100, 0)
-patrol_speed = 40.0
+[node name="Trampoline1" parent="Traps" instance=ExtResource("27")]
+position = Vector2(388, 248)
 
-[node name="Player" parent="." unique_id=771412820 instance=ExtResource("2")]
+[node name="Decor" type="Node2D" parent="."]
+
+[node name="Sign1" parent="Decor" instance=ExtResource("28")]
+position = Vector2(74, 190)
+speaker = "Bảng chỉ đường"
+line_1 = "RỪNG RANH GIỚI  —  lâu đài ở phía đông."
+line_2 = "Đi hết cánh rừng này là tới tường thành."
+
+[node name="Sign2" parent="Decor" instance=ExtResource("28")]
+position = Vector2(556, 124)
+speaker = "Vết khắc"
+line_1 = "Dấu chân heo khắp lối. Chúng đi qua đây không lâu trước."
+
+[node name="Crate1" parent="Decor" instance=ExtResource("29")]
+position = Vector2(614, 200)
+
+[node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(32, 204)
 
-[node name="HUD" parent="." unique_id=1840921741 instance=ExtResource("9")]
+[node name="HUD" parent="." instance=ExtResource("9")]
 
-[node name="Secrets" type="Node2D" parent="." unique_id=1181997222]
+[node name="Secrets" type="Node2D" parent="."]
 
-[node name="SecretAlcove1" parent="Secrets" unique_id=2126305382 instance=ExtResource("24")]
-position = Vector2(694, 53)
+[node name="SecretAlcove1" parent="Secrets" instance=ExtResource("24")]
+position = Vector2(840, 150)
 
-[node name="Diamond1" parent="Secrets" unique_id=854922275 instance=ExtResource("25")]
-position = Vector2(771, 40)
+[node name="Diamond1" parent="Secrets" instance=ExtResource("25")]
+position = Vector2(892, 138)
 secret_id = "diamond_forest_1"
 
-[node name="Fruits" type="Node2D" parent="." unique_id=983881901]
+[node name="Fruits" type="Node2D" parent="."]
 
-[node name="Fruit1" parent="Fruits" unique_id=1242165354 instance=ExtResource("4")]
-position = Vector2(240, 48)
+[node name="Fruit1" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(112, 192)
 variant_frames = ExtResource("12")
 
-[node name="Fruit2" parent="Fruits" unique_id=777010457 instance=ExtResource("4")]
-position = Vector2(256, 16)
+[node name="Fruit2" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(168, 192)
 variant_frames = ExtResource("13")
 
-[node name="Fruit3" parent="Fruits" unique_id=155031363 instance=ExtResource("4")]
-position = Vector2(272, 0)
+[node name="Fruit3" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(360, 176)
 variant_frames = ExtResource("14")
 
-[node name="Fruit4" parent="Fruits" unique_id=508416472 instance=ExtResource("4")]
-position = Vector2(296, -1)
+[node name="Fruit4" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(392, 208)
 variant_frames = ExtResource("15")
 
-[node name="Fruit5" parent="Fruits" unique_id=626677883 instance=ExtResource("4")]
-position = Vector2(315, 15)
+[node name="Fruit5" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(456, 152)
 variant_frames = ExtResource("13_tk2t7")
 
-[node name="Fruit6" parent="Fruits" unique_id=289569166 instance=ExtResource("4")]
-position = Vector2(330, 47)
+[node name="Fruit6" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(520, 120)
 variant_frames = ExtResource("12")
 
-[node name="Fruit7" parent="Fruits" unique_id=1978170995 instance=ExtResource("4")]
-position = Vector2(96, 208)
+[node name="Fruit7" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(648, 120)
 variant_frames = ExtResource("13")
 
-[node name="Fruit8" parent="Fruits" unique_id=779819500 instance=ExtResource("4")]
-position = Vector2(208, 208)
+[node name="Fruit8" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(704, 196)
 variant_frames = ExtResource("14")
 
-[node name="Fruit9" parent="Fruits" unique_id=817528589 instance=ExtResource("4")]
-position = Vector2(303, 207)
+[node name="Fruit9" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(760, 196)
 variant_frames = ExtResource("15")
 
-[node name="Fruit10" parent="Fruits" unique_id=1725833919 instance=ExtResource("4")]
-position = Vector2(480, 208)
-variant_frames = ExtResource("13_tk2t7")
-
-[node name="Fruit11" parent="Fruits" unique_id=1095435778 instance=ExtResource("4")]
-position = Vector2(640, 212)
-variant_frames = ExtResource("12")
-
-[node name="Fruit12" parent="Fruits" unique_id=413461323 instance=ExtResource("4")]
-position = Vector2(656, 192)
-variant_frames = ExtResource("13")
-
-[node name="Fruit13" parent="Fruits" unique_id=1259166500 instance=ExtResource("4")]
-position = Vector2(672, 176)
-variant_frames = ExtResource("14")
-
-[node name="Fruit14" parent="Fruits" unique_id=1476498945 instance=ExtResource("4")]
-position = Vector2(688, 160)
-variant_frames = ExtResource("15")
-
-[node name="Fruit15" parent="Fruits" unique_id=1496985885 instance=ExtResource("4")]
-position = Vector2(704, 144)
+[node name="Fruit10" parent="Fruits" instance=ExtResource("4")]
+position = Vector2(944, 120)
 variant_frames = ExtResource("13_tk2t7")
