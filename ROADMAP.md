@@ -491,9 +491,12 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 4 — Boss (King Pig)  *(FINALIZED)*
+### Phase 4 — Boss (King Pig)
 
-**Goal:** 1 boss hoàn chỉnh: `BossBase` (kế thừa `EnemyBase`), 2-3 attack pattern, 2 phase theo máu, boss arena khoá cửa, health bar, `Events.boss_defeated`.
+> **Chia P4a (boss chơi được, 1 pattern) → P4b (charge + jump_slam + phases + gate).**
+> **P4a status:** 🔨 Code xong — chờ verify. `BossBase` **KHÔNG kế thừa EnemyBase** (FSM khác hẳn — INTRO/THINK/ATTACK/RECOVER/HURT/DEAD, timer/step driven, không coroutine). `objects/bomb/` (Area2D bay cung, chỉ vụ nổ gây damage). `king_pig.tscn` hp 10, pattern `bomb_toss`, `BodyHitbox` contact damage. `ui/boss_health_bar/`. `levels/boss_forest/` (`boss_arena.gd extends LevelBase`, thắng khi boss chết). `LevelData` +`boss_forest` (khoá sau L5). Test nhanh: **F6 (Run Current Scene)** trên `boss_forest.tscn`.
+
+**Goal:** 1 boss hoàn chỉnh: `BossBase`, 2-3 attack pattern, 2 phase theo máu, boss arena khoá cửa, health bar, `Events.boss_defeated`.
 **Why:** Điểm nhấn cuối world; trigger unlock ability (loop: Boss → Reward).
 **Dependencies:** Phase 3.
 

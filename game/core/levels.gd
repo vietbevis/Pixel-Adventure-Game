@@ -9,6 +9,7 @@ const LEVELS: Array[Dictionary] = [
 	{"id": "level_3", "name": "Level 3", "scene": "res://levels/level_3/level_3.tscn"},
 	{"id": "level_4", "name": "Level 4", "scene": "res://levels/level_4/level_4.tscn"},
 	{"id": "level_5", "name": "Level 5 - Tower", "scene": "res://levels/level_5/level_5.tscn"},
+	{"id": "boss_forest", "name": "Forest Boss", "scene": "res://levels/boss_forest/boss_forest.tscn"},
 ]
 
 static func get_index(level_id: String) -> int:
