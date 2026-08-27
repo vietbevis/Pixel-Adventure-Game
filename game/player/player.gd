@@ -225,7 +225,13 @@ func _start_dash() -> void:
 	dust.scale.x = -_dash_dir
 
 ## Khựng hình cực ngắn khi đòn trúng — làm cú đánh "đã tay" hơn.
-func _on_hit_landed(_target: Hurtbox) -> void:
+func _on_hit_landed(target: Hurtbox) -> void:
+	# Tia sáng vàng chỗ trúng đòn (dùng lại dust.tscn, đổi màu).
+	var spark := DASH_DUST.instantiate()
+	get_parent().add_child(spark)
+	spark.global_position = target.global_position if is_instance_valid(target) else hitbox.global_position
+	spark.color = Color(1.0, 0.92, 0.55, 0.9)
+	spark.initial_velocity_max = 150.0
 	if _hit_stop_active:
 		return
 	_hit_stop_active = true
