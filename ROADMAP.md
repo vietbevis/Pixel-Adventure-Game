@@ -296,6 +296,38 @@ Input layer → Mobile controls
 
 ## 7. Development Phases
 
+> ### ⚠️ ROADMAP REVISION — 2026-08-27 (sau khi hoàn thành P0, P1)
+>
+> Hai quyết định định hướng từ chủ dự án làm thay đổi thứ tự & nội dung các phase sau:
+>
+> **A. Thay toàn bộ hệ nhân vật.** 4 nhân vật Pixel Adventure (Ninja Frog...) không đủ đáp
+> ứng game mở rộng — **không có animation tấn công**, không phù hợp vai "hero" của metroidvania.
+> → Chuyển sang **King Human** (pack "Kings and Pigs" đã có sẵn trong repo) làm **hero duy nhất**.
+> King Human có: idle(11f), run(8f), jump, fall, ground/land, hit(2f), **attack(3f)**, dead(4f),
+> **door in/out(8f)** (dùng cho hub). Thiếu double_jump/wall_jump anim → dùng jump + VFX (2 skill
+> này vốn là ability unlock, không cần anim riêng). Bỏ màn chọn nhân vật (metroidvania = 1 hero).
+> Kéo theo: Pig/King Pig thành hệ enemy/boss mới (P3/P4); "Live and Coins" của pack có sẵn
+> heart HUD + diamond collectible + number font.
+>
+> **B. Mobile là ưu tiên, kéo lên sớm.** Game target Android → cần touch controls để playtest
+> trên máy thật ngay sau khi có combat, không đợi tới cuối.
+>
+> **Thứ tự phase mới từ đây:**
+> ```
+> P1.5 Hero Migration (King Human)  ← MỚI, chèn trước Combat
+>   ↓
+> P2  Combat (dùng anim attack thật của King + enemy damage pipeline)
+>   ↓
+> P2.5 Input Abstraction + Mobile Touch Controls  ← kéo từ P9 lên
+>   ↓
+> P3  Enemy AI Base + migrate quái sang hệ Pig
+>   ↓
+> P4 Boss (King Pig) → P5 Dash → P6 Save → P7 Hub (dùng door anim) →
+> P8 Metroidvania → P10 Audio/Polish → P11 optional
+> ```
+> P9 cũ (Mobile) phần lớn gộp vào P2.5; phần còn lại (perf, test đa tỉ lệ) về P10.
+> Spec chi tiết P1.5 và P2.5 ở bên dưới; các phase khác giữ nguyên nội dung, chỉ đổi số/thứ tự.
+
 ### Phase 0 — Audit & Foundation Skeleton
 
 > **Status:** ✅ DONE — verified in editor (cả 5 màn chạy OK), commit `cfad66b` trên branch `feat/phase-0-foundation`.
@@ -345,7 +377,39 @@ Input layer → Mobile controls
 
 ---
 
+### Phase 1.5 — Hero Migration (King Human)  🆕
+
+**Goal:** Thay 4 nhân vật Pixel Adventure bằng **King Human** làm hero duy nhất. Player di chuyển/nhảy/wall-jump/mất máu/chết y như hiện tại, chỉ khác sprite + kích thước + bỏ màn chọn nhân vật.
+**Why:** Quyết định A ở trên. Combat (P2) cần anim attack thật; làm P2 với Ninja Frog + slash placeholder = phải làm lại. Tách riêng để verify "King có đi/nhảy đúng trong 5 màn cũ không" trước khi chồng combat lên.
+**Dependencies:** Phase 1.
+**Features:**
+- Import sprites `Kings and Pigs/Sprites/01-King Human/*` vào `game/player/sprites/King/` (10 file PNG, frame 78×58).
+- Bake `king_frames.tres` (SpriteFrames, editor): idle/run/jump/fall/land/hit/attack/dead + door_in/door_out. double_jump/wall_jump → tạm map sang "jump".
+- `player.tscn`: `sprite_frames` = king_frames; chỉnh `CollisionShape2D` khớp thân King (~26×42, canh trong editor); chỉnh `Camera2D.zoom` (King to gấp ~2× → thử 1.5×).
+- `player.gd`: `_apply_sprite_frames()` bỏ logic chọn nhân vật, load thẳng king_frames (hoặc để `CharacterData` trả 1 hero). Anim: `_update_animation` dùng tên anim của King; thêm "land" khi tiếp đất.
+- Retune hằng số di chuyển nếu cần (SPEED/JUMP_VELOCITY/GRAVITY) cho vừa 5 màn hiện có — canh trong editor.
+- Flow: `main_menu` → **bỏ** `character_select` → thẳng `level_select`. Giữ file `character_select.tscn` (xoá khỏi flow, không xoá file — có thể tái dùng làm màn intro sau).
+- `CharacterData` (`core/characters.gd`): rút gọn còn 1 hero (giữ `class_name`, path helper trỏ king_frames) hoặc đánh dấu deprecated.
+- (Tuỳ chọn, có thể để P10) HUD heart: đổi sang `Big Heart Idle/Hit (18x14)` của pack.
+**Architecture Changes:** Không (chỉ đổi asset + 1 bước bỏ khỏi scene flow). `CharacterData` thu hẹp.
+**Files affected:** `game/player/sprites/King/` (mới), `player/player.tscn` + `player.gd`, `core/characters.gd`, `ui/main_menu/main_menu.gd` (bỏ bước character_select), có thể `ui/level_select/level_select.gd` (nút Back), `ui/character_select/*` (gỡ khỏi flow).
+**Implementation order:** (1) import + bake `king_frames.tres` → (2) gán vào player.tscn, canh collision + camera trong editor → (3) `player.gd` anim names + land → (4) retune movement constants → (5) F5 test 5 màn → (6) sửa scene flow bỏ character_select → (7) rút gọn CharacterData.
+**Acceptance Criteria:** King đi/chạy/nhảy/double jump/wall jump (không leo vô hạn)/mất tim/i-frame/chết/respawn/goal — hoạt động ở cả 5 màn, không kẹt vào địa hình, camera hợp lý. `main_menu` → `level_select` thẳng. Không lỗi đỏ.
+**Testing:** Regression full 5 màn (đặc biệt các khe hẹp, đoạn wall-jump ở level 5 — King to hơn dễ kẹt). Flow menu. Chọn màn → chơi → end screen → retry/menu.
+**Risks:**
+| Risk | Mitigation |
+|---|---|
+| King (58px) kẹt vào địa hình 5 màn thiết kế cho 32px | Canh collision nhỏ gọn; test từng màn; ghi lại chỗ cần sửa level (làm ở P7/P8 khi repurpose) |
+| Movement constants lệch feel | Retune có kiểm soát, so trước/sau; giữ tỉ lệ jump-height/gap-width |
+| Bỏ character_select làm hỏng điều hướng Back | Kiểm mọi nút Back trong chuỗi menu |
+| double_jump/wall_jump không có anim riêng → nhìn cùn | Chấp nhận tạm; VFX riêng ở P5 (ability) / P10 |
+**Complexity:** **Medium-High**
+
+---
+
 ### Phase 2 — Combat (Player Attack)
+
+> **Điều chỉnh (revision):** dùng anim **Attack (3f)** thật của King + `AnimationPlayer` có call-method track bật/tắt Hitbox (cách chuẩn ROADMAP muốn ban đầu), thay cho slash placeholder. Gộp luôn phần migrate collision layer + gỡ `body.hit()` (hoãn từ P1). Knockback vị trí cho enemy vẫn hoãn → P3 (enemy còn là Area2D). Hit-stop tối giản: làm ở P2.
 
 **Goal:** Player chém được; enemy nhận sát thương, hurt/knockback, chết; contact damage enemy→player chuyển qua Hitbox.
 **Why:** Vòng lặp "Fight" trong gameplay loop. Không có combat thì metroidvania vô nghĩa.
@@ -361,9 +425,11 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 3 — Enemy AI Base
+### Phase 3 — Enemy AI Base + Pig Migration
 
-**Goal:** `EnemyBase` + state machine tái sử dụng (idle/patrol/chase/attack/hurt/dead), `EnemyStats` resource; migrate `walker`/`flyer`/`chaser_spike`/`spike_head` sang base. Traps giữ nguyên.
+> **Điều chỉnh (revision):** gộp việc thay hệ quái sang **Pig family** ("Kings and Pigs": Pig 34×28, Pig Throwing Box, Pig Throwing Bomb, Pig With a Match — đều có full moveset idle/run/jump/fall/hit/attack/dead). Quái Kenney trừu tượng (walker/flyer) + spike_head bị thay bằng Pig khi lên `EnemyBase`. Knockback vị trí thật làm ở đây (enemy đã là CharacterBody2D). Traps (spikes/saw) giữ nguyên.
+
+**Goal:** `EnemyBase` (`CharacterBody2D`) + state machine tái sử dụng (idle/patrol/chase/attack/hurt/dead), `EnemyStats` resource; hệ quái mới dựa trên sprite Pig; knockback thật.
 **Why:** D2. Gỡ copy-paste patrol, cho enemy "phản ứng" (điều kiện tiên quyết của boss).
 **Dependencies:** Phase 2.
 **Features:** `EnemyBase` (`CharacterBody2D`, gravity cho enemy mặt đất, fly cho `flyer`); FSM hand-rolled (mở rộng pattern `chaser_spike`); `EnemyStats.tres` mỗi loại; `DetectionArea` component; attack telegraph đơn giản.
@@ -457,7 +523,27 @@ Input layer → Mobile controls
 
 ---
 
+### Phase 2.5 — Input Abstraction + Mobile Touch Controls  🆕 (kéo từ P9 lên)
+
+> Nội dung như "Phase 9" cũ bên dưới, nhưng làm ngay sau Combat để playtest Android sớm.
+
+**Goal:** `PlayerInput` wrapper; on-screen touch controls (virtual joystick/dpad + Jump + Attack + Pause; ô Dash để trống, nối ở P5); tự hiện trên touch device + toggle trong settings; pass UI scaling / safe-area; export APK thử.
+**Why:** Quyết định B — game target Android, cần chơi được trên máy thật ngay khi có combat.
+**Dependencies:** Phase 2 (action `attack` đã final; `jump`/`move_*` có từ P0).
+**Features:** `core/player_input.gd` (đọc InputMap → property: `move_axis`, `jump_pressed`, `attack_pressed`...); `player.gd` chuyển `Input.is_action_*` → `PlayerInput.*`; `ui/touch_controls/` (CanvasLayer, `TouchScreenButton.action` map vào cùng InputMap action → keyboard/gamepad không đổi); auto-show theo `DisplayServer.is_touchscreen_available()`; `Input.emulate_touch_from_mouse` để test trên PC; settings toggle + persist; kiểm 16:9 / 18:9 / 20:9 + notch.
+**Architecture Changes:** `player.gd` đọc `PlayerInput` thay vì `Input` trực tiếp. Abilities (P5) theo cùng pattern.
+**Files affected:** `core/player_input.gd` (mới), `player/player.gd`, `ui/touch_controls/*` (mới), `ui/settings_menu/*`, `SaveManager` (settings), `project.godot` (đăng ký `PlayerInput` autoload nếu chọn hướng đó).
+**Implementation order:** (1) `PlayerInput` + chuyển player sang dùng nó (regression) → (2) `TouchControls` scene (joystick + Jump + Attack + Pause) → (3) auto-show + emulate-from-mouse → (4) settings toggle + persist → (5) UI scaling/safe-area pass → (6) export APK, test máy thật.
+**Acceptance Criteria:** Chơi hết 1 màn chỉ bằng touch (di chuyển + nhảy + chém đồng thời OK); keyboard/gamepad giữ nguyên; nút không che vùng chơi; APK chạy được trên Android.
+**Testing:** APK máy thật/emulator; đa điểm chạm; xoay ngang; pause bằng nút touch; toggle tắt touch trên desktop.
+**Risks:** Nút overlap vùng chơi; joystick analog + `move_and_slide`; perf mobile renderer; input lag.
+**Complexity:** **Medium**
+
+---
+
 ### Phase 9 — Input Abstraction & Mobile Controls
+
+> **Đã kéo lên thành Phase 2.5** (xem trên). Phần còn lại ở đây (tối ưu perf mobile, test đa thiết bị/tỉ lệ sâu, gamepad polish) gộp vào **P10**.
 
 **Goal:** `PlayerInput` wrapper hoàn chỉnh; on-screen controls (joystick/dpad + jump + attack + dash + interact + pause); tự hiện trên touch device + toggle trong settings; pass UI scaling / safe area.
 **Why:** Game target Android. Đây là MVP, không phải optional.
