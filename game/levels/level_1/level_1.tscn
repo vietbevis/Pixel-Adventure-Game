@@ -89,7 +89,7 @@ speaker = "Vết khắc"
 line_1 = "Dấu chân heo khắp lối. Chúng đi qua đây không lâu trước."
 
 [node name="Crate1" parent="Decor" instance=ExtResource("29")]
-position = Vector2(614, 200)
+position = Vector2(626, 127)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(32, 204)
