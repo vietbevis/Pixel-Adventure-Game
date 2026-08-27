@@ -661,7 +661,9 @@ Level Select nhóm 3 world; không regression 5 màn cũ.
 > mở rộng + NPC Dân làng (King frames) + Heo đào ngũ + biển lore; thoại Cố vấn viết lại. `level_2.tscn`
 > +`DashRelic` gần cờ (chỗ tạm — dời khi rebuild ở P9-4).
 >
-> **P9-D1 🔄 giao agy** — 3 decor phát sáng (torch/dungeon_torch/candle) + enemy `cannon` + `cannonball`.
+> **P9-D1/D2 ✅** (`00c00b7`, `10e8341`) — decor (torch/dungeon_torch/candle/chest/crate) + `cannon`+`cannonball` + `fan`+`falling_platform`. Thư viện object P9 xong.
+> **P9-2 ✅** (`50ad4f8`) — story layer (đã ghi ở trên).
+> **P9-4a 🔨** (`1ad7f09`) — `level_1.tscn` khung "Bìa Rừng" (parallax + object đặt sẵn theo blueprint). **Terrain chưa vẽ lại** — user tô tilemap trong editor cho khớp object. Kế: P9-4b level_2, P9-5 W2, P9-6 W3, P9-7 hub.
 
 ---
 
