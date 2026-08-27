@@ -1,17 +1,13 @@
-[gd_scene format=3 uid="uid://cbbjcpdowryvo"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" uid="uid://dswkp2xh8u140" path="res://shared/backgrounds/forest_backdrop.png" id="1"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/forest_backdrop.png" id="1"]
 
-[node name="ForestParallax" type="CanvasLayer" unique_id=1784921572]
-layer = -100
+[node name="ForestParallax" type="Parallax2D"]
+scroll_scale = Vector2(0.3, 0.55)
+repeat_size = Vector2(0, 0)
 
-[node name="Backdrop" type="TextureRect" parent="." unique_id=2085161809]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+centered = false
+position = Vector2(-1050, -988)
 texture = ExtResource("1")
-expand_mode = 1
-stretch_mode = 6
