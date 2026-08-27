@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://objects/traps/falling_platform/falling_platform.gd" id="1"]
+[ext_resource type="Texture2D" path="res://objects/traps/falling_platform/sprites/off.png" id="2"]
+[ext_resource type="Texture2D" path="res://objects/traps/falling_platform/sprites/on.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="idle_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="shake_0"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="shake_1"]
+atlas = ExtResource("3")
+region = Rect2(32, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="shake_2"]
+atlas = ExtResource("3")
+region = Rect2(64, 0, 32, 10)
+
+[sub_resource type="AtlasTexture" id="shake_3"]
+atlas = ExtResource("3")
+region = Rect2(96, 0, 32, 10)
+
+[sub_resource type="SpriteFrames" id="frames"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("idle_0")}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{"duration": 1.0, "texture": SubResource("shake_0")}, {"duration": 1.0, "texture": SubResource("shake_1")}, {"duration": 1.0, "texture": SubResource("shake_2")}, {"duration": 1.0, "texture": SubResource("shake_3")}],
+"loop": true,
+"name": &"shake",
+"speed": 16.0
+}]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(30, 8)
+
+[sub_resource type="RectangleShape2D" id="stand"]
+size = Vector2(30, 8)
+
+[node name="FallingPlatform" type="AnimatableBody2D"]
+collision_layer = 1
+collision_mask = 0
+sync_to_physics = false
+script = ExtResource("1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("body")
+
+[node name="StandZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="StandShape" type="CollisionShape2D" parent="StandZone"]
+position = Vector2(0, -7)
+shape = SubResource("stand")

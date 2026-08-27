@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://objects/decor/crate/crate.gd" id="1"]
+[ext_resource type="Texture2D" path="res://objects/decor/crate/sprites/crate.png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="box"]
+size = Vector2(20, 14)
+
+[node name="Crate" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("box")
