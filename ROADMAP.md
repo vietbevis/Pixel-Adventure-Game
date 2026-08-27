@@ -300,14 +300,18 @@ Input layer → Mobile controls
 >
 > Hai quyết định định hướng từ chủ dự án làm thay đổi thứ tự & nội dung các phase sau:
 >
-> **A. Thay toàn bộ hệ nhân vật.** 4 nhân vật Pixel Adventure (Ninja Frog...) không đủ đáp
-> ứng game mở rộng — **không có animation tấn công**, không phù hợp vai "hero" của metroidvania.
-> → Chuyển sang **King Human** (pack "Kings and Pigs" đã có sẵn trong repo) làm **hero duy nhất**.
-> King Human có: idle(11f), run(8f), jump, fall, ground/land, hit(2f), **attack(3f)**, dead(4f),
-> **door in/out(8f)** (dùng cho hub). Thiếu double_jump/wall_jump anim → dùng jump + VFX (2 skill
-> này vốn là ability unlock, không cần anim riêng). Bỏ màn chọn nhân vật (metroidvania = 1 hero).
-> Kéo theo: Pig/King Pig thành hệ enemy/boss mới (P3/P4); "Live and Coins" của pack có sẵn
-> heart HUD + diamond collectible + number font.
+> **A. Thay hệ nhân vật — GIỮ màn chọn nhân vật, mở rộng roster.** 4 nhân vật Pixel Adventure
+> (Ninja Frog...) **không có animation tấn công** → không dùng được cho combat. Không xoá màn
+> chọn nhân vật; thay bằng roster mới gồm các nhân vật **có đủ moveset + attack**, cùng phong
+> cách pixel Pixel Frog (CC0), tải thêm từ itch.io:
+> - **King Human** — pack "Kings and Pigs" (ĐÃ CÓ). idle/run/jump/fall/land/hit/**attack(3f)**/dead/**door in-out**. Kiếm, cận chiến.
+> - **Captain Clown Nose** — pack "Treasure Hunters" (CẦN TẢI). Kiếm, cận chiến combo. (pack có thể có thêm 1-2 nhân vật dùng được — kiểm sau khi tải.)
+> - **Pirate (Bomber)** — pack "Pirate Bomb" (CẦN TẢI). Ném bom, tầm xa.
+> Cả 3 pack đều **CC0** (không cần credit), cùng tác giả Pixel Frog → style khớp.
+> 4 nhân vật froggy cũ: rút khỏi roster (giữ file, có thể làm skin unlock sau).
+> Thiếu double_jump/wall_jump anim ở nhân vật mới → dùng "jump" + VFX (2 skill này là ability
+> unlock, không cần anim riêng). Kéo theo: Pig/King Pig thành hệ enemy/boss mới (P3/P4);
+> "Live and Coins" (Kings and Pigs) có sẵn heart HUD + diamond collectible + number font.
 >
 > **B. Mobile là ưu tiên, kéo lên sớm.** Game target Android → cần touch controls để playtest
 > trên máy thật ngay sau khi có combat, không đợi tới cuối.
@@ -377,39 +381,49 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 1.5 — Hero Migration (King Human)  🆕
+### Phase 1.5 — Multi-Hero Migration  🆕
 
-**Goal:** Thay 4 nhân vật Pixel Adventure bằng **King Human** làm hero duy nhất. Player di chuyển/nhảy/wall-jump/mất máu/chết y như hiện tại, chỉ khác sprite + kích thước + bỏ màn chọn nhân vật.
-**Why:** Quyết định A ở trên. Combat (P2) cần anim attack thật; làm P2 với Ninja Frog + slash placeholder = phải làm lại. Tách riêng để verify "King có đi/nhảy đúng trong 5 màn cũ không" trước khi chồng combat lên.
-**Dependencies:** Phase 1.
+**Goal:** Thay roster 4 froggy (không có attack) bằng roster **3 nhân vật có đủ moveset + attack**, cùng style Pixel Frog CC0. **Giữ màn chọn nhân vật.** Player di chuyển/nhảy/wall-jump/mất máu/chết y như hiện tại, chỉ khác sprite + kích thước + roster.
+**Why:** Quyết định A. Combat (P2) cần anim attack thật. Tách riêng để verify nhân vật mới đi/nhảy đúng trong 5 màn cũ trước khi chồng combat lên.
+**Dependencies:** Phase 1. **Chặn: cần user tải 2 pack** (`Treasure Hunters.zip`, `Pirate Bomb.zip` từ pixelfrog-assets.itch.io) về repo root.
+**Roster đề xuất (chốt sau khi inventory file thực tế):**
+| # | Nhân vật | Pack | Kiểu combat | Frame size |
+|---|---|---|---|---|
+| 1 | King Human | Kings and Pigs (có) | Kiếm, cận chiến | 78×58 |
+| 2 | Captain Clown Nose | Treasure Hunters (tải) | Kiếm, cận chiến combo | ~cần kiểm |
+| 3 | Pirate (Bomber) | Pirate Bomb (tải) | Ném bom, tầm xa | ~cần kiểm |
+
+(Treasure Hunters có thể có thêm Bald Pirate / Cucumber dùng được → tối đa 4-5 nhân vật.)
 **Features:**
-- Import sprites `Kings and Pigs/Sprites/01-King Human/*` vào `game/player/sprites/King/` (10 file PNG, frame 78×58).
-- Bake `king_frames.tres` (SpriteFrames, editor): idle/run/jump/fall/land/hit/attack/dead + door_in/door_out. double_jump/wall_jump → tạm map sang "jump".
-- `player.tscn`: `sprite_frames` = king_frames; chỉnh `CollisionShape2D` khớp thân King (~26×42, canh trong editor); chỉnh `Camera2D.zoom` (King to gấp ~2× → thử 1.5×).
-- `player.gd`: `_apply_sprite_frames()` bỏ logic chọn nhân vật, load thẳng king_frames (hoặc để `CharacterData` trả 1 hero). Anim: `_update_animation` dùng tên anim của King; thêm "land" khi tiếp đất.
-- Retune hằng số di chuyển nếu cần (SPEED/JUMP_VELOCITY/GRAVITY) cho vừa 5 màn hiện có — canh trong editor.
-- Flow: `main_menu` → **bỏ** `character_select` → thẳng `level_select`. Giữ file `character_select.tscn` (xoá khỏi flow, không xoá file — có thể tái dùng làm màn intro sau).
-- `CharacterData` (`core/characters.gd`): rút gọn còn 1 hero (giữ `class_name`, path helper trỏ king_frames) hoặc đánh dấu deprecated.
-- (Tuỳ chọn, có thể để P10) HUD heart: đổi sang `Big Heart Idle/Hit (18x14)` của pack.
-**Architecture Changes:** Không (chỉ đổi asset + 1 bước bỏ khỏi scene flow). `CharacterData` thu hẹp.
-**Files affected:** `game/player/sprites/King/` (mới), `player/player.tscn` + `player.gd`, `core/characters.gd`, `ui/main_menu/main_menu.gd` (bỏ bước character_select), có thể `ui/level_select/level_select.gd` (nút Back), `ui/character_select/*` (gỡ khỏi flow).
-**Implementation order:** (1) import + bake `king_frames.tres` → (2) gán vào player.tscn, canh collision + camera trong editor → (3) `player.gd` anim names + land → (4) retune movement constants → (5) F5 test 5 màn → (6) sửa scene flow bỏ character_select → (7) rút gọn CharacterData.
-**Acceptance Criteria:** King đi/chạy/nhảy/double jump/wall jump (không leo vô hạn)/mất tim/i-frame/chết/respawn/goal — hoạt động ở cả 5 màn, không kẹt vào địa hình, camera hợp lý. `main_menu` → `level_select` thẳng. Không lỗi đỏ.
-**Testing:** Regression full 5 màn (đặc biệt các khe hẹp, đoạn wall-jump ở level 5 — King to hơn dễ kẹt). Flow menu. Chọn màn → chơi → end screen → retry/menu.
+- Import sprite 3 nhân vật vào `game/player/sprites/<Tên>/`.
+- Mỗi nhân vật 1 `<ten>_frames.tres` (SpriteFrames bake editor): idle/run/jump/fall/hit/**attack**/dead (+ land/door nếu có). double_jump/wall_jump → alias sang "jump".
+- **Chuẩn hoá kích thước**: các nhân vật khác frame size → thống nhất `CollisionShape2D` chung trên `player.tscn` (~24×40), canh `AnimatedSprite2D.offset` từng bộ frame cho khớp chân.
+- `CharacterData` (`core/characters.gd`): `NAMES` = roster mới; `get_frames_path()` giữ nguyên cơ chế. Thêm metadata mỗi nhân vật nếu cần (attack range, sau này).
+- `character_select.tscn/.gd`: cập nhật 3-4 nút + preview sprite mới. Giữ nguyên luồng `main_menu → character_select → level_select`.
+- `player.gd`: `_apply_sprite_frames()` **giữ nguyên** (load theo `GameManager.selected_character`). `_update_animation` giữ nguyên (nhờ alias anim). Có thể thêm state "attack" ở P2.
+- Retune `SPEED`/`JUMP_VELOCITY`/`GRAVITY` nếu cần cho nhân vật to hơn — canh editor, giữ tỉ lệ jump-height/gap.
+- 4 froggy cũ: xoá khỏi `NAMES`, **giữ folder sprite** (skin unlock tương lai).
+- (Có thể để P10) HUD heart → `Big Heart (18x14)` của pack Kings and Pigs.
+**Architecture Changes:** Không. `CharacterData.NAMES` đổi nội dung; player.tscn dùng 1 collision chung, offset per-frameset.
+**Files affected:** `game/player/sprites/<3 nhân vật>/` (mới), `player/player.tscn` (+ có thể `player.gd` retune), `core/characters.gd`, `ui/character_select/character_select.tscn` + `.gd`, repo root (2 zip user tải + giải nén).
+**Implementation order:** (0) user tải 2 pack → (1) inventory file, chốt roster + frame layout → (2) import sprite, bake 3 `.tres` (tôi tạo region, user chỉnh speed/loop editor) → (3) `CharacterData.NAMES` + player.tscn collision chung + offset → (4) F5 test từng nhân vật ở vài màn → (5) retune movement nếu cần → (6) `character_select` UI mới → (7) full regression 5 màn × mỗi nhân vật (spot check).
+**Acceptance Criteria:** Chọn được mỗi nhân vật ở màn chọn; mỗi nhân vật đi/chạy/nhảy/double jump/wall jump (không leo vô hạn)/mất tim/i-frame/chết/respawn/goal ở các màn, không kẹt địa hình, camera hợp lý. Không lỗi đỏ.
+**Testing:** Mỗi nhân vật: 1 lượt xuyên màn 1 + spot check màn 5 (khe hẹp, wall-jump). Flow menu đầy đủ. Preview ở character_select đúng sprite.
 **Risks:**
 | Risk | Mitigation |
 |---|---|
-| King (58px) kẹt vào địa hình 5 màn thiết kế cho 32px | Canh collision nhỏ gọn; test từng màn; ghi lại chỗ cần sửa level (làm ở P7/P8 khi repurpose) |
-| Movement constants lệch feel | Retune có kiểm soát, so trước/sau; giữ tỉ lệ jump-height/gap-width |
-| Bỏ character_select làm hỏng điều hướng Back | Kiểm mọi nút Back trong chuỗi menu |
-| double_jump/wall_jump không có anim riêng → nhìn cùn | Chấp nhận tạm; VFX riêng ở P5 (ability) / P10 |
+| Nhân vật to hơn kẹt địa hình 5 màn (thiết kế cho 32px) | Collision chung nhỏ gọn ~24×40; test từng màn; ghi chỗ cần sửa (làm ở P7/P8) |
+| 3 pack frame size khác nhau → canh offset lệch | 1 collision chung, chỉnh `AnimatedSprite2D.offset` per-frameset trong editor |
+| `_frames.tres` viết tay sai region | Tôi tính region cẩn thận; user verify + set speed/loop trong SpriteFrames panel |
+| Bomber (tầm xa) khác hẳn 2 nhân vật kiếm → P2 combat phức tạp | P1.5 chỉ lo di chuyển/anim; nếu Bomber làm P2 phức tạp → tạm cho attack đơn giản, hoàn thiện sau |
+| License | Cả 3 pack Pixel Frog đều CC0 — an toàn thương mại, không cần credit |
 **Complexity:** **Medium-High**
 
 ---
 
 ### Phase 2 — Combat (Player Attack)
 
-> **Điều chỉnh (revision):** dùng anim **Attack (3f)** thật của King + `AnimationPlayer` có call-method track bật/tắt Hitbox (cách chuẩn ROADMAP muốn ban đầu), thay cho slash placeholder. Gộp luôn phần migrate collision layer + gỡ `body.hit()` (hoãn từ P1). Knockback vị trí cho enemy vẫn hoãn → P3 (enemy còn là Area2D). Hit-stop tối giản: làm ở P2.
+> **Điều chỉnh (revision):** mỗi nhân vật roster mới có anim **attack** thật → dùng nó + `AnimationPlayer`/AnimatedSprite `frame_changed` để bật/tắt Hitbox theo frame (thay slash placeholder). Nhân vật Bomber: attack = spawn projectile bom (có thể làm bản đơn giản trước). Gộp luôn migrate collision layer + gỡ `body.hit()` (hoãn từ P1). Knockback vị trí cho enemy vẫn hoãn → P3. Hit-stop tối giản: làm ở P2.
 
 **Goal:** Player chém được; enemy nhận sát thương, hurt/knockback, chết; contact damage enemy→player chuyển qua Hitbox.
 **Why:** Vòng lặp "Fight" trong gameplay loop. Không có combat thì metroidvania vô nghĩa.
