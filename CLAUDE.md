@@ -28,7 +28,7 @@ The Godot project root is **`game/`**, not the repo root. Import `game/project.g
 
 **Non-autoload global classes (`class_name`):**
 - `LevelData` (`core/levels.gd`) — the ordered `LEVELS` array (id / name / scene path) is the single source of truth for level order and unlock chain. Add a level = add one entry here (after creating the scene). Also holds `format_time()`.
-- `CharacterData` (`core/characters.gd`) — playable character names + path helpers to their baked `SpriteFrames` (`player/sprites/<Name>/<name>_frames.tres`).
+- `CharacterData` (`core/characters.gd`) — playable roster: `NAMES` (order shown in `character_select`) + `CHARACTERS` dict (display name, per-character `sprite.offset` to align feet to the shared collision box) + path helpers for `<name>_frames.tres` / `portrait.png` in `player/sprites/<Name>/`. Roster is King + Captain (Pixel Frog CC0, have attack anims); the 4 old froggy chars (`player/sprites/Ninja Frog/` etc.) are retired from `NAMES` but their folders stay for future skins. `character_select` builds its buttons from `NAMES` in code (like `level_select`).
 
 **Reusable components (`game/components/`, `class_name`)** — 1 job per node, attached in the scene, wired via `@export`. `HealthComponent` (Node) — hp + i-frames; pure logic, emits `died`/`health_changed`/`invincibility_started`; owner forwards to `Events`. `Hitbox` (Area2D) — deals damage, passive data holder (`damage`, `knockback_force`), `enable()`/`disable()` per attack frame. `Hurtbox` (Area2D) — receives damage, active: detects overlapping `Hitbox` → calls its `health_component.damage()`. See CONTRIBUTING.md for the collision-layer table.
 

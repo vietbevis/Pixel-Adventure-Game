@@ -40,13 +40,14 @@ func _ready() -> void:
 	# Đồng bộ mirror + HUD ngay lúc vào màn (HealthComponent._ready đã emit trước khi ta connect).
 	_on_health_changed(health.hp, health.max_hp)
 
-## player.tscn đã bake sẵn SpriteFrames của Ninja Frog (nhân vật mặc định) làm
-## preview trong editor. Ở đây chỉ đổi sang bộ SpriteFrames đã bake sẵn của nhân
-## vật người chơi thực sự chọn — xem core/characters.gd (get_frames_path) và
-## player/sprites/<character>/<character>_frames.tres.
+## player.tscn bake sẵn SpriteFrames của King (nhân vật đầu roster) làm preview
+## editor. Ở đây đổi sang bộ SpriteFrames + offset của nhân vật người chơi chọn —
+## xem core/characters.gd. Offset bù chênh lệch kích thước frame giữa các nhân vật
+## để chân khớp với collision dùng chung.
 func _apply_sprite_frames() -> void:
 	var character := GameManager.selected_character
 	sprite.sprite_frames = load(CharacterData.get_frames_path(character))
+	sprite.offset = CharacterData.get_offset(character)
 
 func _physics_process(delta: float) -> void:
 	if is_dead:

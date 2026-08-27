@@ -1,28 +1,8 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://ui/character_select/character_select.gd" id="1"]
 [ext_resource type="Texture2D" path="res://shared/backgrounds/Green.png" id="2"]
 [ext_resource type="Texture2D" path="res://ui/shared/buttons/Back.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://bmjk54xpyfl6x" path="res://player/sprites/Mask Dude/Idle (32x32).png" id="4"]
-[ext_resource type="Texture2D" uid="uid://dx3pkp6egrpt7" path="res://player/sprites/Ninja Frog/Idle (32x32).png" id="5"]
-[ext_resource type="Texture2D" uid="uid://bugo1pchkgwg7" path="res://player/sprites/Pink Man/Idle (32x32).png" id="6"]
-[ext_resource type="Texture2D" uid="uid://dggqda6ug2bw2" path="res://player/sprites/Virtual Guy/Idle (32x32).png" id="7"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mask"]
-atlas = ExtResource("4")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ninja"]
-atlas = ExtResource("5")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pink"]
-atlas = ExtResource("6")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_guy"]
-atlas = ExtResource("7")
-region = Rect2(0, 0, 32, 32)
 
 [node name="CharacterSelect" type="Control"]
 anchor_right = 1.0
@@ -51,58 +31,6 @@ text = "Choose your character"
 [node name="CharactersBox" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 alignment = 1
 theme_override_constants/separation = 24
-
-[node name="MaskDude" type="VBoxContainer" parent="CenterContainer/VBoxContainer/CharactersBox"]
-theme_override_constants/separation = 6
-
-[node name="Button" type="TextureButton" parent="CenterContainer/VBoxContainer/CharactersBox/MaskDude"]
-custom_minimum_size = Vector2(96, 96)
-texture_normal = SubResource("AtlasTexture_mask")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/CharactersBox/MaskDude"]
-horizontal_alignment = 1
-text = "Mask Dude"
-
-[node name="NinjaFrog" type="VBoxContainer" parent="CenterContainer/VBoxContainer/CharactersBox"]
-theme_override_constants/separation = 6
-
-[node name="Button" type="TextureButton" parent="CenterContainer/VBoxContainer/CharactersBox/NinjaFrog"]
-custom_minimum_size = Vector2(96, 96)
-texture_normal = SubResource("AtlasTexture_ninja")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/CharactersBox/NinjaFrog"]
-horizontal_alignment = 1
-text = "Ninja Frog"
-
-[node name="PinkMan" type="VBoxContainer" parent="CenterContainer/VBoxContainer/CharactersBox"]
-theme_override_constants/separation = 6
-
-[node name="Button" type="TextureButton" parent="CenterContainer/VBoxContainer/CharactersBox/PinkMan"]
-custom_minimum_size = Vector2(96, 96)
-texture_normal = SubResource("AtlasTexture_pink")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/CharactersBox/PinkMan"]
-horizontal_alignment = 1
-text = "Pink Man"
-
-[node name="VirtualGuy" type="VBoxContainer" parent="CenterContainer/VBoxContainer/CharactersBox"]
-theme_override_constants/separation = 6
-
-[node name="Button" type="TextureButton" parent="CenterContainer/VBoxContainer/CharactersBox/VirtualGuy"]
-custom_minimum_size = Vector2(96, 96)
-texture_normal = SubResource("AtlasTexture_guy")
-ignore_texture_size = true
-stretch_mode = 4
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/CharactersBox/VirtualGuy"]
-horizontal_alignment = 1
-text = "Virtual Guy"
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(140, 44)

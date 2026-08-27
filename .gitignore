@@ -5,8 +5,15 @@
 # no need to track it.
 game/.godot/
 
-# Raw downloaded asset pack (from itch.io). Not referenced by the Godot
-# project itself — the game/ tree already has its own copies of what's used
+# Raw downloaded asset packs (from itch.io) + their archives. Not referenced by
+# the Godot project itself — the game/ tree has its own copies of what's used
 # (see the per-feature sprites/ folders under game/player, game/objects, etc.).
 /Free/
-/Pixel Adventure 1.zip
+/Free Smoke Fx Pixel 2/
+/Kings and Pigs/
+/Treasure Hunters/
+/Pirate Bomb/
+/Dungeon_pack/
+/adve/
+/*.zip
+/*.rar

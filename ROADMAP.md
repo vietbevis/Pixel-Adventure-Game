@@ -383,6 +383,14 @@ Input layer → Mobile controls
 
 ### Phase 1.5 — Multi-Hero Migration  🆕
 
+> **Status:** ✅ DONE — verified in editor (chân sát đất, flip OK, 2 nhân vật chơi được). Commit trên branch `feat/phase-0-foundation`.
+> Roster: **King + Captain** (Pixel Frog CC0). Task A montage strip vào `player/sprites/{King,Captain}/`;
+> Task B sinh `king_frames.tres` / `captain_frames.tres` (double_jump/wall_jump alias jump); Task C:
+> `CharacterData` roster mới + `get_offset/portrait`, `game_manager.selected_character="King"`,
+> `player.gd` set `sprite.offset`, `player.tscn` (king_frames, collision 22×36, camera zoom 1.7,
+> sprite offset), `character_select` sinh nút từ `NAMES`. 4 froggy giữ folder, rút khỏi NAMES.
+> Bomb Guy: để sau P2. Canh chỉnh collision/offset/zoom/movement: làm trong editor (Task D).
+
 **Goal:** Thay roster 4 froggy (không có attack) bằng roster **3 nhân vật có đủ moveset + attack**, cùng style Pixel Frog CC0. **Giữ màn chọn nhân vật.** Player di chuyển/nhảy/wall-jump/mất máu/chết y như hiện tại, chỉ khác sprite + kích thước + roster.
 **Why:** Quyết định A. Combat (P2) cần anim attack thật. Tách riêng để verify nhân vật mới đi/nhảy đúng trong 5 màn cũ trước khi chồng combat lên.
 **Dependencies:** Phase 1. **Chặn: cần user tải 2 pack** (`Treasure Hunters.zip`, `Pirate Bomb.zip` từ pixelfrog-assets.itch.io) về repo root.

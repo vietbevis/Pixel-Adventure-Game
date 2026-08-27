@@ -6,7 +6,7 @@ extends Node
 ## trong ui/hud/hud.tscn (HeartsRow) cho khớp — HUD không tự sinh icon bằng code.
 const MAX_HEARTS := 3
 
-var selected_character: String = "Ninja Frog"
+var selected_character: String = "King"
 ## id của màn đang chơi/vừa chơi (xem core/levels.gd), dùng để lưu điểm cao nhất
 ## và trạng thái đã hoàn thành đúng màn đó.
 var current_level_id: String = "level_1"
