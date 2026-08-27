@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cbbjcpdowryvo"]
 
-[ext_resource type="Texture2D" path="res://shared/backgrounds/forest_backdrop.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dswkp2xh8u140" path="res://shared/backgrounds/forest_backdrop.png" id="1"]
 
-[node name="ForestParallax" type="CanvasLayer"]
+[node name="ForestParallax" type="CanvasLayer" unique_id=1784921572]
 layer = -100
 
-[node name="Backdrop" type="TextureRect" parent="."]
+[node name="Backdrop" type="TextureRect" parent="." unique_id=2085161809]
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
