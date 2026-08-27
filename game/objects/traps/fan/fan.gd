@@ -20,6 +20,8 @@ func _physics_process(delta: float) -> void:
 	if not active:
 		return
 	for body: Node in _players:
+		if not is_instance_valid(body):
+			continue
 		var player := body as CharacterBody2D
 		if player and player.velocity.y > -max_rise_speed:
 			player.velocity.y = maxf(player.velocity.y - lift_accel * delta, -max_rise_speed)
