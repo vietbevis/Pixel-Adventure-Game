@@ -61,6 +61,10 @@ func add_max_hp_bonus(amount: int) -> void:
 func is_boss_defeated(id: String) -> bool:
 	return id in defeated_bosses
 
+## Đã từng thắng (chạm cờ đích) màn này chưa. Dùng cho WorldData.is_world_unlocked.
+func is_level_completed(level_id: String) -> bool:
+	return completed_levels.get(level_id, false)
+
 func mark_boss_defeated(id: String) -> void:
 	if id in defeated_bosses:
 		return

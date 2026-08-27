@@ -25,6 +25,8 @@
 script = ExtResource("1")
 camera_limit_right = 800
 camera_limit_top = -96
+world_title = "RỪNG RANH GIỚI"
+level_subtitle = "Bìa Rừng"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1483741611]
 position = Vector2(-16, -193.00002)

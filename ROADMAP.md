@@ -611,6 +611,42 @@ Input layer → Mobile controls
 
 ---
 
+### Phase 9 — Level & World Redesign  🔨 ĐANG LÀM
+
+> **Bối cảnh:** 5 màn cũ dùng chung 1 tileset + nền phẳng + 0 trang trí + bố cục
+> "rắc hazard" → nhìn giống hệt nhau, cổ điển, thiếu cốt truyện. Dựng lại toàn bộ
+> thành **3 world khác biệt + cốt truyện "Vua Trở Về"**.
+>
+> **Cấu trúc mới (id giữ nguyên, không rename file):**
+> - W1 **Rừng Ranh Giới** — `level_1`, `level_2` (mở sẵn). Cuối `level_2` = tiền đồn Heo → nhặt **relic Dash**.
+> - W2 **Lâu Đài Thất Thủ** — `level_3`, `level_4`, `boss_forest` (mở khi xong `level_2`). Boss = King Pig (retheme lâu đài). Hạ boss → mở W3.
+> - W3 **Hầm Ngục Cổ** — `level_5`, `level_6` (mở khi hạ `forest_boss`). `level_6` = scene mới. Boss cuối để v1.2.
+>
+> **Asset:** foreground tileset theo world (cỏ Pixel Adventure / Kings-and-Pigs castle 32px / Dungeon_pack) —
+> KHÔNG trộn Gothicvania vào mặt đất. Nền parallax: Sunny Land (W1) / Gothicvania Cold Corridors (W2) /
+> Gothicvania Cemetery (W3) — 3 pack đã tải về repo root, license ansimuz royalty-free.
+> Trap mới (~4, từ `Free/Traps` chưa dùng): trampoline, arrow_shooter, spiked_ball, fire_trap.
+>
+> **Task:** P9-0 restructure code → P9-1 import asset + 2 tileset `.tres` scaffold + scene nền parallax →
+> P9-2 story layer (`story_sign`, title card, NPC hub, thoại world, `ability_relic`, relore Diamond) →
+> P9-3 trap mới → P9-4 dựng lại W1 → P9-5 dựng lại W2 + retheme boss → P9-6 dựng lại W3 + `level_6` →
+> P9-7 retheme hub + regression + docs. Làm 1 world/lần, mỗi task verify→commit→dừng.
+>
+> **P9-0 ✅ code xong — chờ verify.** `WorldData.WORLDS` = 3 world + khoá `unlock_level`
+> (`is_world_unlocked` cần cả `unlock_boss` lẫn `unlock_level`); `SaveManager.is_level_completed()`;
+> `LevelData.LEVELS` xếp lại + `level_6` + tên tiếng Việt; `level_base.gd` +`world_title`/`level_subtitle`
+> + thẻ tiêu đề mờ dần (dựng bằng code, CanvasLayer tạm); `levels/level_6/level_6.tscn` (placeholder —
+> sàn StaticBody2D + 2 Pig + cờ, có title card để test); `hub.tscn` 3 portal (forest/castle/dungeon);
+> `level_1.tscn` +title card. **Chưa đụng địa hình/nội dung màn nào.** Nợ→P9-2: `Progression.BOSS_REWARDS`
+> vẫn `forest_boss→dash` (chuyển sang `ability_relic`); thoại Advisor trong hub còn nhắc "hạ trùm".
+
+**Acceptance P9-0:** hub 3 portal (Rừng mở, Lâu Đài + Hầm Ngục khoá 🔒); xong `level_2` → Lâu Đài mở;
+hạ King Pig → Hầm Ngục mở; chuỗi Next Level trong world đúng; `level_6` load được (có title card);
+Level Select nhóm 3 world; không regression 5 màn cũ.
+**Complexity:** **High** (phase to nhất).
+
+---
+
 ### Phase 2.5 — Mobile Touch Controls  ✅ DONE (kéo từ P9 lên)
 
 Làm ngay sau Combat để playtest Android sớm. **Không có lớp `PlayerInput` riêng** — `TouchScreenButton.action` → cùng InputMap action, `player.gd` không đổi. Đã làm: nút sinh bằng Pillow (`ui/touch_controls/sprites/`); `ui/touch_controls/touch_controls.tscn`+`.gd` (5 TouchScreenButton tự đặt vị trí theo mép, `pause_pressed` signal); `level_base.gd` instance + connect; `project.godot` `emulate_touch_from_mouse`; `SaveManager` thêm `settings` dict + `get/set_setting`; `settings_menu` toggle Touch (Auto/On/Off) + persist fullscreen; `main_menu` áp lại fullscreen đã lưu. **Verified trên PC. APK chưa build (để sau — hướng dẫn export đã đưa cho user).**

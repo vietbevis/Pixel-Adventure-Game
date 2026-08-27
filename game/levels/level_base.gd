@@ -10,6 +10,11 @@ const TOUCH_CONTROLS_SCENE := preload("res://ui/touch_controls/touch_controls.ts
 
 @export var fall_death_y: float = 500.0
 
+## Thẻ tiêu đề mờ dần ~2.5s đầu màn (kể chuyện). "" = không hiện.
+## world_title = tên world in hoa; level_subtitle = tên màn nhỏ bên dưới.
+@export var world_title: String = ""
+@export var level_subtitle: String = ""
+
 ## Giới hạn camera theo biên bản đồ, tránh camera lộ ra vùng chưa được vẽ (nền/đất)
 ## nằm ngoài map khi người chơi đứng gần rìa trái/phải.
 @export var camera_limit_left: int = -16
@@ -38,6 +43,51 @@ func _ready() -> void:
 	var touch := TOUCH_CONTROLS_SCENE.instantiate()
 	touch.pause_pressed.connect(_on_pause_requested)
 	add_child(touch)
+
+	if world_title != "":
+		_show_title_card()
+
+## Thẻ tiêu đề: 1 CanvasLayer tạm với tiêu đề world + phụ đề màn, tween fade in/hold/out
+## rồi tự huỷ. Dựng bằng code để mọi màn dùng chung không cần thêm node vào scene.
+func _show_title_card() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 50
+	add_child(layer)
+
+	var root := Control.new()
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(root)
+
+	var title := Label.new()
+	title.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 28)
+	title.add_theme_constant_override("outline_size", 6)
+	title.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	title.text = world_title
+	root.add_child(title)
+
+	if level_subtitle != "":
+		var sub := Label.new()
+		sub.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		sub.offset_top = 44.0
+		sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		sub.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		sub.add_theme_font_size_override("font_size", 15)
+		sub.add_theme_constant_override("outline_size", 4)
+		sub.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+		sub.modulate = Color(0.85, 0.82, 0.7)
+		sub.text = level_subtitle
+		root.add_child(sub)
+
+	root.modulate.a = 0.0
+	var tween := create_tween()
+	tween.tween_property(root, "modulate:a", 1.0, 0.4)
+	tween.tween_interval(1.6)
+	tween.tween_property(root, "modulate:a", 0.0, 0.6)
+	tween.tween_callback(layer.queue_free)
 
 func _process(_delta: float) -> void:
 	if not player.is_dead and player.global_position.y > fall_death_y:
