@@ -44,6 +44,8 @@ func _ready() -> void:
 	touch.pause_pressed.connect(_on_pause_requested)
 	add_child(touch)
 
+	AudioManager.play_music(WorldData.world_of(GameManager.current_level_id))
+
 	if world_title != "":
 		_show_title_card()
 

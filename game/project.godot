@@ -22,8 +22,13 @@ GameManager="*res://core/game_manager.gd"
 SceneTransition="*res://core/scene_transition.tscn"
 SaveManager="*res://core/save_manager.gd"
 Progression="*res://core/progression.gd"
+AudioManager="*res://core/audio_manager.gd"
 Toast="*res://ui/toast/toast.tscn"
 Dialogue="*res://ui/dialogue/dialogue.tscn"
+
+[audio]
+
+buses/default_bus_layout="res://audio/game_bus_layout.tres"
 
 [display]
 

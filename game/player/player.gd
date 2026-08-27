@@ -113,6 +113,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 			jumps_left = MAX_JUMPS - 1
+			AudioManager.play_sfx("jump")
 		elif on_wall and wall_jump_lock_timer <= 0.0 and signf(get_wall_normal().x) != last_wall_jump_dir:
 			velocity.y = JUMP_VELOCITY
 			velocity.x = get_wall_normal().x * WALL_JUMP_PUSH
@@ -120,13 +121,16 @@ func _physics_process(delta: float) -> void:
 			wall_jump_lock_timer = WALL_JUMP_LOCK_DURATION
 			last_wall_jump_dir = signf(get_wall_normal().x)
 			sprite.play("wall_jump")
+			AudioManager.play_sfx("jump")
 		elif jumps_left > 0:
 			velocity.y = JUMP_VELOCITY
 			jumps_left -= 1
 			sprite.play("double_jump")
+			AudioManager.play_sfx("jump")
 
 	if Input.is_action_just_pressed("attack") and not is_attacking:
 		_start_attack()
+		AudioManager.play_sfx("attack")
 
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction != 0:

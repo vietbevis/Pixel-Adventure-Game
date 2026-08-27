@@ -18,10 +18,17 @@ func _ready() -> void:
 	_refresh_touch_label()
 	touch_button.pressed.connect(_on_touch_pressed)
 
-	# Chưa có audio bus trong bộ asset này, slider chỉ để placeholder cho tính năng sau (Phase 10)
-	volume_slider.editable = false
-	volume_slider.modulate.a = 0.5
+	volume_slider.editable = true
+	volume_slider.modulate.a = 1.0
+	volume_slider.min_value = 0.0
+	volume_slider.max_value = 1.0
+	volume_slider.step = 0.05
+	volume_slider.value = SaveManager.get_setting("volume", 0.8)
+	volume_slider.value_changed.connect(_on_volume_changed)
 	back_button.pressed.connect(_on_back)
+
+func _on_volume_changed(value: float) -> void:
+	AudioManager.set_master_volume(value)
 
 func _on_fullscreen_toggled(enabled: bool) -> void:
 	var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED
