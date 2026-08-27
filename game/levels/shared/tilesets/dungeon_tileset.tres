@@ -1,19 +1,16 @@
-[gd_resource type="TileSet" format=3]
+[gd_resource type="TileSet" format=3 uid="uid://vqfsxxaom8ii"]
 
-[ext_resource type="Texture2D" path="res://levels/shared/tilesets/dungeon_tileset_16.png" id="1"]
-[ext_resource type="Texture2D" path="res://levels/shared/tilesets/dungeon_wall_16.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dh7rdbvc5gyi3" path="res://levels/shared/tilesets/dungeon_tileset_16.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dhs7xeqrfqslx" path="res://levels/shared/tilesets/dungeon_wall_16.png" id="2"]
 
 [sub_resource type="TileSetAtlasSource" id="atlas_dungeon"]
 texture = ExtResource("1")
-texture_region_size = Vector2i(16, 16)
 
 [sub_resource type="TileSetAtlasSource" id="atlas_wall"]
 texture = ExtResource("2")
-texture_region_size = Vector2i(16, 16)
 
 [resource]
 resource_name = "dungeon_tileset"
-tile_size = Vector2i(16, 16)
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "Đá Hầm Ngục"

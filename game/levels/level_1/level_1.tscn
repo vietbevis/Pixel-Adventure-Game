@@ -23,10 +23,10 @@
 
 [node name="Level1" type="Node2D" unique_id=1468723532]
 script = ExtResource("1")
-camera_limit_right = 800
-camera_limit_top = -96
 world_title = "RỪNG RANH GIỚI"
 level_subtitle = "Bìa Rừng"
+camera_limit_right = 800
+camera_limit_top = -96
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1483741611]
 position = Vector2(-16, -193.00002)
@@ -85,7 +85,7 @@ patrol_distance = Vector2(100, 0)
 patrol_speed = 40.0
 
 [node name="Player" parent="." unique_id=771412820 instance=ExtResource("2")]
-position = Vector2(32, 208)
+position = Vector2(32, 204)
 
 [node name="HUD" parent="." unique_id=1840921741 instance=ExtResource("9")]
 
