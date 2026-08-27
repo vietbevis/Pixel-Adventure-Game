@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://shared/backgrounds/sunnyland/forest_back.png" id="1"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/sunnyland/forest_middle.png" id="2"]
+
+[node name="ForestParallax" type="ParallaxBackground"]
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.15, 0.15)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="SkySprite" type="Sprite2D" parent="Sky"]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("1")
+centered = false
+offset = Vector2(0, -40)
+
+[node name="Trees" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.42, 0.42)
+motion_mirroring = Vector2(528, 0)
+
+[node name="TreesSprite" type="Sprite2D" parent="Trees"]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("2")
+centered = false
+offset = Vector2(0, -200)

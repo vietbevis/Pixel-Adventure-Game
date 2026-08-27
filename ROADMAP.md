@@ -645,6 +645,15 @@ hạ King Pig → Hầm Ngục mở; chuỗi Next Level trong world đúng; `lev
 Level Select nhóm 3 world; không regression 5 màn cũ.
 **Complexity:** **High** (phase to nhất).
 
+> **P9-1 🔨 code xong — chờ verify.** Import asset + scaffold (chưa wire vào màn nào):
+> `game/levels/shared/tilesets/` — copy `castle_terrain_32.png`/`castle_decorations_32.png` (Kings and Pigs
+> 32px), `dungeon_tileset_16.png`/`dungeon_wall_16.png`/`dungeon_column_16.png` (Dungeon_pack) + scaffold
+> `castle_tileset.tres` / `dungeon_tileset.tres` (**user vẽ collision polygon + terrain peering trong editor**)
+> + `INVENTORY.md`. `game/shared/backgrounds/{sunnyland,coldcorridors,cemetery}/` — copy layer parallax;
+> `{forest,castle,dungeon}_parallax.tscn` (ParallaxBackground scaffold, **offset/scale cần tune trong editor**).
+> Task P9-3 (4 bẫy: trampoline/fire_trap/spiked_ball/arrow_shooter) giao agent phụ (`agy`, Gemini 3.1 Pro)
+> — file mới trong `game/objects/traps/` only, sprite đã pre-copy, review qua `P9_HANDOFF_REPORT.md` rồi commit.
+
 ---
 
 ### Phase 2.5 — Mobile Touch Controls  ✅ DONE (kéo từ P9 lên)
