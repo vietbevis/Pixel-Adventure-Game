@@ -4,9 +4,10 @@ extends Node
 ## Phase 6 sẽ mở rộng (world unlock, continue point...).
 
 ## boss_id -> ability id được mở khi thắng boss đó.
-const BOSS_REWARDS := {
-	"forest_boss": "dash",
-}
+## Dash KHÔNG còn từ boss — giờ nhặt ở `objects/ability_relic/` cuối Rừng (level_2).
+## Hạ King Pig chỉ mark defeated → mở world Hầm Ngục (WorldData.unlock_boss).
+## Ability #2 (boss Hầm Ngục) sẽ thêm vào đây ở v1.1.
+const BOSS_REWARDS := {}
 
 ## Nhặt đủ toàn bộ Diamond của Forest → +1 tim tối đa (heart container).
 const FOREST_SECRETS: Array[String] = ["diamond_forest_1", "diamond_forest_2", "diamond_forest_3"]

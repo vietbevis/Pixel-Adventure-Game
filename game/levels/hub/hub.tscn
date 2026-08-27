@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://levels/hub/hub.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
@@ -6,9 +6,11 @@
 [ext_resource type="PackedScene" path="res://objects/portal/portal.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://objects/hub_sign/hub_sign.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://objects/npc/npc.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://objects/story_sign/story_sign.tscn" id="7"]
+[ext_resource type="SpriteFrames" uid="uid://cckoaqbjkmshn" path="res://player/sprites/King/king_frames.tres" id="8"]
 
 [sub_resource type="RectangleShape2D" id="floor"]
-size = Vector2(640, 64)
+size = Vector2(880, 64)
 
 [sub_resource type="RectangleShape2D" id="wall"]
 size = Vector2(24, 320)
@@ -17,13 +19,13 @@ size = Vector2(24, 320)
 script = ExtResource("1")
 fall_death_y = 4000.0
 camera_limit_left = 0
-camera_limit_right = 620
+camera_limit_right = 820
 camera_limit_top = -220
 camera_limit_bottom = 280
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(-40, -260)
-scale = Vector2(11, 9)
+scale = Vector2(15, 9)
 texture = ExtResource("3")
 centered = false
 region_enabled = true
@@ -34,48 +36,71 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Floor" type="CollisionShape2D" parent="Ground"]
-position = Vector2(310, 232)
+position = Vector2(400, 232)
 shape = SubResource("floor")
 
 [node name="FloorVisual" type="Polygon2D" parent="Ground"]
 color = Color(0.29, 0.22, 0.16, 1)
-polygon = PackedVector2Array(-10, 200, 630, 200, 630, 280, -10, 280)
+polygon = PackedVector2Array(-30, 200, 830, 200, 830, 280, -30, 280)
 
 [node name="WallL" type="CollisionShape2D" parent="Ground"]
 position = Vector2(-6, 60)
 shape = SubResource("wall")
 
 [node name="WallR" type="CollisionShape2D" parent="Ground"]
-position = Vector2(624, 60)
+position = Vector2(824, 60)
 shape = SubResource("wall")
 
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="StartMarker" type="Marker2D" parent="Interactables"]
-position = Vector2(90, 178)
-
-[node name="ForestPortal" parent="." instance=ExtResource("4")]
-position = Vector2(170, 168)
-world_id = "forest"
-
-[node name="CastlePortal" parent="." instance=ExtResource("4")]
-position = Vector2(310, 168)
-world_id = "castle"
-
-[node name="DungeonPortal" parent="." instance=ExtResource("4")]
-position = Vector2(450, 168)
-world_id = "dungeon"
-
-[node name="LevelsSign" parent="." instance=ExtResource("5")]
-position = Vector2(560, 178)
+position = Vector2(70, 178)
 
 [node name="Advisor" parent="." instance=ExtResource("6")]
-position = Vector2(150, 198)
+position = Vector2(120, 198)
 speaker = "Cố vấn"
 report_abilities = true
-line_1 = "Mừng ngài trở về, thưa Đức Vua."
-line_2 = "Mỗi cánh cổng dẫn tới một vùng đất. Vùng bị khoá cần ngài hạ trùm vùng trước."
-line_3 = "Biển gỗ đằng kia cho ngài chọn nhanh từng màn đã mở."
+line_1 = "Mừng ngài trở về, thưa Đức Vua. Trại nhỏ này là tất cả những gì còn lại."
+line_2 = "Băng qua Rừng Ranh Giới để tới lâu đài. Cổng Lâu Đài chỉ mở khi ngài vượt hết khu Rừng."
+line_3 = "Hạ Vua Heo trong lâu đài, rồi đường xuống Hầm Ngục Cổ sẽ tự lộ ra."
+
+[node name="ForestPortal" parent="." instance=ExtResource("4")]
+position = Vector2(220, 168)
+world_id = "forest"
+
+[node name="Villager" parent="." instance=ExtResource("6")]
+position = Vector2(300, 196)
+speaker = "Dân làng"
+idle_frames = ExtResource("8")
+sprite_faces_right = true
+modulate = Color(0.72, 0.74, 0.82, 1)
+line_1 = "Bọn Heo tràn qua trong một đêm. Nhà cửa, mùa màng... cháy sạch."
+line_2 = "Ngài đi rồi bọn tôi mới hiểu: không có Vua, tường thành cũng chỉ là đá."
+
+[node name="CastlePortal" parent="." instance=ExtResource("4")]
+position = Vector2(400, 168)
+world_id = "castle"
+
+[node name="Deserter" parent="." instance=ExtResource("6")]
+position = Vector2(490, 196)
+speaker = "Heo đào ngũ"
+modulate = Color(0.82, 0.95, 0.78, 1)
+line_1 = "Suỵt! Đừng hét. Tôi bỏ hàng ngũ Vua Heo rồi, thề đấy."
+line_2 = "Lão ta phát bom cho cả lũ rồi bắt xông lên trước. Điên hết cả."
+line_3 = "Trong lâu đài lão cho gác pháo ở sân. Cẩn thận mấy khẩu đó."
+
+[node name="DungeonPortal" parent="." instance=ExtResource("4")]
+position = Vector2(590, 168)
+world_id = "dungeon"
+
+[node name="LoreSign" parent="." instance=ExtResource("7")]
+position = Vector2(680, 190)
+speaker = "Bia gỗ"
+line_1 = "« Vương Ấn từng khắc trên Vương Miện, giữ cho ngai vàng bất khả xâm phạm. »"
+line_2 = "« Ấn vỡ làm ba mảnh trong đêm thất thủ, thất lạc giữa Rừng. »"
+
+[node name="LevelsSign" parent="." instance=ExtResource("5")]
+position = Vector2(770, 178)
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(90, 178)
+position = Vector2(70, 178)

@@ -11,6 +11,8 @@ extends Area2D
 @export var report_abilities: bool = false
 ## SpriteFrames cho dáng đứng NPC — mặc định là Pig. Đổi trên instance nếu muốn NPC khác.
 @export var idle_frames: SpriteFrames = preload("res://objects/enemies/pig/sprites/pig_frames.tres")
+## Hướng nhìn mặc định của sprite: false = quay trái (Kings and Pigs), true = quay phải (Pixel Frog).
+@export var sprite_faces_right: bool = false
 
 ## Tên hiển thị của từng ability trong dòng report (khớp DISPLAY của Toast).
 const ABILITY_NAMES := {"dash": "Lướt (Dash)"}
@@ -49,7 +51,7 @@ func _build_lines() -> PackedStringArray:
 func _ability_line() -> String:
 	var unlocked: Array = SaveManager.get_unlocked_abilities()
 	if unlocked.is_empty():
-		return "Ngươi chưa học được sức mạnh nào. Hãy hạ trùm để giành lấy."
+		return "Ngươi chưa có sức mạnh nào. Di vật của các hiệp sĩ xưa vẫn nằm đâu đó trong Rừng."
 	var names: PackedStringArray = []
 	for id: String in unlocked:
 		names.append(String(ABILITY_NAMES.get(id, id.capitalize())))
@@ -58,8 +60,8 @@ func _ability_line() -> String:
 func _face_player() -> void:
 	var player := get_tree().get_first_node_in_group("player") as Node2D
 	if is_instance_valid(player):
-		# Sprite Kings and Pigs mặc định quay TRÁI → flip_h khi player ở bên phải.
-		_sprite.flip_h = player.global_position.x > global_position.x
+		var player_on_right := player.global_position.x > global_position.x
+		_sprite.flip_h = player_on_right != sprite_faces_right
 
 func _on_dialogue_finished() -> void:
 	if _bubble.visible:

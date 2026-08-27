@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="23"]
 [ext_resource type="PackedScene" path="res://objects/secret_alcove/secret_alcove.tscn" id="24"]
 [ext_resource type="PackedScene" path="res://objects/collectible_diamond/collectible_diamond.tscn" id="25"]
+[ext_resource type="PackedScene" path="res://objects/ability_relic/ability_relic.tscn" id="26"]
 
 [node name="Level2" type="Node2D" unique_id=264605257]
 script = ExtResource("1")
@@ -48,6 +49,10 @@ position = Vector2(32, 208)
 
 [node name="GoalFlag" parent="Interactables" unique_id=1003239741 instance=ExtResource("6")]
 position = Vector2(608, -1056)
+
+[node name="DashRelic" parent="Interactables" instance=ExtResource("26")]
+position = Vector2(544, -1056)
+ability_id = "dash"
 
 [node name="Checkpoint" parent="Interactables" unique_id=814172053 instance=ExtResource("5")]
 position = Vector2(704, -380)
