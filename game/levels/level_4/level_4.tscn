@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://b4h7k2n9q3wtx"]
 
-[ext_resource type="Script" uid="uid://bx2mpgsy8w0fp" path="res://levels/level_1/level_1.gd" id="1"]
+[ext_resource type="Script" uid="uid://bx2mpgsy8w0fp" path="res://levels/level_base.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://objects/fruit/fruit.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://db3204psc4vcl" path="res://objects/checkpoint/checkpoint.tscn" id="5"]

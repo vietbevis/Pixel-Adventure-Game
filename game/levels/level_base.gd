@@ -1,5 +1,9 @@
+class_name LevelBase
 extends Node2D
-## Level 1: quản lý spawn point, phát hiện rơi khỏi map, và menu Pause.
+## Script dùng chung cho MỌI màn chơi (level_1..level_5 đều gắn script này).
+## Quản lý: spawn point từ $Interactables/StartMarker, refill tim, giới hạn camera,
+## phát hiện rơi khỏi map, và menu Pause.
+## Đặt ở levels/ (không thuộc màn nào) vì ≥2 màn tham chiếu — xem CONTRIBUTING.md.
 
 const PAUSE_MENU_SCENE := preload("res://ui/pause_menu/pause_menu.tscn")
 
