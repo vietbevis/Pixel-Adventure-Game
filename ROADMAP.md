@@ -611,7 +611,32 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 9 — Level & World Redesign  🔨 ĐANG LÀM
+### Phase 9 — Level & World Redesign  ✅ CODE XONG — chờ verify in-editor
+
+> **P9-0..P9-7 tất cả ✅ (autonomous run 2026-08-28)** — 6 màn + boss + hub dựng lại,
+> 3 world khác biệt thật (tileset + backdrop + tint + gimmick riêng). Chi tiết:
+> - **Tileset riêng mỗi world**: forest = grass Pixel Adventure; castle = `castle_terrain.tres`
+>   (Kings and Pigs 32px downscale→16, gạch hồng); dungeon = `dungeon_terrain.tres`
+>   (GothicVania Cemetery tileset recolour → đá tím xám). Tất cả 16px → physics player y hệt.
+>   `.tres` theo demo pack (Sunny-land world-tileset.tres): 1 AtlasSource, physics polygon
+>   full-square mỗi tile, không terrain_set (autotile do build tool Python lo).
+> - **Backdrop = `Parallax2D`** (theo demo Cold Corridors): scroll_scale (0.3,0.55), backdrop
+>   PNG 2400×1600 ghép từ art pack (forest sky+hills / castle gothic arches / dungeon moon+graves).
+>   Cuộn theo map chậm hơn foreground, không seam.
+> - **Camera**: `camera_limit_bottom ≥ player_y + 190` để player ở giữa màn hình (không sát mép
+>   dưới sau nút touch). Terrain lấp sâu hơn `camera_limit_bottom`.
+> - **Build pipeline**: `scratchpad/{levelkit,gameview,build_level_*}.py` — sinh `tile_map_data`
+>   PackedByteArray + đặt object + camera; render preview WYSIWYG (backdrop + tile @ zoom 1.7).
+>   Scripts KHÔNG commit (repo convention).
+> - Màn: L1 Bìa Rừng (nhập môn, trampoline/pit) · L2 Tán Cây & Tiền Đồn (leo dọc + Fan + trại
+>   Heo + Dash relic) · L3 Tường Thành (ramparts + arrow slit) · L4 Hành Lang Ngai (chandelier
+>   pit + fire corridor → boss) · Boss Phòng Ngai (King Pig, retheme castle) · L5 Lối Xuống
+>   (descent + spiked ball + falling platform) · L6 Hầm Vàng (fire run → Vương Miện).
+> - Enemy mới `pig_bomber` (agy, `2c8f04d`). 12 object trap/decor mới (P9-3/D1/D2).
+> - **CHƯA verify in-editor** — toạ độ object là ước lượng từ sim; user F5 từng màn, chỗ nào
+>   nhảy không tới / kẹt thì báo để chỉnh.
+
+### Phase 9 — Level & World Redesign  (spec cũ, giữ để tham chiếu)
 
 > **Bối cảnh:** 5 màn cũ dùng chung 1 tileset + nền phẳng + 0 trang trí + bố cục
 > "rắc hazard" → nhìn giống hệt nhau, cổ điển, thiếu cốt truyện. Dựng lại toàn bộ
