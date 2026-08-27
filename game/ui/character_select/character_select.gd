@@ -36,7 +36,8 @@ func _make_card(character_name: String) -> Control:
 
 func _on_chosen(character_name: String) -> void:
 	GameManager.selected_character = character_name
-	SceneTransition.goto("res://ui/level_select/level_select.tscn")
+	SaveManager.set_setting("character", character_name)
+	SceneTransition.goto("res://levels/hub/hub.tscn")
 
 func _on_back() -> void:
 	SceneTransition.goto("res://ui/main_menu/main_menu.tscn")

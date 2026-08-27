@@ -12,6 +12,7 @@ const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
 @onready var confetti: CPUParticles2D = $Confetti
 @onready var title_label: Label = $CenterContainer/Panel/VBoxContainer/TitleLabel
 @onready var score_label: Label = $CenterContainer/Panel/VBoxContainer/ScoreLabel
+@onready var next_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/NextButton
 @onready var retry_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/RetryButton
 @onready var menu_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/MenuButton
 
@@ -46,6 +47,10 @@ func _ready() -> void:
 		win_style.content_margin_right = 24.0
 		win_style.content_margin_bottom = 20.0
 		panel.add_theme_stylebox_override("panel", win_style)
+	# "Next Level" chỉ hiện khi vừa thắng và world này còn màn kế tiếp (không phải boss).
+	var next_id := WorldData.next_in_world(GameManager.current_level_id) if won else ""
+	next_button.visible = next_id != ""
+	next_button.pressed.connect(_on_next.bind(next_id))
 	retry_button.pressed.connect(_on_retry)
 	menu_button.pressed.connect(_on_menu)
 
@@ -56,7 +61,13 @@ func _on_retry() -> void:
 	GameManager.start_new_run(GameManager.current_level_id)
 	SceneTransition.goto(LevelData.get_scene_path(GameManager.current_level_id))
 
-## Quay về màn chọn level, xoá checkpoint để lần chơi tiếp theo bắt đầu sạch
+## Đi tiếp màn kế trong world (flow "chain trong world"): bắt đầu lượt mới cho màn đó.
+func _on_next(next_id: String) -> void:
+	GameManager.has_checkpoint = false
+	GameManager.start_new_run(next_id)
+	SceneTransition.goto(LevelData.get_scene_path(next_id))
+
+## Quay về hub, xoá checkpoint để lần chơi tiếp theo bắt đầu sạch
 func _on_menu() -> void:
 	GameManager.has_checkpoint = false
-	SceneTransition.goto("res://ui/level_select/level_select.tscn")
+	SceneTransition.goto("res://levels/hub/hub.tscn")

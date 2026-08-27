@@ -572,6 +572,10 @@ Input layer → Mobile controls
 
 ### Phase 7 — Hub & World Flow  *(FINALIZED)*
 
+> **Status (7a — Hub & chain flow):** 🔨 Code xong — chờ verify. `core/world_data.gd` (`WorldData.WORLDS`: forest = level_1-3 + boss_forest / mở sẵn; cave = level_4-5 / cần `forest_boss`); `levels/hub/hub.tscn` + `hub.gd` (extends `LevelBase`, phòng đi bộ, không enemy/flag). `objects/portal/` (Area2D layer interactable, `interact` → `WorldData.first_level(world_id)`, xám + 🔒 nếu world khoá, tự refresh khi `Events.boss_defeated`). `objects/hub_sign/` (biển → `target_scene`, đang trỏ Levels menu). Flow "chain trong world" (Option A do user chọn): `end_screen` +nút **Next Level** (chỉ hiện khi `won and WorldData.next_in_world(id) != ""`) → vào thẳng màn kế; nút cũ đổi "Levels" → **Hub**. `character_select` / `level_select` back → hub. `main_menu` **Continue** → hub (khôi phục `SaveManager` setting `character`); `character_select` lưu `character`. `GameManager.current_world` (portal set). Touch controls +nút **interact** (icon "E"). 
+> **7a — chưa làm / nợ:** LevelData thứ tự tuyến tính (…level_5, boss_forest) lệch với nhóm world → `level_select` vẫn xích boss_forest sau level_5 (flow chính không dùng path này nên chưa sửa); King door_in/out anim khi vào portal (đang fade mặc định).
+> **Status (7b — NPC & dialogue):** ⏳ Chưa làm. `objects/npc/` + `ui/dialogue/` (bong bóng Kings and Pigs), thoại tĩnh 1-3 dòng, bảng ability đã unlock trong hub.
+
 > **Cập nhật:** Flow = `main_menu → character_select (chọn hero) → hub → portal → level`. Giữ `character_select` (quyết định P1.5). King có anim **door_in/door_out** (P1.5) → dùng cho portal; Captain chưa có → fade. Dialogue dùng bong bóng "Dialogue Boxes" của Kings and Pigs (20 sprite In/Out: Hello, Hi, ?, !!!, No... ) + panel text đơn giản.
 
 **Goal:** Hub đi bộ được (portal vào world, ≥1 NPC thoại tĩnh, bảng ability đã unlock). Repurpose 5 màn → World 1 Forest (level 1-3) + World 2 Cave (level 4-5) + boss.

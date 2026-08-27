@@ -40,4 +40,5 @@ func _layout() -> void:
 	$BtnJump.position = Vector2(corner_x, bottom)
 	$BtnAttack.position = Vector2(corner_x - BTN - GAP, bottom)
 	$BtnDash.position = Vector2(corner_x, bottom - BTN - GAP)
+	$BtnInteract.position = Vector2(corner_x - BTN - GAP, bottom - BTN - GAP)
 	$BtnPause.position = Vector2(corner_x, MARGIN)

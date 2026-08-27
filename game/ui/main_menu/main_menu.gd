@@ -1,6 +1,8 @@
 ## Màn hình chính (Main Menu): màn chờ đầu tiên khi mở game.
-## Continue (nếu có save) → thẳng vào màn chơi gần nhất. Play → chọn nhân vật.
+## Continue (nếu đã có tiến trình) → về hub để chọn world. Play → chọn nhân vật.
 extends Control
+
+const HUB_SCENE := "res://levels/hub/hub.tscn"
 
 @onready var continue_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ContinueButton
 @onready var play_button: Button = $CenterContainer/DialogPanel/VBoxContainer/PlayButton
@@ -10,16 +12,18 @@ extends Control
 func _ready() -> void:
 	var continue_level := SaveManager.get_continue_level()
 	continue_button.visible = continue_level != "" and LevelData.get_index(continue_level) != -1
-	continue_button.pressed.connect(_on_continue.bind(continue_level))
+	continue_button.pressed.connect(_on_continue)
 	play_button.pressed.connect(_on_play)
 	settings_button.pressed.connect(_on_settings)
 	quit_button.pressed.connect(_on_quit)
 	_apply_saved_fullscreen()
 
-## Vào thẳng màn chơi gần nhất (giữ nhân vật đã chọn từ lần trước).
-func _on_continue(level_id: String) -> void:
-	GameManager.start_new_run(level_id)
-	SceneTransition.goto(LevelData.get_scene_path(level_id))
+## Về hub: từ đây người chơi chọn world để chơi tiếp (world đã mở khoá vẫn giữ nguyên).
+## Khôi phục nhân vật đã chọn lần trước để không bị reset về mặc định sau khi mở lại game.
+func _on_continue() -> void:
+	GameManager.selected_character = SaveManager.get_setting("character", GameManager.selected_character)
+	GameManager.has_checkpoint = false
+	SceneTransition.goto(HUB_SCENE)
 
 ## Áp lại chế độ toàn màn hình đã lưu (settings_menu chỉ đổi lúc đang ở đó).
 func _apply_saved_fullscreen() -> void:

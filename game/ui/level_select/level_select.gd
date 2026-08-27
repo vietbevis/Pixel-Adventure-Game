@@ -41,4 +41,4 @@ func _on_level_chosen(level_id: String) -> void:
 	SceneTransition.goto(LevelData.get_scene_path(level_id))
 
 func _on_back() -> void:
-	SceneTransition.goto("res://ui/character_select/character_select.tscn")
+	SceneTransition.goto("res://levels/hub/hub.tscn")

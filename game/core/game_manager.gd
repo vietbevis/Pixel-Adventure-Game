@@ -6,6 +6,8 @@ extends Node
 var selected_character: String = "King"
 ## id màn đang chơi/vừa chơi (xem core/levels.gd) — để lưu điểm cao/best time đúng màn.
 var current_level_id: String = "level_1"
+## id world đang chơi (xem core/world_data.gd) — Portal ở hub set khi vào 1 world.
+var current_world: String = ""
 var score: int = 0
 var last_result: String = ""  # "win" or "lose"
 var respawn_position: Vector2 = Vector2.ZERO

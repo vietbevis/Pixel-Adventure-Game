@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://levels/hub/hub.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="2"]
+[ext_resource type="Texture2D" uid="uid://djs8bnweppet8" path="res://shared/backgrounds/Green.png" id="3"]
+[ext_resource type="PackedScene" path="res://objects/portal/portal.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://objects/hub_sign/hub_sign.tscn" id="5"]
+
+[sub_resource type="RectangleShape2D" id="floor"]
+size = Vector2(640, 64)
+
+[sub_resource type="RectangleShape2D" id="wall"]
+size = Vector2(24, 320)
+
+[node name="Hub" type="Node2D"]
+script = ExtResource("1")
+fall_death_y = 4000.0
+camera_limit_left = 0
+camera_limit_right = 620
+camera_limit_top = -220
+camera_limit_bottom = 280
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-40, -260)
+scale = Vector2(11, 9)
+texture = ExtResource("3")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Floor" type="CollisionShape2D" parent="Ground"]
+position = Vector2(310, 232)
+shape = SubResource("floor")
+
+[node name="FloorVisual" type="Polygon2D" parent="Ground"]
+color = Color(0.29, 0.22, 0.16, 1)
+polygon = PackedVector2Array(-10, 200, 630, 200, 630, 280, -10, 280)
+
+[node name="WallL" type="CollisionShape2D" parent="Ground"]
+position = Vector2(-6, 60)
+shape = SubResource("wall")
+
+[node name="WallR" type="CollisionShape2D" parent="Ground"]
+position = Vector2(624, 60)
+shape = SubResource("wall")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="StartMarker" type="Marker2D" parent="Interactables"]
+position = Vector2(90, 178)
+
+[node name="ForestPortal" parent="." instance=ExtResource("4")]
+position = Vector2(220, 168)
+world_id = "forest"
+
+[node name="CavePortal" parent="." instance=ExtResource("4")]
+position = Vector2(360, 168)
+world_id = "cave"
+
+[node name="LevelsSign" parent="." instance=ExtResource("5")]
+position = Vector2(500, 178)
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(90, 178)

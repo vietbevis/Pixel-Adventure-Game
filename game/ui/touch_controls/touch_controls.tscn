@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://ui/touch_controls/touch_controls.gd" id="1"]
 [ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/left.png" id="2"]
@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/pause_pressed.png" id="11"]
 [ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/dash.png" id="12"]
 [ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/dash_pressed.png" id="13"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/interact.png" id="14"]
+[ext_resource type="Texture2D" path="res://ui/touch_controls/sprites/interact_pressed.png" id="15"]
 
 [node name="TouchControls" type="CanvasLayer"]
 script = ExtResource("1")
@@ -49,6 +51,12 @@ scale = Vector2(0.8, 0.8)
 texture_normal = ExtResource("12")
 texture_pressed = ExtResource("13")
 action = &"dash"
+
+[node name="BtnInteract" type="TouchScreenButton" parent="."]
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("14")
+texture_pressed = ExtResource("15")
+action = &"interact"
 
 [node name="BtnPause" type="TouchScreenButton" parent="."]
 scale = Vector2(0.8, 0.8)
