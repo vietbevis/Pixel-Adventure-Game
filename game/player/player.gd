@@ -15,13 +15,20 @@ const WALL_JUMP_LOCK_DURATION := 0.18
 ## Freeze frame ngắn khi đòn đánh trúng (giây thực, không theo Engine.time_scale).
 const HIT_STOP_DURATION := 0.05
 
+## Ability Dash (mở khoá sau khi thắng Forest Boss — xem core/progression.gd).
+const DASH_SPEED := 340.0
+const DASH_DURATION := 0.16
+const DASH_COOLDOWN := 0.5
+
 const ATTACK_ANIM := &"attack"
+const DASH_DUST := preload("res://objects/fx/dust.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## Nguồn thật của số tim + trạng thái bất tử. Xem components/health_component.gd.
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var hitbox: Hitbox = $Hitbox
+@onready var abilities: AbilitySystem = $AbilitySystem
 
 var jumps_left: int = MAX_JUMPS
 var wall_jump_lock_timer: float = 0.0
@@ -37,6 +44,11 @@ var _hit_stop_active: bool = false
 var last_wall_jump_dir: float = 0.0
 ## true khi đang trong màn thua/thắng (khoá input, không xử lý va chạm nữa)
 var is_dead: bool = false
+
+var is_dashing: bool = false
+var _dash_timer: float = 0.0
+var _dash_cooldown: float = 0.0
+var _dash_dir: int = 1
 
 func _ready() -> void:
 	add_to_group("player")
@@ -66,6 +78,20 @@ func _apply_sprite_frames() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_dead:
+		return
+
+	_dash_cooldown = maxf(_dash_cooldown - delta, 0.0)
+	if is_dashing:
+		_dash_timer -= delta
+		velocity = Vector2(_dash_dir * DASH_SPEED, 0.0)  # lướt ngang, bỏ qua trọng lực
+		if _dash_timer <= 0.0:
+			is_dashing = false
+		move_and_slide()
+		return
+
+	if Input.is_action_just_pressed("dash") and _dash_cooldown <= 0.0 \
+			and not is_attacking and abilities.is_unlocked("dash"):
+		_start_dash()
 		return
 
 	velocity.y = min(velocity.y + GRAVITY * delta, MAX_FALL_SPEED)
@@ -157,10 +183,25 @@ func _on_sprite_animation_finished() -> void:
 	if sprite.animation == ATTACK_ANIM:
 		_end_attack()
 
-## Kết thúc đòn đánh (phát xong, hoặc bị cắt ngang do trúng đòn / chết).
+## Kết thúc đòn đánh / dash (phát xong, hoặc bị cắt ngang do trúng đòn / chết).
 func _end_attack() -> void:
 	is_attacking = false
+	is_dashing = false
 	hitbox.disable()
+
+## --- Dash ---
+func _start_dash() -> void:
+	_end_attack()  # huỷ đòn đánh đang dở (phải gọi TRƯỚC khi bật is_dashing)
+	is_dashing = true
+	_dash_timer = DASH_DURATION
+	_dash_cooldown = DASH_COOLDOWN
+	_dash_dir = facing
+	sprite.flip_h = facing < 0
+	sprite.play("jump")
+	var dust := DASH_DUST.instantiate()
+	get_parent().add_child(dust)
+	dust.global_position = global_position + Vector2(-_dash_dir * 8.0, 8.0)
+	dust.scale.x = -_dash_dir
 
 ## Khựng hình cực ngắn khi đòn trúng — làm cú đánh "đã tay" hơn.
 func _on_hit_landed(_target: Hurtbox) -> void:
@@ -232,6 +273,7 @@ func _respawn_at_checkpoint() -> void:
 	global_position = GameManager.respawn_position
 	velocity = Vector2.ZERO
 	is_dead = false
+	is_dashing = false
 	sprite.play("idle")
 	health.grant_invincibility()
 

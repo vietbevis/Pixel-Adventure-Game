@@ -524,7 +524,9 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 5 — Ability System & Dash  *(FINALIZED)*
+### Phase 5 — Ability System & Dash
+
+> **Status:** ✅ DONE — verified. `SaveManager` +`unlocked_abilities` + API; `core/progression.gd` autoload (boss→reward, `forest_boss`→`dash`); `player/abilities/ability_system.gd` (`is_unlocked` + `dev_unlock_all`); Dash trong `player.gd` (flat velocity + skip gravity + return khi `is_dashing`, cooldown 0.5s, huỷ khi trúng đòn); `objects/fx/dust.tscn` (CPUParticles2D); `ui/toast/` autoload; nút Dash trong touch controls. Double/wall jump giữ inline. (Bug fix lúc test: `_start_dash` gọi `_end_attack` — cái này clear luôn `is_dashing` — phải gọi TRƯỚC khi bật cờ.)
 
 **Goal:** `AbilitySystem` (Node con của Player) + **Dash** là ability đầu tiên, unlock bởi `Events.boss_defeated`, persist. **Double/wall jump giữ inline trong `player.gd`** (không refactor — chúng hoạt động tốt, không phải unlockable trong scope; King/Captain có sẵn từ đầu).
 **Why:** Trục metroidvania — "Unlock Ability" trong gameplay loop; Dash mở dash-gate ở P8.

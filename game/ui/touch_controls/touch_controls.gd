@@ -17,6 +17,7 @@ func _ready() -> void:
 	visible = _should_show()
 	get_viewport().size_changed.connect(_layout)
 	_layout()
+	$BtnDash.visible = SaveManager.is_ability_unlocked("dash")
 	$BtnPause.pressed.connect(func() -> void: pause_pressed.emit())
 
 func _should_show() -> bool:
@@ -33,8 +34,10 @@ func _should_show() -> bool:
 func _layout() -> void:
 	var vp := get_viewport().get_visible_rect().size
 	var bottom := vp.y - MARGIN - BTN
+	var corner_x := vp.x - MARGIN - BTN
 	$BtnLeft.position = Vector2(MARGIN, bottom)
 	$BtnRight.position = Vector2(MARGIN + BTN + GAP, bottom)
-	$BtnJump.position = Vector2(vp.x - MARGIN - BTN, bottom)
-	$BtnAttack.position = Vector2(vp.x - MARGIN - BTN * 2.0 - GAP, bottom + BTN * 0.28)
-	$BtnPause.position = Vector2(vp.x - MARGIN - BTN, MARGIN)
+	$BtnJump.position = Vector2(corner_x, bottom)
+	$BtnAttack.position = Vector2(corner_x - BTN - GAP, bottom)
+	$BtnDash.position = Vector2(corner_x, bottom - BTN - GAP)
+	$BtnPause.position = Vector2(corner_x, MARGIN)

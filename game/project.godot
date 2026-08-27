@@ -21,6 +21,8 @@ Events="*res://core/events.gd"
 GameManager="*res://core/game_manager.gd"
 SceneTransition="*res://core/scene_transition.tscn"
 SaveManager="*res://core/save_manager.gd"
+Progression="*res://core/progression.gd"
+Toast="*res://ui/toast/toast.tscn"
 
 [display]
 

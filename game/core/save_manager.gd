@@ -13,9 +13,20 @@ var high_scores: Dictionary = {}
 var best_times: Dictionary = {}
 ## Tuỳ chọn người dùng: touch_controls ("auto"/"on"/"off"), fullscreen (bool), volume (0..1)...
 var settings: Dictionary = {}
+## Danh sách id ability đã mở khoá ("dash"...). Xem core/progression.gd.
+var unlocked_abilities: Array = []
 
 func _ready() -> void:
 	load_data()
+
+func is_ability_unlocked(id: String) -> bool:
+	return id in unlocked_abilities
+
+func unlock_ability(id: String) -> void:
+	if id in unlocked_abilities:
+		return
+	unlocked_abilities.append(id)
+	save_data()
 
 ## Đọc 1 tuỳ chọn (default nếu chưa từng lưu). Gameplay/UI chỉ query qua đây, không đọc file.
 func get_setting(key: String, default: Variant) -> Variant:
@@ -58,6 +69,7 @@ func save_data() -> void:
 		"high_scores": high_scores,
 		"best_times": best_times,
 		"settings": settings,
+		"unlocked_abilities": unlocked_abilities,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -75,3 +87,4 @@ func load_data() -> void:
 		high_scores = parsed.get("high_scores", {})
 		best_times = parsed.get("best_times", {})
 		settings = parsed.get("settings", {})
+		unlocked_abilities = parsed.get("unlocked_abilities", [])
