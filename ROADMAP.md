@@ -452,64 +452,102 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 3 — Enemy AI Base + Pig Migration
+### Phase 3 — Enemy AI Base + Pig Migration  *(FINALIZED — next up)*
 
-> **Điều chỉnh (revision):** gộp việc thay hệ quái sang **Pig family** ("Kings and Pigs": Pig 34×28, Pig Throwing Box, Pig Throwing Bomb, Pig With a Match — đều có full moveset idle/run/jump/fall/hit/attack/dead). Quái Kenney trừu tượng (walker/flyer) + spike_head bị thay bằng Pig khi lên `EnemyBase`. Knockback vị trí thật làm ở đây (enemy đã là CharacterBody2D). Traps (spikes/saw) giữ nguyên.
+**Goal:** `EnemyBase` (`CharacterBody2D`) + FSM tái sử dụng; thay walker/spike_head/chaser_spike/flyer bằng hệ **Pig** (Kings and Pigs). Knockback vị trí thật.
+**Why:** Gỡ copy-paste patrol khỏi 6 script; cho quái "phản ứng" (tiền đề của boss); art nhất quán với hero King + boss King Pig.
+**Dependencies:** Phase 2 (HealthComponent/Hurtbox/Hitbox/EnemyHitReaction + collision layers).
 
-**Goal:** `EnemyBase` (`CharacterBody2D`) + state machine tái sử dụng (idle/patrol/chase/attack/hurt/dead), `EnemyStats` resource; hệ quái mới dựa trên sprite Pig; knockback thật.
-**Why:** D2. Gỡ copy-paste patrol, cho enemy "phản ứng" (điều kiện tiên quyết của boss).
-**Dependencies:** Phase 2.
-**Features:** `EnemyBase` (`CharacterBody2D`, gravity cho enemy mặt đất, fly cho `flyer`); FSM hand-rolled (mở rộng pattern `chaser_spike`); `EnemyStats.tres` mỗi loại; `DetectionArea` component; attack telegraph đơn giản.
-**Architecture Changes:** Enemy: `Area2D` → `CharacterBody2D` (cho loại di chuyển). Cần thêm collision với terrain layer.
-**Files affected:** `objects/enemies/enemy_base.gd` + `.tscn` (mới); `components/enemy_stats.gd`; refactor 4 enemy folder; các `level_N.tscn` (enemy instance có thể cần chỉnh vị trí do đổi từ Area2D sang body).
-**Implementation order:** (1) `EnemyBase` + FSM skeleton + `EnemyStats` → (2) migrate `walker` (đơn giản nhất) → (3) `chaser_spike` (đã có FSM) → (4) `flyer` (biến thể fly) → (5) `spike_head` → (6) attack state (lao vào / nhảy).
-**Acceptance Criteria:** 4 enemy patrol/chase/attack/hurt/die qua cùng 1 base; đứng trên terrain đúng (không lọt); `EnemyStats` chỉnh trong Inspector đổi hành vi.
-**Testing:** Mỗi enemy trong mỗi màn có nó; enemy rơi khỏi mép platform; nhiều enemy cùng chase; enemy + moving_platform.
-**Risks:** Đổi Area2D→CharacterBody2D làm lệch vị trí/va chạm trong 5 màn cũ → regression level design. Mitigation: migrate + test từng màn.
+**Asset (Pillow pipeline như P1.5):** import `Kings and Pigs/Sprites/03-Pig/*` (34×28: idle 11 / run 6 / jump 1 / fall 1 / ground 1 / hit 2 / **attack 4** / dead 3) → `objects/enemies/pig/sprites/` + `pig_frames.tres`.
+
+**Kiến trúc:**
+- `objects/enemies/enemy_base.gd` (`class_name EnemyBase extends CharacterBody2D`, group `"enemy"`):
+  - `@export var stats: EnemyStats` (resource); `@export var gravity := 900.0` (0 = bay)
+  - FSM `enum State { IDLE, PATROL, CHASE, ATTACK, HURT, DEAD }` — `match` trong `_physics_process`, mở rộng pattern `chaser_spike.gd` đã có
+  - patrol giữa 2 điểm / tự quay đầu ở mép platform + tường; phát hiện player qua khoảng cách tới group `"player"` (hoặc `DetectionArea` con)
+  - dùng lại: `HealthComponent`, `Hurtbox`, `Hitbox` (đòn của quái), `EnemyHitReaction` (đã có)
+  - `hurtbox.hurt` → state HURT: bật velocity ra xa nguồn ~0.15s (× `stats.knockback_resist`), khoá AI trong lúc đó
+  - anim: idle/run/hit/attack/dead theo `sprite.animation`
+- `components/enemy_stats.gd` (`class_name EnemyStats extends Resource`): `max_hp`, `move_speed`, `chase_speed`, `damage`, `detect_range`, `leash_range`, `attack_range`, `attack_cooldown`, `knockback_resist`
+- Collision: body layer `enemy`(4)/mask `world`(1); Hitbox layer `enemy_hitbox`(64); Hurtbox layer `enemy_hurtbox`(16)/mask `player_hitbox`(32)
+
+**Enemy roster mới:**
+| Loại | Scene | Thay cho | Hành vi |
+|---|---|---|---|
+| Pig (lính) | `objects/enemies/pig/pig.tscn` | walker, spike_head | patrol → phát hiện → chase → attack cận chiến |
+| Pig phục kích | `pig_ambusher.tscn` (kế thừa) | chaser_spike | đứng yên gác → lao ra khi player lại gần → về chỗ |
+| Flyer | giữ art Kenney, rebase EnemyBase (`gravity=0`) | flyer | bay tuần tra, vật cản trên không, **không** attack |
+
+**Files:** `objects/enemies/pig/*` (mới), `objects/enemies/enemy_base.gd`+`.tscn`, `components/enemy_stats.gd`, `objects/enemies/flyer/*` (rebase), xoá `walker/`, `spike_head/`, `chaser_spike/` (giữ folder sprite cũ hay xoá — hỏi), 5 `level_N.tscn` (thay instance quái + chỉnh vị trí: Pig là body đứng trên đất, quái Area2D cũ thả nổi).
+**Implementation order:** (1) `EnemyStats` + `EnemyBase` FSM skeleton (chỉ IDLE/PATROL) → (2) bake pig_frames → (3) `pig.tscn`, test patrol 1 màn → (4) CHASE + ATTACK + HURT + knockback → (5) `pig_ambusher` → (6) rebase flyer → (7) thay quái trong 5 màn, test từng màn.
+**Acceptance Criteria:** Pig patrol/chase/attack (gây 1 damage)/nảy lùi khi trúng/chết pop qua cùng 1 base; đứng đúng trên terrain + moving_platform; rơi khỏi mép platform thì quay đầu (không rớt); chỉnh `EnemyStats` trong Inspector đổi hành vi ngay.
+**Testing:** Mỗi loại trong mỗi màn; nhiều Pig cùng chase; Pig + moving_platform; Pig đứng mép vực; player nhảy qua đầu Pig; chém Pig từ trên/dưới.
+**Risks:** Area2D→CharacterBody2D làm lệch vị trí/va chạm trong 5 màn cũ. Mitigation: thay + test từng màn; ghi lại chỗ level cần chỉnh (→ P7/P8).
 **Complexity:** **High**
 
 ---
 
-### Phase 4 — Boss
+### Phase 4 — Boss (King Pig)  *(FINALIZED)*
 
-**Goal:** 1 boss hoàn chỉnh: `BossBase`, 2-3 attack pattern, 2 phase theo máu, boss arena, health bar UI, `Events.boss_defeated`.
-**Why:** Điểm nhấn cuối mỗi world; trigger unlock ability (gameplay loop: Boss → Reward).
+**Goal:** 1 boss hoàn chỉnh: `BossBase` (kế thừa `EnemyBase`), 2-3 attack pattern, 2 phase theo máu, boss arena khoá cửa, health bar, `Events.boss_defeated`.
+**Why:** Điểm nhấn cuối world; trigger unlock ability (loop: Boss → Reward).
 **Dependencies:** Phase 3.
-**Features:** dùng **King Pig** (Kings and Pigs pack); pattern: charge, ném bom (pack có Bomb + anim "Pig Throwing a Bomb"), slam; `PhaseController`; `BossArena` khoá cửa vào; `boss_health_bar.tscn`; nhạc boss (placeholder tới P10).
-**Architecture Changes:** Không (mở rộng EnemyBase).
-**Files affected:** `objects/bosses/king_pig/` (mới), `levels/boss_forest/` (arena scene), `ui/boss_health_bar/`, `core/events.gd` (dùng `boss_defeated`), `SaveManager` (`defeated_bosses` — hoặc để P6).
-**Implementation order:** (1) BossBase + 1 pattern + health bar → (2) pattern 2,3 → (3) PhaseController → (4) arena khoá/mở cửa → (5) death sequence + `boss_defeated`.
-**Acceptance Criteria:** Đánh boss qua 2 phase, boss đổi pattern, thắng → cửa mở + event bắn; thua → về checkpoint/end_screen như thường.
-**Testing:** Thắng, thua, thoát arena giữa chừng (không được), pause giữa fight, chết boss đúng lúc đổi phase.
-**Risks:** Attack pattern dùng nhiều `await`/coroutine dễ vỡ khi pause/chết. State cleanup.
+
+**Asset:** `Kings and Pigs/Sprites/02-King Pig/*` (38×28, full moveset) → `objects/bosses/king_pig/sprites/` + `king_pig_frames.tres`. `Kings and Pigs/Sprites/09-Bomb/*` (Off/On 52×56/Boom) → `objects/bomb/`.
+
+**Kiến trúc:**
+- `objects/enemies/boss_base.gd` (`class_name BossBase extends EnemyBase`): thêm `PhaseController` (con Node) + mảng attack pattern. Máu lớn (~12-16). Không patrol — luôn hướng về player.
+- `PhaseController`: máu ≤66% → phase 2 (nhanh hơn, thêm pattern), ≤33% → phase 3. Emit `Events.boss_phase_changed(n)`.
+- Attack pattern (mỗi cái 1 method, dùng state + timer KHÔNG coroutine dài để pause/chết không vỡ):
+  1. **Charge** — telegraph (khựng + nháy) → lao ngang arena, Hitbox bật
+  2. **Bomb toss** — spawn `Bomb` (arc theo trọng lực → fuse ~1.2s → nổ → Hitbox `enemy_hitbox` ngắn → anim Boom → free)
+  3. **Jump slam** (phase 2+) — nhảy → tiếp đất → shockwave 2 bên
+- `objects/bomb/bomb.gd`+`.tscn` — projectile tái dùng (boss giờ, "Bomb Pig" enemy sau).
+- `levels/boss_forest/boss_forest.tscn` — arena nhỏ (dùng `LevelBase`), camera khoá, `BossGate` đóng khi vào / mở khi `boss_defeated`.
+- `ui/boss_health_bar/` — CanvasLayer, nghe `Events.boss_health_changed`.
+- Thắng: `Events.boss_defeated.emit("forest_boss")` (save wiring ở P6).
+**Files:** `objects/bosses/*`, `objects/bomb/*`, `levels/boss_forest/*`, `ui/boss_health_bar/*`, `core/events` (dùng `boss_*`).
+**Implementation order:** (1) `Bomb` projectile → (2) `BossBase` + Charge + health bar → (3) Bomb toss → (4) `PhaseController` + Jump slam → (5) arena + BossGate → (6) death sequence + `boss_defeated`.
+**Acceptance Criteria:** Đánh boss qua 2-3 phase, boss đổi pattern theo máu, thắng → cửa mở + event; thua → checkpoint/end_screen như thường; pause giữa fight OK; Bomb nổ đúng chỗ.
+**Testing:** Thắng / thua / pause mọi lúc / chết boss đúng frame đổi phase / thoát arena giữa chừng (không được) / nhiều Bomb cùng lúc.
+**Risks:** Pattern dùng `await` dài vỡ khi pause/chết → dùng state+timer, `PhaseController` reset on death. Bomb kẹt trong tường.
 **Complexity:** **High**
 
 ---
 
-### Phase 5 — Ability System & Dash
+### Phase 5 — Ability System & Dash  *(FINALIZED)*
 
-**Goal:** `AbilitySystem` component; `AbilityData` resource; Dash là ability đầu tiên; refactor double-jump + wall-jump thành ability module để nhất quán; wire `boss_defeated` → unlock.
-**Why:** Trục metroidvania. "Unlock Ability" trong gameplay loop.
-**Dependencies:** Phase 1 (component player), Phase 4 (trigger unlock — nhưng dash có thể dev-unlock sớm để test).
-**Features:** `AbilitySystem` giữ dict `{ability_id: bool}` query từ `SaveManager`; mỗi ability = script nhỏ (`can_activate`, `activate`, hook input); Dash (dài cố định, cooldown, i-frame ngắn tùy chọn, particle khói); double-jump/wall-jump chuyển thành module (giữ hằng số hiện tại).
-**Architecture Changes:** Movement trong `player.gd` expose hook cho ability (velocity override có kiểm soát).
-**Files affected:** `player/abilities/` (mới: `ability_system.gd`, `dash.gd`, `double_jump.gd`, `wall_jump.gd`), `player.gd` (bỏ inline double/wall jump), `components/ability_data.gd`, `SaveManager` (`is_ability_unlocked`).
-**Implementation order:** (1) `AbilitySystem` + `AbilityData` + dev-unlock all → (2) Dash → (3) migrate double-jump → (4) migrate wall-jump → (5) `SaveManager.is_ability_unlocked` + `boss_defeated` → unlock Dash → (6) `Events.ability_unlocked` + toast UI.
-**Acceptance Criteria:** Chưa thắng boss → không dash được; thắng → dash hoạt động, còn sau khi tắt/mở game (persist); double/wall jump y như cũ.
-**Testing:** Dash trên đất/trên không/vào tường/qua vực; dash + attack; wall-jump vẫn không leo vô hạn; save/load giữ unlock.
-**Risks:** Refactor wall-jump (code tinh vi chống leo tường) dễ gây regression. Mitigation: giữ nguyên hằng số + logic, chỉ đổi chỗ chứa.
-**Complexity:** **Medium-High**
+**Goal:** `AbilitySystem` (Node con của Player) + **Dash** là ability đầu tiên, unlock bởi `Events.boss_defeated`, persist. **Double/wall jump giữ inline trong `player.gd`** (không refactor — chúng hoạt động tốt, không phải unlockable trong scope; King/Captain có sẵn từ đầu).
+**Why:** Trục metroidvania — "Unlock Ability" trong gameplay loop; Dash mở dash-gate ở P8.
+**Dependencies:** Phase 4 (trigger unlock; Dash dev-unlock sớm để test độc lập).
+
+**Kiến trúc:**
+- `player/abilities/ability_system.gd` (Node): giữ danh sách ability con; expose `is_unlocked(id)` (query `SaveManager`).
+- `player/abilities/dash.gd` (Node con): đọc action `dash` (L/Shift — có từ P0); nếu unlocked + hết cooldown + không dead/attacking → set `player.velocity.x = DASH_SPEED * player.facing` trong `DASH_DURATION` (~0.18s), bỏ qua trọng lực trong lúc đó, cooldown ~0.5s, i-frame ngắn tuỳ chọn, particle khói (Free Smoke Fx), anim (dùng "jump" + có thể nghiêng). Huỷ khi trúng đòn/chết.
+- `player.gd`: expose vừa đủ cho dash (`facing` đã có; thêm 1 flag `is_dashing` để `_physics_process` nhường điều khiển velocity.x + skip gravity). Movement khác không đụng.
+- `SaveManager`: thêm `unlocked_abilities: Array` + `is_ability_unlocked(id)` / `unlock_ability(id)` (persist qua `settings`/dict riêng — chốt ở P6, P5 làm bản tối giản).
+- `AbilityData` (`class_name AbilityData extends Resource`): `id`, `display_name`, `icon`, `description` — cho toast + màn abilities sau. P5 có thể dùng dict tạm.
+- Wire: `Events.boss_defeated` → `SaveManager.unlock_ability("dash")` + `Events.ability_unlocked.emit("dash")` → toast UI (label mờ dần).
+- Dev flag: unlock-all để test khi chưa có boss.
+**Files:** `player/abilities/*` (mới), `player/player.gd` (thêm `is_dashing` hook), `player/player.tscn` (thêm `AbilitySystem` + `Dash` node), `core/save_manager.gd`, `core/ability_data.gd`, `ui/toast/` (mới, tối giản).
+**Implementation order:** (1) `AbilitySystem` + `Dash` (dev-unlock) → (2) tune dash feel (speed/duration/cooldown) → (3) particle + anim → (4) `SaveManager.unlock_ability` + persist → (5) `Events.boss_defeated` → unlock + toast → (6) touch_controls: thêm nút Dash.
+**Acceptance Criteria:** Chưa unlock → bấm dash không có gì; unlock → dash hoạt động, giữ sau tắt/mở game; dash qua vực rộng hơn 1 nhảy thường; double/wall jump y hệt; touch có nút Dash.
+**Testing:** Dash đất/không/vào tường/qua vực/dash+attack; spam dash (cooldown); dash rồi chết; save/load giữ unlock; nút Dash trên touch.
+**Risks:** Dash + `move_and_slide` xuyên tường mỏng ở tốc độ cao → giới hạn DASH_SPEED hoặc nhiều bước collision. Dash lúc đang hit-stop.
+**Complexity:** **Medium**
 
 ---
 
-### Phase 6 — Progression & Save Expansion
+### Phase 6 — Progression & Save Expansion  *(FINALIZED)*
 
-**Goal:** Mở rộng `SaveManager`: `unlocked_abilities`, `defeated_bosses`, `collected_secrets`, `current_world`, `coins` (nếu dùng). `WorldData`. Dash-gate / ability-gated door. Hỗ trợ "Continue".
-**Why:** Tách rõ Runtime vs Persistent; nền cho hub + backtrack.
+> **Cập nhật:** `SaveManager` đã có `settings` dict + `get/set_setting` (từ P2.5). P5 đã thêm bản tối giản `unlocked_abilities`/`is_ability_unlocked`. P6 chính thức hoá: thêm `progress` dict (`defeated_bosses[]`, `collected_secrets[]`, `furthest_world`), và **bỏ `GameManager.hearts` mirror** — nguồn thật là `HealthComponent`, HUD chuyển sang nghe `Events.player_health_changed`. `GameManager` = thuần runtime.
+
+**Goal:** `SaveManager.progress` (bosses/secrets/world) + `WorldData` + `AbilityGate` + "Continue". Dọn Runtime vs Persistent.
+**Why:** Nền cho hub + backtrack; gameplay không chạm file, chỉ query API.
 **Dependencies:** Phase 5.
-**Features:** JSON mới (giữ tương thích ngược — load thiếu key thì default); `WorldData.WORLDS[]` (id, name, levels[], boss); `AbilityGate` object (Area2D chặn, mở nếu `is_ability_unlocked`); `SaveManager.get_continue_point()`.
-**Architecture Changes:** `GameManager` (Runtime) vs `SaveManager` (Persistent) — chốt ranh giới (mục 10). Gameplay query API, không chạm file.
-**Files affected:** `core/save_manager.gd`, `core/game_manager.gd`, `core/world_data.gd` (mới), `objects/ability_gate/` (mới), `ui/level_select` (đọc WorldData).
+**Features:** load thiếu key thì default (tương thích ngược); `WorldData.WORLDS[]` (id, name, level ids[], boss id); `objects/ability_gate/` (`Area2D` chặn đường, mở nếu `SaveManager.is_ability_unlocked(id)` — mở vĩnh viễn sau lần đầu); `SaveManager.get_continue_point()` → world/level gần nhất; nút **Continue** ở `main_menu`.
+**Architecture Changes:** `GameManager.hearts` bị gỡ; `hud.gd` nghe `Events.player_health_changed`. `GameManager.start_new_run` tách `start_level(id)` / `enter_hub()`.
+**Files affected:** `core/save_manager.gd`, `core/game_manager.gd`, `ui/hud/hud.gd`, `core/world_data.gd` (mới), `objects/ability_gate/*` (mới), `ui/main_menu` (+Continue), `ui/level_select` (đọc WorldData).
 **Implementation order:** (1) mở rộng save schema + migration an toàn → (2) `WorldData` → (3) `AbilityGate` → (4) `get_continue_point` + nút Continue ở main menu.
 **Acceptance Criteria:** Save cũ vẫn load; unlock ability/boss persist; dash-gate mở đúng theo trạng thái; Continue vào đúng world.
 **Testing:** Xóa save → chạy mới; save cũ format → không crash; unlock rồi tắt game → vẫn còn; gate khóa/mở.
@@ -518,14 +556,16 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 7 — Hub & World Flow
+### Phase 7 — Hub & World Flow  *(FINALIZED)*
 
-**Goal:** Hub scene (village) đi bộ được, có portal vào world, ≥1 NPC (thoại tĩnh), bảng ability đã unlock. Restructure flow: `character_select → hub → world → level`. Repurpose 5 màn hiện có thành World 1 (Forest ×3) + World 2 (Cave ×2).
-**Why:** "Hub/Village" trong định hướng. Trung tâm của vòng lặp explore.
+> **Cập nhật:** Flow = `main_menu → character_select (chọn hero) → hub → portal → level`. Giữ `character_select` (quyết định P1.5). King có anim **door_in/door_out** (P1.5) → dùng cho portal; Captain chưa có → fade. Dialogue dùng bong bóng "Dialogue Boxes" của Kings and Pigs (20 sprite In/Out: Hello, Hi, ?, !!!, No... ) + panel text đơn giản.
+
+**Goal:** Hub đi bộ được (portal vào world, ≥1 NPC thoại tĩnh, bảng ability đã unlock). Repurpose 5 màn → World 1 Forest (level 1-3) + World 2 Cave (level 4-5) + boss.
+**Why:** "Hub/Village" — trung tâm vòng lặp explore.
 **Dependencies:** Phase 6.
-**Features:** `hub.tscn` (reuse `LevelBase` + player), `Portal` object (`Area2D` + `interact` → `SceneTransition.goto`), `NPC` (Area2D + `interact` → hộp thoại 1-2 dòng dùng **Dialogue Boxes** pack), map lại `LevelData`/`WorldData` cho 2 world + boss.
-**Architecture Changes:** `level_select` giữ lại như "fast travel" hoặc bỏ; hub là entry chính. `GameManager.start_new_run` → tách `start_level(id)` khỏi `enter_hub()`.
-**Files affected:** `levels/hub/` (mới), `objects/portal/`, `objects/npc/`, `ui/dialogue/` (mới, tối giản), `core/game_manager.gd`, `ui/level_select` hoặc thay bằng hub.
+**Features:** `levels/hub/hub.tscn` (dùng `LevelBase` + player); `objects/portal/` (`Area2D` + action `interact` → `SceneTransition.goto`, khoá theo `WorldData` unlock chain); `objects/npc/` (`Area2D` + `interact` → bong bóng + 1-3 dòng); return-to-hub sau khi thắng level/boss.
+**Architecture Changes:** `hub` là entry chính; `level_select` → giữ làm "fast travel" trong hub hoặc bỏ. `GameManager`: `start_level(id)` / `enter_hub()`.
+**Files affected:** `levels/hub/*` (mới), `objects/portal/*`, `objects/npc/*`, `ui/dialogue/*` (mới, tối giản), `core/game_manager.gd`, `core/world_data.gd`, `ui/character_select` (→ hub thay vì level_select).
 **Implementation order:** (1) hub scene + player + camera → (2) Portal → 1 world → (3) restructure LevelData thành world → (4) NPC + dialogue tối giản → (5) return-to-hub sau khi thắng level/boss.
 **Acceptance Criteria:** Đi từ hub → world 1 → thắng → về hub; portal world 2 khóa tới khi qua world 1; NPC nói được.
 **Testing:** Mọi portal; vào/ra hub nhiều lần; pause trong hub; save ở hub → Continue về hub.
@@ -534,14 +574,16 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 8 — Metroidvania Content
+### Phase 8 — Metroidvania Content  *(FINALIZED)*
 
-**Goal:** Đặt dash-gate trong màn cũ để mở đường/secret area mới; 1-2 secret area có collectible; phần thưởng backtrack.
-**Why:** "Quay lại khu vực cũ" — thứ khiến nó là metroidvania chứ không phải platformer có hub.
-**Dependencies:** Phase 5 (dash) + Phase 7 (hub để backtrack).
-**Features:** 2-3 vị trí dash-gate (vd khe rộng, tường nứt) trong World 1; 1-2 secret room + collectible mới (dùng coin/gem pack); HUD đếm collectible; reward = coin / heart container / cosmetic.
-**Architecture Changes:** Không (dùng `AbilityGate` P6 + collectible theo pattern `fruit.gd`).
-**Files affected:** `levels/level_1..3` (thêm gate + secret room vào tscn), `objects/collectible_secret/` (mới), `ui/hud`.
+> **Cập nhật:** collectible = **Diamond** (`Kings and Pigs/12-Live and Coins/Big Diamond`, 18×14) theo pattern `fruit.gd` (`@tool` + `@export variant_frames`). Reward đầu tiên = **heart container** (tăng `HealthComponent.max_hp` vĩnh viễn — cần `SaveManager` lưu `max_hp_bonus`).
+
+**Goal:** 2-3 dash-gate trong World 1 (Forest) mở đường/secret; 1-2 secret room có Diamond; reward backtrack.
+**Why:** "Quay lại khu vực cũ" — thứ làm nó là metroidvania.
+**Dependencies:** Phase 5 (dash) + Phase 7 (hub để backtrack) + Phase 6 (`AbilityGate`, save).
+**Features:** dash-gate (khe rộng / tường nứt) đặt trong Forest levels; secret room sau gate; `objects/collectible_diamond/` (persist qua `SaveManager.collected_secrets` — id duy nhất mỗi viên); HUD đếm; reward heart container.
+**Architecture Changes:** Không (dùng `AbilityGate` + pattern `fruit.gd`).
+**Files affected:** Forest level `.tscn` (thêm gate + secret room), `objects/collectible_diamond/*` (mới), `ui/hud/*`, `core/save_manager.gd` (`max_hp_bonus`).
 **Implementation order:** (1) 1 collectible type + persist → (2) 1 secret room sau dash-gate ở level 1 → (3) nhân rộng 2-3 chỗ → (4) HUD counter + reward.
 **Acceptance Criteria:** Trước khi có dash không vào được secret; sau dash quay lại vào được; collectible đếm + persist; thu hết → reward.
 **Testing:** Vào secret khi chưa/đã có dash; nhặt collectible rồi tắt game; nhặt 2 lần (không tăng đôi).
@@ -550,61 +592,33 @@ Input layer → Mobile controls
 
 ---
 
-### Phase 2.5 — Input Abstraction + Mobile Touch Controls  🆕 (kéo từ P9 lên)
+### Phase 2.5 — Mobile Touch Controls  ✅ DONE (kéo từ P9 lên)
 
-> Nội dung như "Phase 9" cũ bên dưới, nhưng làm ngay sau Combat để playtest Android sớm.
->
-> **Status:** ✅ DONE — verified trên PC (emulate touch). APK chưa build (để sau, không chặn). **Bỏ lớp `PlayerInput` riêng** — `TouchScreenButton.action` → cùng InputMap action, `player.gd` không đổi. Đã làm: nút cảm ứng sinh bằng Pillow (`ui/touch_controls/sprites/`); `ui/touch_controls/touch_controls.tscn`+`.gd` (5 TouchScreenButton, tự đặt vị trí theo mép + safe-area, `pause_pressed` signal); `level_base.gd` instance + connect; `project.godot` `emulate_touch_from_mouse`; `SaveManager` thêm `settings` dict + `get/set_setting`; `settings_menu` thêm toggle Touch (Auto/On/Off) + persist fullscreen; `main_menu` áp lại fullscreen đã lưu. APK: hướng dẫn user tự export.
+Làm ngay sau Combat để playtest Android sớm. **Không có lớp `PlayerInput` riêng** — `TouchScreenButton.action` → cùng InputMap action, `player.gd` không đổi. Đã làm: nút sinh bằng Pillow (`ui/touch_controls/sprites/`); `ui/touch_controls/touch_controls.tscn`+`.gd` (5 TouchScreenButton tự đặt vị trí theo mép, `pause_pressed` signal); `level_base.gd` instance + connect; `project.godot` `emulate_touch_from_mouse`; `SaveManager` thêm `settings` dict + `get/set_setting`; `settings_menu` toggle Touch (Auto/On/Off) + persist fullscreen; `main_menu` áp lại fullscreen đã lưu. **Verified trên PC. APK chưa build (để sau — hướng dẫn export đã đưa cho user).**
 
-**Goal:** `PlayerInput` wrapper; on-screen touch controls (virtual joystick/dpad + Jump + Attack + Pause; ô Dash để trống, nối ở P5); tự hiện trên touch device + toggle trong settings; pass UI scaling / safe-area; export APK thử.
-**Why:** Quyết định B — game target Android, cần chơi được trên máy thật ngay khi có combat.
-**Dependencies:** Phase 2 (action `attack` đã final; `jump`/`move_*` có từ P0).
-**Features:** `core/player_input.gd` (đọc InputMap → property: `move_axis`, `jump_pressed`, `attack_pressed`...); `player.gd` chuyển `Input.is_action_*` → `PlayerInput.*`; `ui/touch_controls/` (CanvasLayer, `TouchScreenButton.action` map vào cùng InputMap action → keyboard/gamepad không đổi); auto-show theo `DisplayServer.is_touchscreen_available()`; `Input.emulate_touch_from_mouse` để test trên PC; settings toggle + persist; kiểm 16:9 / 18:9 / 20:9 + notch.
-**Architecture Changes:** `player.gd` đọc `PlayerInput` thay vì `Input` trực tiếp. Abilities (P5) theo cùng pattern.
-**Files affected:** `core/player_input.gd` (mới), `player/player.gd`, `ui/touch_controls/*` (mới), `ui/settings_menu/*`, `SaveManager` (settings), `project.godot` (đăng ký `PlayerInput` autoload nếu chọn hướng đó).
-**Implementation order:** (1) `PlayerInput` + chuyển player sang dùng nó (regression) → (2) `TouchControls` scene (joystick + Jump + Attack + Pause) → (3) auto-show + emulate-from-mouse → (4) settings toggle + persist → (5) UI scaling/safe-area pass → (6) export APK, test máy thật.
-**Acceptance Criteria:** Chơi hết 1 màn chỉ bằng touch (di chuyển + nhảy + chém đồng thời OK); keyboard/gamepad giữ nguyên; nút không che vùng chơi; APK chạy được trên Android.
-**Testing:** APK máy thật/emulator; đa điểm chạm; xoay ngang; pause bằng nút touch; toggle tắt touch trên desktop.
-**Risks:** Nút overlap vùng chơi; joystick analog + `move_and_slide`; perf mobile renderer; input lag.
+**"Phase 9" cũ (Input abstraction + mobile) đã gộp vào đây.** Phần còn lại (dash button — P5; perf mobile + test đa tỉ lệ sâu + gamepad polish + safe-area chuẩn) → **P10**.
+
+---
+
+### Phase 10 — Audio & Polish  *(FINALIZED)*
+
+> **Cập nhật:** fullscreen persist + volume-setting infra đã có (P2.5). P10 = audio thật + juice + phần mobile còn lại từ "P9".
+
+**Goal:** Audio bus + SFX + nhạc; camera shake; screen-shake/particle juice; safe-area chuẩn; perf pass mobile; gamepad polish.
+**Why:** Ưu tiên #6 (Polish) — chất lượng demo/present.
+**Dependencies:** Lỏng — làm gần cuối. Cần asset audio CC0 ngoài (pack không có nhạc — đánh giá license trước).
+**Features:**
+- `core/audio_manager.gd` autoload — nghe `Events` (`player_died`, `enemy_died`, `fruit_collected`, `ability_unlocked`, `boss_*`...) + API `play_sfx(name)` / `play_music(track)`. Bus layout `Master/Music/SFX` (`.tres`). Volume slider trong `settings_menu` bật lại + persist qua `SaveManager.get/set_setting`.
+- SFX: jump, land, hit, hurt, collect, dash, enemy_hit, enemy_die, boss. Nhạc: hub / forest / cave / boss.
+- `components/camera_shake.gd` — nghe `hit_landed` / `boss` / `player_damaged`.
+- Particle từ **Free Smoke Fx Pixel 2** cho dash / land / enemy death.
+- Safe-area chuẩn cho touch controls (`DisplayServer.get_display_safe_area`); perf test mobile renderer; gamepad button hints.
+**Files affected:** `core/audio_manager.gd` (mới), `audio/*` (mới), `project.godot` (bus + autoload), `ui/settings_menu`, `player/player.tscn` (camera shake), `ui/touch_controls` (safe-area).
 **Complexity:** **Medium**
 
 ---
 
-### Phase 9 — Input Abstraction & Mobile Controls
-
-> **Đã kéo lên thành Phase 2.5** (xem trên). Phần còn lại ở đây (tối ưu perf mobile, test đa thiết bị/tỉ lệ sâu, gamepad polish) gộp vào **P10**.
-
-**Goal:** `PlayerInput` wrapper hoàn chỉnh; on-screen controls (joystick/dpad + jump + attack + dash + interact + pause); tự hiện trên touch device + toggle trong settings; pass UI scaling / safe area.
-**Why:** Game target Android. Đây là MVP, không phải optional.
-**Dependencies:** Phase 5 (dash + attack action đã final).
-**Features:** `PlayerInput` (đọc InputMap → property), gameplay chuyển sang đọc wrapper; `TouchControls` CanvasLayer với `TouchScreenButton.action` map vào cùng action; `Input.emulate_touch_from_mouse` để test trên PC; settings toggle "Touch controls" + lưu; kiểm tra aspect 16:9 / 18:9 / 20:9, notch safe area.
-**Architecture Changes:** `player.gd` + abilities: `Input.is_action_*` → `PlayerInput.*`. (Nếu làm D4 sớm ở P0 thì đây chỉ là hoàn thiện.)
-**Files affected:** `core/player_input.gd` (mới), `player.gd`, `player/abilities/*`, `ui/touch_controls/` (mới), `ui/settings_menu`, `SaveManager` (settings).
-**Implementation order:** (1) `PlayerInput` + chuyển player/abilities sang dùng nó (regression test) → (2) `TouchControls` scene → (3) auto-show theo `DisplayServer.is_touchscreen_available()` → (4) settings toggle + persist → (5) test tỉ lệ màn hình + export Android thử.
-**Acceptance Criteria:** Chơi hết 1 world chỉ bằng touch; keyboard/gamepad vẫn nguyên; nút không che gameplay; xoay ngang OK.
-**Testing:** Export APK chạy máy thật/emulator; đa điểm chạm (di chuyển + nhảy + chém đồng thời); pause bằng nút touch.
-**Risks:** Touch button overlap vùng chơi; `move_and_slide` + input analog joystick; performance mobile renderer.
-**Complexity:** **Medium**
-
----
-
-### Phase 10 — Audio & Polish
-
-**Goal:** Audio bus (Master/Music/SFX) + SFX + nhạc + volume persist + fullscreen persist; camera shake; hit-stop; particle (khói); polish transition.
-**Why:** Ưu tiên #6 (Polish). Chất lượng demo/present.
-**Dependencies:** Lỏng — làm sau cùng.
-**Features:** `AudioManager` autoload (play SFX theo tên, đổi nhạc theo world, nghe `Events`); bus layout `.tres`; SFX: jump, land, hit, hurt, collect, death, dash, boss; nhạc mỗi world + boss + hub; `settings_menu` bật lại volume slider (đang `editable=false`); `CameraShake` component; particle từ **Free Smoke Fx Pixel 2**.
-**Architecture Changes:** Thêm 1 autoload `AudioManager`; audio phản ứng qua `Events` (không cần gameplay gọi trực tiếp).
-**Files affected:** `core/audio_manager.gd`, `audio/` (buses + import), `ui/settings_menu.gd` (volume + persist), `SaveManager` (settings), `player/camera` (shake).
-**Implementation order:** (1) bus + AudioManager + 1 SFX → (2) nối `Events` → SFX → (3) nhạc theo world → (4) volume/fullscreen persist → (5) shake + hit-stop + particle.
-**Acceptance Criteria:** Mọi hành động chính có SFX; nhạc đổi theo khu; chỉnh volume + tắt/mở game vẫn giữ; không tụt FPS trên mobile.
-**Testing:** Mute/unmute; nhiều SFX cùng lúc; chuyển scene khi nhạc đang phát.
-**Risks:** Thiếu asset audio (pack không có nhạc) → cần nguồn CC0 ngoài (đánh giá license). Spam SFX.
-**Complexity:** **Medium**
-
----
-
-### Phase 11 — Optional Replayability
+### Phase 11 — Optional Replayability  *(FINALIZED — chỉ làm nếu còn thời gian)*
 
 **Goal:** Achievements; challenge/time-attack mode.
 **Why:** Tăng giá trị chơi lại. Optional — bỏ được nếu thiếu thời gian.
@@ -706,9 +720,9 @@ Input layer → Mobile controls
 Các quyết định/feature mà **làm sai sẽ kéo theo refactor toàn hệ thống**:
 
 1. **HealthComponent + Hurtbox/Hitbox contract (P1)** — Player, mọi Enemy, Boss, traps, ability i-frame, HUD, achievements đều cắm vào đây. Đặt sai collision layer / sai signal shape = sửa mọi thứ. **Dành thời gian thiết kế cặp component này nhiều nhất.**
-2. **Collision layer naming (P1)** — hiện project không dùng layer nào. Chốt bảng layer (world / player_body / player_hurt / player_hit / enemy_body / enemy_hurt / enemy_hit / interactable / gate) NGAY ở P1 và ghi vào CONTRIBUTING.
-3. **Runtime vs Persistent boundary (P6, nhưng nghĩ từ P1)** — `GameManager` = runtime, `SaveManager` = persistent, gameplay query qua API. Nếu để gameplay đọc file save trực tiếp → không test được, không migrate được.
-4. **AbilitySystem hook vào MovementController (P5)** — nếu ability sửa thẳng `player.gd` thay vì qua hook, thêm ability thứ 3-4 sẽ phá jump/dash. Interface `activate()/can_activate()` phải sạch từ Dash.
+2. **Collision layer naming** — ✅ chốt ở P1 (8 layer: world/player/enemy/player_hurtbox/enemy_hurtbox/player_hitbox/enemy_hitbox/interactable), ghi ở CONTRIBUTING. **Gotcha đã gặp:** `monitoring=false` trên Area2D chặn cả việc bị area khác detect — dùng `collision_mask=0` thay vì.
+3. **Runtime vs Persistent boundary (P6)** — `GameManager` = runtime, `SaveManager` = persistent, gameplay query qua `get_setting`/`is_*_unlocked` API (đã bắt đầu ở P2.5). `GameManager.hearts` mirror sẽ bị gỡ ở P6.
+4. **AbilitySystem hook vào player movement (P5)** — Dash phải nhường/lấy điều khiển `velocity` qua 1 flag (`is_dashing`) rõ ràng, không rải logic dash khắp `_physics_process`. Double/wall jump giữ inline (không đụng).
 5. **Event bus shape (P0)** — đổi signature signal về sau = sửa mọi listener. Định nghĩa đủ signal ngay từ đầu (thừa còn hơn thiếu).
 6. **Enemy Area2D → CharacterBody2D (P3)** — chạm tới level design 5 màn cũ. Migrate + test từng màn, đừng làm hàng loạt.
 
@@ -727,8 +741,8 @@ Hub (village, đi bộ, 1-2 NPC, portal)
  └── Backtrack: 1-3 dash-gate ở Forest → secret area + collectible
 ```
 
-- **Combat:** melee 1 vũ khí, 4 enemy types + 2 boss
-- **Ability:** Dash (MVP) + 1 nữa (v1.1). Double/wall jump đã có → chuyển thành module.
+- **Combat:** melee (King búa / Captain kiếm), 2-3 enemy Pig types + 2 boss
+- **Ability:** Dash (MVP) + 1 nữa (v1.1). Double/wall jump **giữ inline** trong player.gd (không refactor — không phải unlockable).
 - **Progression:** boss → ability → mở đường cũ → secret → world tiếp theo
 - **Save:** completed_levels, high_scores, best_times (đã có) + unlocked_abilities + defeated_bosses + collected_secrets + current_world + settings
 - **Mobile:** touch controls đầy đủ, chơi được trên Android
@@ -756,7 +770,7 @@ Hub (village, đi bộ, 1-2 NPC, portal)
 11. **Enemy loot drop / XP / leveling** — enemy chết là đủ. Coin drop = v1.2.
 12. **Localization / đa ngôn ngữ** — giữ Việt hardcode.
 13. **Controller rumble, cloud save, Steam/GooglePlay integration.**
-14. **Per-character unique ability** — 4 nhân vật hiện chỉ khác skin; giữ vậy.
+14. **Per-character unique ability / stats sâu** — King & Captain hiện chỉ khác sprite + `attack_reach`; giữ đơn giản vậy tới khi core loop xong. Bomb Guy (hero thứ 3, tầm xa) cũng để sau P2.
 15. **Procedural generation** bất cứ thứ gì.
 
 **Refactor KHÔNG nên làm:**
@@ -767,18 +781,28 @@ Hub (village, đi bộ, 1-2 NPC, portal)
 
 ---
 
-## 14. Next Step
+## 14. Progress & Next Step
 
-**KHÔNG code.**
-
-Roadmap đã sẵn sàng. Thứ tự phát triển đề xuất:
+**Đã xong** (branch `feat/phase-0-foundation`, verified từng phase, chưa merge `main`):
 
 ```
-P0 (Foundation) → P1 (Player/Health) → P2 (Combat) → P3 (Enemy AI)
-→ P4 (Boss) → P5 (Ability + Dash) → P6 (Save/Progression) → P7 (Hub)
-→ P8 (Metroidvania gating) → P9 (Mobile) → P10 (Audio/Polish) → P11 (optional)
+P0  Foundation ...................... ✅ 0f84012
+P1  Player refactor + Health ........ ✅ cf4a750  (+ fix leo tường vô hạn)
+P1.5 Multi-hero (King + Captain) .... ✅ 11a9bdb
+P2a Damage pipeline migration ....... ✅ a747cf1
+P2b Player attack + enemy reactions . ✅ a88272b
+P2.5 Mobile touch controls ......... ✅ 05684cf  (APK chưa build)
 ```
 
-**Bạn muốn bắt đầu Phase 0 không?**
+**Còn lại** (spec đã FINALIZED ở trên):
 
-Khi bạn xác nhận một Phase, tôi sẽ: re-inspect file liên quan → implementation plan chi tiết → chia task nhỏ → liệt kê file tạo/sửa → xác định test → chờ bạn duyệt → mới code. Sau mỗi task: check compile/runtime/regression, cập nhật progress, không tự chuyển Phase.
+```
+P3  Enemy AI base + Pig migration   ← NEXT
+→ P4  Boss (King Pig) → P5  AbilitySystem + Dash → P6  Save/Progression
+→ P7  Hub + World flow → P8  Metroidvania gating → P10  Audio + Polish
+→ P11 Achievements / Challenge (optional)
+```
+
+Quy trình mỗi phase: xác nhận → re-inspect → implementation plan chi tiết → chia task → chờ duyệt → code → verify (compile/runtime/regression) → commit → dừng, không tự chuyển phase.
+
+**Bạn muốn bắt đầu Phase 3 không?**
