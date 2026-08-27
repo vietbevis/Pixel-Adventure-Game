@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://cbsqgef0fugml"]
+
+[ext_resource type="Texture2D" uid="uid://vn74mtpjie8u" path="res://objects/boss_gate/sprites/closed.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cqmq6ojlr75xn" path="res://objects/boss_gate/sprites/opening.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="A_closed_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="A_opening_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="A_opening_1"]
+atlas = ExtResource("2")
+region = Rect2(46, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="A_opening_2"]
+atlas = ExtResource("2")
+region = Rect2(92, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="A_opening_3"]
+atlas = ExtResource("2")
+region = Rect2(138, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="A_opening_4"]
+atlas = ExtResource("2")
+region = Rect2(184, 0, 46, 56)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_closed_0")
+}],
+"loop": 1,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("A_opening_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_opening_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_opening_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_opening_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("A_opening_4")
+}],
+"loop": 0,
+"name": &"opening",
+"speed": 12.0
+}]

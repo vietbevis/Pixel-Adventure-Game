@@ -494,7 +494,9 @@ Input layer → Mobile controls
 ### Phase 4 — Boss (King Pig)
 
 > **Chia P4a (boss chơi được, 1 pattern) → P4b (charge + jump_slam + phases + gate).**
-> **P4a status:** 🔨 Code xong — chờ verify. `BossBase` **KHÔNG kế thừa EnemyBase** (FSM khác hẳn — INTRO/THINK/ATTACK/RECOVER/HURT/DEAD, timer/step driven, không coroutine). `objects/bomb/` (Area2D bay cung, chỉ vụ nổ gây damage). `king_pig.tscn` hp 10, pattern `bomb_toss`, `BodyHitbox` contact damage. `ui/boss_health_bar/`. `levels/boss_forest/` (`boss_arena.gd extends LevelBase`, thắng khi boss chết). `LevelData` +`boss_forest` (khoá sau L5). Test nhanh: **F6 (Run Current Scene)** trên `boss_forest.tscn`.
+> **P4a ✅** — verified (King Pig ném bom, 10 hp, arena, health bar).
+> **P4b ✅** — verified. `boss_base.gd`: mỗi pattern = sub-machine `_pattern_step`/`_step_timer`. `charge` (phase 2, có `FloorProbe` chống lao xuống hố), `jump_slam` + `SlamHitbox` shockwave (phase 3), pool theo phase, roar + i-frame khi đổi phase, safety net rơi→spawn. `objects/boss_gate/` (cửa Kings-and-Pigs). User đã lấp hố arena + L5 trong editor.
+> **Phase 4 HOÀN THÀNH.** `BossBase` **KHÔNG kế thừa EnemyBase** (FSM khác hẳn — INTRO/THINK/ATTACK/RECOVER/HURT/DEAD, timer/step driven, không coroutine). `objects/bomb/` (Area2D bay cung, chỉ vụ nổ gây damage). `king_pig.tscn` hp 10, pattern `bomb_toss`, `BodyHitbox` contact damage. `ui/boss_health_bar/`. `levels/boss_forest/` (`boss_arena.gd extends LevelBase`, thắng khi boss chết). `LevelData` +`boss_forest` (khoá sau L5). Test nhanh: **F6 (Run Current Scene)** trên `boss_forest.tscn`.
 
 **Goal:** 1 boss hoàn chỉnh: `BossBase`, 2-3 attack pattern, 2 phase theo máu, boss arena khoá cửa, health bar, `Events.boss_defeated`.
 **Why:** Điểm nhấn cuối world; trigger unlock ability (loop: Boss → Reward).

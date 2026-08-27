@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://objects/bosses/boss_base.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://objects/bosses/king_pig/sprites/king_pig_frames.tres" id="2"]
@@ -16,6 +16,9 @@ size = Vector2(24, 26)
 
 [sub_resource type="RectangleShape2D" id="hit"]
 size = Vector2(30, 22)
+
+[sub_resource type="RectangleShape2D" id="slam"]
+size = Vector2(150, 14)
 
 [node name="KingPig" type="CharacterBody2D" groups=["enemy", "boss"]]
 collision_layer = 4
@@ -60,3 +63,16 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox"]
 shape = SubResource("body")
+
+[node name="SlamHitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlamHitbox"]
+position = Vector2(0, 10)
+shape = SubResource("slam")
+disabled = true
+
+[node name="FloorProbe" type="RayCast2D" parent="."]
+position = Vector2(16, 0)
+target_position = Vector2(0, 24)
