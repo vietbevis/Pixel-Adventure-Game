@@ -319,6 +319,13 @@ Input layer → Mobile controls
 
 ### Phase 1 — Player Refactor & Shared Health/Damage Component
 
+> **Status:** ✅ DONE — verified in editor, commit `dafc723` trên branch `feat/phase-0-foundation`.
+> Đã làm: `components/{health_component,hitbox,hurtbox}.gd`; `[layer_names]` (8 layer) + doc CONTRIBUTING;
+> player.gd/tscn dùng `HealthComponent` (hành vi giữ nguyên); walker/flyer/spike_head có HealthComponent+Hurtbox;
+> `checkpoint.gd` emit `Events.checkpoint_activated`.
+> Hoãn sang P2 (đã thống nhất): AnimationController, migrate collision layer cho node cũ, HUD nghe Events.
+> Bonus fix: chặn leo tường vô hạn thật sự (`last_wall_jump_dir` — không wall-jump lại cùng 1 mặt tường tới khi chạm đất/tường đối diện).
+
 **Goal:** Tách `player.gd` thành component; tạo `HealthComponent` + `Hurtbox` + `Hitbox` dùng chung; gắn `HealthComponent` cho enemy (chưa cần combat, chỉ "damageable-ready"). Hành vi player KHÔNG đổi.
 **Why:** D1 + D2. Đây là **critical path** — combat, ability, boss, mobile đều cắm vào contract này. Làm sai ở đây = sửa toàn bộ về sau.
 **Dependencies:** Phase 0 (Events).

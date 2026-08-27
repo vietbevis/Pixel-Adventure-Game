@@ -14,7 +14,9 @@ var score: int = 0
 var last_result: String = ""  # "win" or "lose"
 var respawn_position: Vector2 = Vector2.ZERO
 var has_checkpoint: bool = false
-## Số tim hiện tại của player, hết tim mới thực sự tính là "chết"
+## Mirror số tim của player. Từ Phase 1 nguồn thật là HealthComponent trên player;
+## biến này được player cập nhật lại qua signal để HUD và code cũ chưa chuyển vẫn đọc
+## được. `set_checkpoint` cũng set để khớp. Sẽ dọn ở Phase 6.
 var hearts: int = MAX_HEARTS
 ## Tổng thời gian (giây) đã chơi trong lượt hiện tại, dùng để tính best time.
 ## Cộng dồn bằng delta thay vì đồng hồ hệ thống để lúc Pause không bị tính giờ oan.

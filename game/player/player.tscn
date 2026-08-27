@@ -1,10 +1,19 @@
-[gd_scene format=3 uid="uid://d25ccr66823m7"]
+[gd_scene load_steps=6 format=3 uid="uid://d25ccr66823m7"]
 
 [ext_resource type="Script" uid="uid://xe7jfmtabunk" path="res://player/player.gd" id="1"]
 [ext_resource type="SpriteFrames" uid="uid://b7ifacxoabdo1" path="res://player/sprites/Ninja Frog/ninja_frog_frames.tres" id="2"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(18, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(16, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
+size = Vector2(22, 20)
 
 [node name="Player" type="CharacterBody2D" unique_id=79492339]
 script = ExtResource("1")
@@ -20,3 +29,29 @@ shape = SubResource("RectangleShape2D_1")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=847818252]
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3")
+max_hp = 3
+invincibility_on_hit = true
+invincibility_duration = 1.0
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 64
+script = ExtResource("4")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(14, 0)
+shape = SubResource("RectangleShape2D_hit")
+disabled = true

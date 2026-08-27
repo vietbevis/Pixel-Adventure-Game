@@ -34,6 +34,31 @@ Cách làm chuẩn trong dự án này — mỗi bộ animation là **một file
 - 1 object có nhiều biến thể chỉ khác hình (trái cây...): chỉ 1 scene gốc (`fruit.tscn`, bake sẵn 1 bộ mặc định để không có warning), mỗi biến thể là 1 file `<ten>_frames.tres` riêng trong `sprites/` của object đó (vd: `objects/fruit/sprites/apple_frames.tres`). Script của object export 1 biến `SpriteFrames` (vd: `variant_frames` trong `fruit.gd`) **với `set()` riêng** (không chỉ áp dụng trong `_ready()`) và đánh dấu `@tool` ở đầu file — để khi gán biến thể trong Inspector, hình đổi ngay trong editor (không cần bấm Play mới thấy đúng). Nơi cần biến thể cụ thể thì set biến này ngay trên node instance — xem `levels/level_1/level_1.tscn`.
 - 1 scene cần đổi bộ animation lúc chạy (nhân vật chọn được...): mỗi lựa chọn có file `.tres` riêng (vd: `player/sprites/Mask Dude/mask_dude_frames.tres`), scene bake sẵn 1 bộ mặc định để không bao giờ có warning, code chỉ `load()` rồi gán `sprite.sprite_frames = ...` khi cần đổi — **không** tự dựng `AtlasTexture` bằng vòng lặp trong script. Xem `player/player.tscn` + `player/player.gd` (`_apply_sprite_frames`).
 
+## Collision layers (2D physics)
+
+Đặt tên trong `project.godot [layer_names]`. Dùng ĐÚNG layer cho từng loại node — sai layer là bug khó tìm.
+
+| Bit | Tên | Node ở layer này | `collision_mask` nên trỏ tới |
+|---|---|---|---|
+| 1 | `world` | terrain TileMapLayer, `moving_platform`, bệ tĩnh | — |
+| 2 | `player` | `Player` (CharacterBody2D) | `world` |
+| 3 | `enemy` | Enemy body (CharacterBody2D, từ Phase 3) | `world` |
+| 4 | `player_hurtbox` | `Hurtbox` con của Player | `enemy_hitbox` |
+| 5 | `enemy_hurtbox` | `Hurtbox` con của Enemy | `player_hitbox` |
+| 6 | `player_hitbox` | `Hitbox` đòn đánh của Player | — (bị động) |
+| 7 | `enemy_hitbox` | `Hitbox` đòn đánh của Enemy + bẫy (gai/cưa) | — (bị động) |
+| 8 | `interactable` | checkpoint, goal_flag, fruit, portal, npc | — |
+
+Giá trị số của mask = tổng `1 << (bit-1)`: `world`=1, `player`=2, `player_hurtbox`=8, `player_hitbox`=32, `enemy_hitbox`=64.
+
+## Component tái sử dụng (`components/`)
+
+Pattern: 1 nhiệm vụ = 1 `Node`/`Area2D` con, gắn vào scene, nối qua `@export` (không hard-code trong code).
+
+- **`HealthComponent`** (Node) — máu + i-frame. Thuần logic, không biết Events/UI. Owner nghe signal (`died`, `health_changed`, `invincibility_started`...) và tự forward lên `Events` nếu cần.
+- **`Hitbox`** (Area2D) — vùng GÂY sát thương. Bị động (`monitoring=false`), chỉ chứa `damage`/`knockback`. `enable()`/`disable()` trong khung hình tấn công.
+- **`Hurtbox`** (Area2D) — vùng NHẬN sát thương. Chủ động: dò `Hitbox` chồng lên → gọi `health_component.damage()`. Gán `health_component` trong Inspector.
+
 ## Trước khi mở PR / commit
 
 - Mở project trong Godot editor ít nhất một lần sau khi đổi cấu trúc thư mục, để editor quét lại và tự sửa các cảnh báo (nếu có) — sau đó lưu lại các scene bị đánh dấu "cần lưu lại".

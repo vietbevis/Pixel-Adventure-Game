@@ -14,4 +14,6 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	activated = true
 	GameManager.set_checkpoint(global_position)
+	# Player lắng nghe để hồi đầy tim qua HealthComponent (mirror hearts do set_checkpoint lo).
+	Events.checkpoint_activated.emit(global_position)
 	sprite.play("active")

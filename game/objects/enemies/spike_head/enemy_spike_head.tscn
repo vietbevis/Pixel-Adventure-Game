@@ -1,7 +1,9 @@
-[gd_scene format=3 uid="uid://c8n6lpy8d6j6w"]
+[gd_scene load_steps=11 format=3 uid="uid://c8n6lpy8d6j6w"]
 
 [ext_resource type="Script" uid="uid://cwwrx62r45myg" path="res://objects/enemies/spike_head/enemy_spike_head.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://c5jkn7n1tcts8" path="res://objects/enemies/spike_head/sprites/Blink (54x52).png" id="2"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1"]
 atlas = ExtResource("2")
@@ -42,6 +44,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 20.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 18.0
+
 [node name="EnemySpikeHead" type="Area2D" unique_id=988808447]
 script = ExtResource("1")
 
@@ -53,3 +58,16 @@ frame_progress = 0.83667815
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=713772762]
 shape = SubResource("CircleShape2D_1")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3")
+max_hp = 3
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("4")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_hurt")

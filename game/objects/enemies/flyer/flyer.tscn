@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://objects/enemies/flyer/flyer.gd" id="1"]
 [ext_resource type="Texture2D" path="res://objects/enemies/flyer/sprites/enemyFlying_1.png" id="2"]
 [ext_resource type="Texture2D" path="res://objects/enemies/flyer/sprites/enemyFlying_2.png" id="3"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="4"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1"]
 animations = [{
@@ -21,6 +23,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(40, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(38, 18)
+
 [node name="Flyer" type="Area2D"]
 script = ExtResource("1")
 
@@ -30,3 +35,16 @@ animation = &"fly"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4")
+max_hp = 2
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("5")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurt")
