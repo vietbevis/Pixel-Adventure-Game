@@ -907,10 +907,18 @@ P2a Damage pipeline migration ....... ✅ a747cf1
 P2b Player attack + enemy reactions . ✅ a88272b
 P2.5 Mobile touch controls ......... ✅ 05684cf  (APK chưa build)
 P3-P8 ............................... ✅ (xem các note ở trên)
-P9  Level & World Redesign .......... 🔨 CODE XONG — 6 màn + boss + hub, chờ playtest in-editor
-P10 Audio & Polish ................. 🔨 CODE XONG — AudioManager (nhạc/SFX/volume), camera shake, bụi tiếp đất
+P9  Level & World Redesign .......... 🔨 CODE XONG — 6 màn + 2 boss + hub, 3 tileset/parallax riêng, chờ playtest in-editor
+P10 Audio & Polish ................. 🔨 CODE XONG — AudioManager (nhạc/SFX/volume), camera shake, bụi tiếp đất, hit-spark, cửa hub có animation
 P11 Achievements .................... 🔨 CODE XONG — 6 mốc, Toast; challenge mode chưa làm
 ```
+
+**P9-6 (28/08): World 3 có boss thật.** `boss_dungeon` (Warden — King Pig reskin tím, hp 14,
+`boss_id="dungeon_boss"`) nối vào chuỗi `dungeon`: level_5 → level_6 → boss_dungeon. Thành tựu
+`the_crown` chuyển sang mốc hạ Warden (kết game thật) thay vì clear level_6.
+
+**Còn cần verify in-editor (KHÔNG chạy được Godot ở đây):** vị trí object/nền đất từng màn,
+tầm nhảy, camera. Tileset hầm ngục hiện là cemetery-ground recolor tím — đọc ra "hầm cổ rêu phong",
+nếu muốn gạch đá sạch hơn thì cần source tile mới (Cold Corridors chỉ có layer nền, không có tileset đi được).
 
 **Còn lại** (spec đã FINALIZED ở trên):
 
