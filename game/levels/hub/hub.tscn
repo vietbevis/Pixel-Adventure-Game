@@ -10,7 +10,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cckoaqbjkmshn" path="res://player/sprites/King/king_frames.tres" id="8"]
 
 [sub_resource type="RectangleShape2D" id="floor"]
-size = Vector2(880, 64)
+size = Vector2(1120, 64)
 
 [sub_resource type="RectangleShape2D" id="wall"]
 size = Vector2(24, 320)
@@ -19,7 +19,7 @@ size = Vector2(24, 320)
 script = ExtResource("1")
 fall_death_y = 4000.0
 camera_limit_left = 0
-camera_limit_right = 820
+camera_limit_right = 1000
 camera_limit_top = -120
 camera_limit_bottom = 400
 
@@ -30,19 +30,19 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="Floor" type="CollisionShape2D" parent="Ground"]
-position = Vector2(400, 232)
+position = Vector2(520, 232)
 shape = SubResource("floor")
 
 [node name="FloorVisual" type="Polygon2D" parent="Ground"]
 color = Color(0.29, 0.22, 0.16, 1)
-polygon = PackedVector2Array(-30, 200, 830, 200, 830, 280, -30, 280)
+polygon = PackedVector2Array(-30, 200, 1010, 200, 1010, 280, -30, 280)
 
 [node name="WallL" type="CollisionShape2D" parent="Ground"]
 position = Vector2(-6, 60)
 shape = SubResource("wall")
 
 [node name="WallR" type="CollisionShape2D" parent="Ground"]
-position = Vector2(824, 60)
+position = Vector2(1004, 60)
 shape = SubResource("wall")
 
 [node name="Interactables" type="Node2D" parent="."]
@@ -76,7 +76,7 @@ position = Vector2(400, 168)
 world_id = "castle"
 
 [node name="Deserter" parent="." instance=ExtResource("6")]
-position = Vector2(490, 196)
+position = Vector2(510, 196)
 speaker = "Heo đào ngũ"
 modulate = Color(0.82, 0.95, 0.78, 1)
 line_1 = "Suỵt! Đừng hét. Tôi bỏ hàng ngũ Vua Heo rồi, thề đấy."
@@ -88,13 +88,13 @@ position = Vector2(590, 168)
 world_id = "dungeon"
 
 [node name="LoreSign" parent="." instance=ExtResource("7")]
-position = Vector2(680, 190)
+position = Vector2(730, 190)
 speaker = "Bia gỗ"
 line_1 = "« Vương Ấn từng khắc trên Vương Miện, giữ cho ngai vàng bất khả xâm phạm. »"
 line_2 = "« Ấn vỡ làm ba mảnh trong đêm thất thủ, thất lạc giữa Rừng. »"
 
 [node name="LevelsSign" parent="." instance=ExtResource("5")]
-position = Vector2(770, 178)
+position = Vector2(850, 178)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(70, 178)
