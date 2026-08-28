@@ -24,8 +24,6 @@ func _ready() -> void:
 func _on_level_completed(level_id: String) -> void:
 	if level_id == "level_1":
 		_grant("first_steps")
-	elif level_id == "level_6":
-		_grant("the_crown")
 
 func _on_ability_unlocked(id: String) -> void:
 	if id == "dash":
@@ -34,6 +32,8 @@ func _on_ability_unlocked(id: String) -> void:
 func _on_boss_defeated(boss_id: String) -> void:
 	if boss_id == "forest_boss":
 		_grant("king_returns")
+	elif boss_id == "dungeon_boss":
+		_grant("the_crown")
 
 func _on_enemy_died(_enemy: Node, _pos: Vector2) -> void:
 	_kills += 1

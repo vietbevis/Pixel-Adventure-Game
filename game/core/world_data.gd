@@ -28,7 +28,7 @@ const WORLDS: Array[Dictionary] = [
 	{
 		"id": "dungeon",
 		"name": "Hầm Ngục Cổ",
-		"levels": ["level_5", "level_6"],
+		"levels": ["level_5", "level_6", "boss_dungeon"],
 		"unlock_boss": "forest_boss",
 		"unlock_level": "",
 	},

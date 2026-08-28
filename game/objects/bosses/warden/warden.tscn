@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://objects/bosses/boss_base.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://objects/bosses/king_pig/sprites/king_pig_frames.tres" id="2"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="5"]
+[ext_resource type="PackedScene" path="res://objects/bomb/bomb.tscn" id="6"]
+[ext_resource type="Resource" path="res://objects/bosses/warden/warden_stats.tres" id="7"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(20, 24)
+
+[sub_resource type="RectangleShape2D" id="hurt"]
+size = Vector2(24, 26)
+
+[sub_resource type="RectangleShape2D" id="hit"]
+size = Vector2(30, 22)
+
+[sub_resource type="RectangleShape2D" id="slam"]
+size = Vector2(150, 14)
+
+[node name="Warden" type="CharacterBody2D" groups=["enemy", "boss"]]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+stats = ExtResource("7")
+boss_id = "dungeon_boss"
+bomb_scene = ExtResource("6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2")
+animation = &"idle"
+offset = Vector2(0, -1)
+modulate = Color(0.62, 0.45, 0.78, 1)
+scale = Vector2(1.15, 1.15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3")
+max_hp = 14
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("hurt")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 16
+script = ExtResource("5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("hit")
+disabled = true
+
+[node name="BodyHitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox"]
+shape = SubResource("body")
+
+[node name="SlamHitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlamHitbox"]
+position = Vector2(0, 10)
+shape = SubResource("slam")
+disabled = true
+
+[node name="FloorProbe" type="RayCast2D" parent="."]
+position = Vector2(16, 0)
+target_position = Vector2(0, 24)

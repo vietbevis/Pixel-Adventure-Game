@@ -13,6 +13,7 @@ const LEVELS: Array[Dictionary] = [
 	{"id": "boss_forest", "name": "Trùm · Vua Heo", "scene": "res://levels/boss_forest/boss_forest.tscn"},
 	{"id": "level_5", "name": "Hầm Ngục 1 · Lối Xuống", "scene": "res://levels/level_5/level_5.tscn"},
 	{"id": "level_6", "name": "Hầm Ngục 2 · Hầm Vàng", "scene": "res://levels/level_6/level_6.tscn"},
+	{"id": "boss_dungeon", "name": "Trùm · Người Gác Hầm", "scene": "res://levels/boss_dungeon/boss_dungeon.tscn"},
 ]
 
 static func get_index(level_id: String) -> int:
