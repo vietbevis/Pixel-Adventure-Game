@@ -1,6 +1,22 @@
-[gd_resource type="SpriteFrames" load_steps=27 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://d0lhsdffqev32"]
 
-[ext_resource type="Texture2D" path="res://objects/enemies/pig_bomber/sprites/pig_bomber.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bagyqjdpul02m" path="res://objects/enemies/pig_bomber/sprites/pig_bomber.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_throw_3"]
+atlas = ExtResource("1")
+region = Rect2(598, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_throw_4"]
+atlas = ExtResource("1")
+region = Rect2(624, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pick_0"]
+atlas = ExtResource("1")
+region = Rect2(416, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pick_1"]
+atlas = ExtResource("1")
+region = Rect2(442, 0, 26, 26)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_idle_0"]
 atlas = ExtResource("1")
@@ -42,6 +58,14 @@ region = Rect2(208, 0, 26, 26)
 atlas = ExtResource("1")
 region = Rect2(234, 0, 26, 26)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pick_2"]
+atlas = ExtResource("1")
+region = Rect2(468, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pick_3"]
+atlas = ExtResource("1")
+region = Rect2(494, 0, 26, 26)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_run_0"]
 atlas = ExtResource("1")
 region = Rect2(260, 0, 26, 26)
@@ -66,22 +90,6 @@ region = Rect2(364, 0, 26, 26)
 atlas = ExtResource("1")
 region = Rect2(390, 0, 26, 26)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pick_0"]
-atlas = ExtResource("1")
-region = Rect2(416, 0, 26, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pick_1"]
-atlas = ExtResource("1")
-region = Rect2(442, 0, 26, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pick_2"]
-atlas = ExtResource("1")
-region = Rect2(468, 0, 26, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pick_3"]
-atlas = ExtResource("1")
-region = Rect2(494, 0, 26, 26)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_throw_0"]
 atlas = ExtResource("1")
 region = Rect2(520, 0, 26, 26)
@@ -94,16 +102,30 @@ region = Rect2(546, 0, 26, 26)
 atlas = ExtResource("1")
 region = Rect2(572, 0, 26, 26)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_throw_3"]
-atlas = ExtResource("1")
-region = Rect2(598, 0, 26, 26)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_throw_4"]
-atlas = ExtResource("1")
-region = Rect2(624, 0, 26, 26)
-
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_throw_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_throw_4")
+}],
+"loop": 0,
+"name": &"dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pick_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pick_1")
+}],
+"loop": 0,
+"name": &"hit",
+"speed": 12.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idle_0")
@@ -198,26 +220,4 @@ animations = [{
 "loop": 0,
 "name": &"throw",
 "speed": 12.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pick_0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pick_1")
-}],
-"loop": 0,
-"name": &"hit",
-"speed": 12.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_throw_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_throw_4")
-}],
-"loop": 0,
-"name": &"dead",
-"speed": 10.0
 }]

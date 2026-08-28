@@ -15,6 +15,10 @@ run/main_scene="res://ui/main_menu/main_menu.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://audio/game_bus_layout.tres"
+
 [autoload]
 
 Events="*res://core/events.gd"
@@ -26,10 +30,6 @@ AudioManager="*res://core/audio_manager.gd"
 Achievements="*res://core/achievement_manager.gd"
 Toast="*res://ui/toast/toast.tscn"
 Dialogue="*res://ui/dialogue/dialogue.tscn"
-
-[audio]
-
-buses/default_bus_layout="res://audio/game_bus_layout.tres"
 
 [display]
 

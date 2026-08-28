@@ -15,5 +15,11 @@ game/.godot/
 /Pirate Bomb/
 /Dungeon_pack/
 /adve/
+/Sunny-land/
+/GothicVania Cemetery/
+/Gothicvania Cold Corridors/
 /*.zip
 /*.rar
+
+# CodeGraph local index
+.codegraph/
