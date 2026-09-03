@@ -101,7 +101,7 @@ position = Vector2(32, 204)
 position = Vector2(856, 150)
 
 [node name="Diamond1" parent="Secrets" unique_id=1033052913 instance=ExtResource("25")]
-position = Vector2(900, 136)
+position = Vector2(934, 138)
 secret_id = "diamond_forest_1"
 
 [node name="Fruits" type="Node2D" parent="." unique_id=1907867508]

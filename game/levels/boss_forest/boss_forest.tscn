@@ -15,10 +15,10 @@
 script = ExtResource("1")
 world_title = "LÂU ĐÀI THẤT THỦ"
 level_subtitle = "Phòng Ngai — Vua Heo"
-camera_limit_left = -16
-camera_limit_right = 640
-camera_limit_top = -40
-camera_limit_bottom = 380
+camera_limit_left = -32
+camera_limit_right = 656
+camera_limit_top = -48
+camera_limit_bottom = 368
 
 [node name="Parallax" parent="." instance=ExtResource("4")]
 
@@ -29,26 +29,27 @@ tile_set = ExtResource("6")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="StartMarker" parent="Interactables" instance=ExtResource("5")]
-position = Vector2(40, 200)
+position = Vector2(40, 188)
 
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Torch1" parent="Decor" instance=ExtResource("10")]
-position = Vector2(120, 196)
+position = Vector2(120, 208)
 
 [node name="Torch2" parent="Decor" instance=ExtResource("10")]
-position = Vector2(360, 196)
+position = Vector2(360, 208)
 
 [node name="Torch3" parent="Decor" instance=ExtResource("10")]
-position = Vector2(560, 132)
+position = Vector2(560, 144)
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(40, 196)
+position = Vector2(40, 188)
 
 [node name="HUD" parent="." instance=ExtResource("3")]
 
 [node name="KingPig" parent="." instance=ExtResource("7")]
-position = Vector2(544, 196)
+position = Vector2(416, 196)
+arena_bounds = Vector2(0, 520)
 
 [node name="BossHealthBar" parent="." instance=ExtResource("8")]
 

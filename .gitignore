@@ -23,3 +23,8 @@ game/.godot/
 
 # CodeGraph local index
 .codegraph/
+
+# Dev-only screenshot / verification harness (session tooling, not shipped)
+game/_dev_shot.gd
+game/_dev_shot.tscn
+game/_dev_shot.gd.uid

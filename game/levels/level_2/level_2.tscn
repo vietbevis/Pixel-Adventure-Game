@@ -97,11 +97,14 @@ max_rise_speed = 175.0
 position = Vector2(300, 296)
 
 [node name="Diamond2" parent="Secrets" unique_id=2144233936 instance=ExtResource("13")]
-position = Vector2(344, 284)
+position = Vector2(378, 286)
 secret_id = "diamond_forest_2"
 
+[node name="SecretAlcove3" parent="Secrets" instance=ExtResource("12")]
+position = Vector2(280, 112)
+
 [node name="Diamond3" parent="Secrets" unique_id=1962570484 instance=ExtResource("13")]
-position = Vector2(250, 72)
+position = Vector2(358, 104)
 secret_id = "diamond_forest_3"
 
 [node name="Decor" type="Node2D" parent="." unique_id=1563671501]

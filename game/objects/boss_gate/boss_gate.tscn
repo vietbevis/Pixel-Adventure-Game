@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" path="res://objects/boss_gate/sprites/door_frames.tres" id="2"]
 
 [sub_resource type="RectangleShape2D" id="s"]
-size = Vector2(12, 56)
+size = Vector2(12, 88)
 
 [node name="BossGate" type="StaticBody2D"]
 collision_layer = 1
@@ -16,4 +16,5 @@ sprite_frames = ExtResource("2")
 animation = &"closed"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 28)
 shape = SubResource("s")
