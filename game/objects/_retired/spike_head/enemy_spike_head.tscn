@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c8n6lpy8d6j6w"]
 
-[ext_resource type="Script" uid="uid://cwwrx62r45myg" path="res://objects/enemies/spike_head/enemy_spike_head.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://c5jkn7n1tcts8" path="res://objects/enemies/spike_head/sprites/Blink (54x52).png" id="2"]
+[ext_resource type="Script" uid="uid://cwwrx62r45myg" path="res://objects/_retired/spike_head/enemy_spike_head.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c5jkn7n1tcts8" path="res://objects/_retired/spike_head/sprites/Blink (54x52).png" id="2"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="3"]
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="4"]
 [ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="5"]

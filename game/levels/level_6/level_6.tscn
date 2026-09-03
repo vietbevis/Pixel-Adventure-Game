@@ -25,6 +25,8 @@
 [ext_resource type="SpriteFrames" uid="uid://caayogg3m32em" path="res://objects/fruit/sprites/bananas_frames.tres" id="23"]
 [ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="24"]
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="25"]
+[ext_resource type="PackedScene" path="res://objects/enemies/flyer/flyer.tscn" id="30_fl"]
+[ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="31_sp"]
 
 [node name="Level6" type="Node2D"]
 script = ExtResource("1")
@@ -151,6 +153,14 @@ variant_frames = ExtResource("22")
 [node name="F8" parent="Fruits" instance=ExtResource("20")]
 position = Vector2(1360, 68)
 variant_frames = ExtResource("23")
+
+[node name="Flyer1" parent="Enemies" instance=ExtResource("30_fl")]
+position = Vector2(500, 150)
+patrol_distance = Vector2(140, 0)
+patrol_speed = 46.0
+
+[node name="Spikes1" parent="Traps" instance=ExtResource("31_sp")]
+position = Vector2(1064, 128)
 
 [node name="Player" parent="." instance=ExtResource("4")]
 position = Vector2(24, 204)

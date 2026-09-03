@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://objects/enemies/walker/walker.gd" id="1"]
-[ext_resource type="Texture2D" path="res://objects/enemies/walker/sprites/enemyWalking_1.png" id="2"]
-[ext_resource type="Texture2D" path="res://objects/enemies/walker/sprites/enemyWalking_2.png" id="3"]
+[ext_resource type="Script" path="res://objects/_retired/walker/walker.gd" id="1"]
+[ext_resource type="Texture2D" path="res://objects/_retired/walker/sprites/enemyWalking_1.png" id="2"]
+[ext_resource type="Texture2D" path="res://objects/_retired/walker/sprites/enemyWalking_2.png" id="3"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="4"]
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="5"]
 [ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="6"]

@@ -17,6 +17,7 @@ var _moving_forward: bool = true
 var _time: float = 0.0
 
 func _ready() -> void:
+	add_to_group("enemy")  # để đếm số quái / thành tựu bắt đúng
 	_start = position
 	_end = position + patrol_distance
 	sprite.play("fly")

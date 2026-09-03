@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://objects/traps/trampoline/trampoline.tscn" id="27"]
 [ext_resource type="PackedScene" path="res://objects/story_sign/story_sign.tscn" id="28"]
 [ext_resource type="PackedScene" path="res://objects/decor/crate/crate.tscn" id="29"]
+[ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="30_sp"]
 
 [node name="Level1" type="Node2D" unique_id=1253275234]
 script = ExtResource("1")
@@ -89,6 +90,9 @@ speaker = "Vết khắc"
 
 [node name="Crate1" parent="Decor" unique_id=1106622539 instance=ExtResource("29")]
 position = Vector2(636, 126)
+
+[node name="Spikes1" parent="Traps" instance=ExtResource("30_sp")]
+position = Vector2(272, 208)
 
 [node name="Player" parent="." unique_id=1355743432 instance=ExtResource("2")]
 position = Vector2(32, 204)

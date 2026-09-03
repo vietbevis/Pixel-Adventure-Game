@@ -24,6 +24,8 @@
 [ext_resource type="SpriteFrames" uid="uid://caayogg3m32em" path="res://objects/fruit/sprites/bananas_frames.tres" id="22"]
 [ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="23"]
 [ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="24"]
+[ext_resource type="PackedScene" path="res://objects/enemies/orbit_saw/orbit_saw.tscn" id="30_os"]
+[ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="31_sp"]
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1")
@@ -155,6 +157,14 @@ variant_frames = ExtResource("21")
 [node name="F8" parent="Fruits" instance=ExtResource("19")]
 position = Vector2(1100, 120)
 variant_frames = ExtResource("22")
+
+[node name="OrbitSaw1" parent="Traps" instance=ExtResource("30_os")]
+position = Vector2(460, 150)
+radius = 40.0
+angular_speed = 1.8
+
+[node name="Spikes1" parent="Traps" instance=ExtResource("31_sp")]
+position = Vector2(720, 112)
 
 [node name="Player" parent="." instance=ExtResource("4")]
 position = Vector2(24, 220)
