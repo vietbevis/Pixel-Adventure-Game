@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://byd5p0c524h23"]
+[gd_scene load_steps=7 format=3 uid="uid://byd5p0c524h23"]
 
 [ext_resource type="Script" uid="uid://g1pp0n565bq0" path="res://ui/main_menu/main_menu.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bduwysn5k1rkl" path="res://shared/backgrounds/Blue.png" id="2"]
+[ext_resource type="Texture2D" path="res://ui/shared/logo.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://b6xvyj58hi4in" path="res://ui/shared/buttons/Play.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://lhqbcgpbjwwj" path="res://ui/shared/buttons/Settings.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://8ptp2hp04gt" path="res://ui/shared/buttons/Close.png" id="5"]
@@ -34,12 +35,12 @@ layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=2018067436]
+[node name="Logo" type="TextureRect" parent="CenterContainer/DialogPanel/VBoxContainer"]
+custom_minimum_size = Vector2(300, 138)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-theme_override_constants/outline_size = 4
-text = "PIXEL ADVENTURE"
-horizontal_alignment = 1
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Spacer" type="Control" parent="CenterContainer/DialogPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 4)

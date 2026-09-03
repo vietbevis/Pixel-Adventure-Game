@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" path="res://objects/enemies/pig/pig.tscn" id="22"]
 [ext_resource type="PackedScene" path="res://objects/secret_alcove/secret_alcove.tscn" id="24"]
 [ext_resource type="PackedScene" path="res://objects/collectible_diamond/collectible_diamond.tscn" id="25"]
-[ext_resource type="PackedScene" uid="uid://cbbjcpdowryvo" path="res://shared/backgrounds/forest_parallax.tscn" id="26"]
+[ext_resource type="PackedScene" path="res://shared/backgrounds/forest_parallax.tscn" id="26"]
 [ext_resource type="PackedScene" path="res://objects/traps/trampoline/trampoline.tscn" id="27"]
 [ext_resource type="PackedScene" path="res://objects/story_sign/story_sign.tscn" id="28"]
 [ext_resource type="PackedScene" path="res://objects/decor/crate/crate.tscn" id="29"]

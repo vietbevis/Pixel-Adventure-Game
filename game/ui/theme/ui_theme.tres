@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://dqx6n8y2h5j7a"]
 
-[ext_resource type="FontFile" uid="uid://c1qxm66t2kokg" path="res://ui/theme/fonts/KenneyPixelSquare.ttf" id="1_font"]
+[ext_resource type="FontFile" path="res://ui/theme/fonts/Handjet.ttf" id="1_font"]
 [ext_resource type="Texture2D" uid="uid://7bwmplilhq1p" path="res://ui/theme/panels/button_grey.png" id="2_grey"]
 [ext_resource type="Texture2D" uid="uid://1c1qe44vf7np" path="res://ui/theme/panels/button_grey_hover.png" id="3_grey_h"]
 [ext_resource type="Texture2D" uid="uid://bdqnbbtrltewq" path="res://ui/theme/panels/button_grey_pressed.png" id="4_grey_p"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://v2csvn0rx8gk" path="res://ui/theme/panels/button_red_hover.png" id="9_red_h"]
 [ext_resource type="Texture2D" uid="uid://bnq4c5xch5uw" path="res://ui/theme/panels/button_red_pressed.png" id="10_red_p"]
 [ext_resource type="Texture2D" uid="uid://c6vb01ch5lr8v" path="res://ui/theme/panels/dialog_grey.png" id="11_dialog"]
+[ext_resource type="Texture2D" path="res://ui/theme/panels/dialog_tan.png" id="12_dialog_tan"]
 
 [sub_resource type="StyleBoxTexture" id="sb_grey_n"]
 content_margin_left = 14.0
@@ -91,6 +92,17 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 
+[sub_resource type="StyleBoxTexture" id="sb_dialog_tan"]
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+texture = ExtResource("12_dialog_tan")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
 [sub_resource type="StyleBoxTexture" id="sb_green_n"]
 content_margin_left = 14.0
 content_margin_top = 10.0
@@ -151,6 +163,8 @@ DangerButton/styles/normal = SubResource("sb_red_n")
 DangerButton/styles/pressed = SubResource("sb_red_p")
 DialogPanel/base_type = &"PanelContainer"
 DialogPanel/styles/panel = SubResource("sb_dialog")
+DialogPanelWin/base_type = &"PanelContainer"
+DialogPanelWin/styles/panel = SubResource("sb_dialog_tan")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0.09, 0.08, 0.14, 1)
 Label/constants/outline_size = 3

@@ -2,7 +2,6 @@
 ## Trạng thái thắng/thua đọc từ GameManager.last_result, được set bởi màn chơi trước đó.
 extends Control
 
-const WIN_PANEL_TEXTURE := preload("res://ui/theme/panels/dialog_tan.png")
 ## Ảnh nền lát nền (tile) cho từng trạng thái: xám trầm khi thua, vàng ấm khi thắng
 const LOSE_BG_TEXTURE := preload("res://shared/backgrounds/Gray.png")
 const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
@@ -17,6 +16,7 @@ const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
 @onready var menu_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/MenuButton
 
 func _ready() -> void:
+	_play_intro()
 	var won := GameManager.last_result == "win"
 	var time_taken := GameManager.elapsed_time()
 	var previous_best := SaveManager.get_best_time(GameManager.current_level_id)
@@ -36,23 +36,26 @@ func _ready() -> void:
 	confetti.visible = won
 	if won:
 		title_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.35))
-		var win_style := StyleBoxTexture.new()
-		win_style.texture = WIN_PANEL_TEXTURE
-		win_style.texture_margin_left = 16.0
-		win_style.texture_margin_top = 16.0
-		win_style.texture_margin_right = 16.0
-		win_style.texture_margin_bottom = 16.0
-		win_style.content_margin_left = 24.0
-		win_style.content_margin_top = 20.0
-		win_style.content_margin_right = 24.0
-		win_style.content_margin_bottom = 20.0
-		panel.add_theme_stylebox_override("panel", win_style)
+		# Khung vàng ấm khi thắng — dùng biến thể theme (khớp quy ước "không dựng
+		# StyleBox trong code"; đổi stylebox lúc runtime từng làm panel co lại).
+		panel.theme_type_variation = &"DialogPanelWin"
 	# "Next Level" chỉ hiện khi vừa thắng và world này còn màn kế tiếp (không phải boss).
 	var next_id := WorldData.next_in_world(GameManager.current_level_id) if won else ""
 	next_button.visible = next_id != ""
 	next_button.pressed.connect(_on_next.bind(next_id))
 	retry_button.pressed.connect(_on_retry)
 	menu_button.pressed.connect(_on_menu)
+
+## Fade + pop nhẹ khi mở (thay cho AnimationPlayer cũ — animate scale trên
+## PanelContainer từng làm khung co lại không bao hết nút).
+func _play_intro() -> void:
+	panel.modulate.a = 0.0
+	panel.scale = Vector2(0.92, 0.92)
+	await get_tree().process_frame
+	panel.pivot_offset = panel.size * 0.5
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(panel, "modulate:a", 1.0, 0.18)
+	tween.tween_property(panel, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 ## Chơi lại: nếu vừa thắng thì phải bắt đầu lại từ đầu (bỏ checkpoint cũ).
 ## Tim (hearts) sẽ tự được làm đầy khi level_1.gd chạy lại (_enter_tree).

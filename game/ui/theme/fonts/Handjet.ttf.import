@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c1qxm66t2kokg"
-path="res://.godot/imported/KenneyPixelSquare.ttf-93dc3348126adce8c7715f56edb122cc.fontdata"
+uid="uid://crvse2dy6xumt"
+path="res://.godot/imported/Handjet.ttf-a8af830a7254b8e6b036829b50fd4aad.fontdata"
 
 [deps]
 
-source_file="res://ui/theme/fonts/KenneyPixelSquare.ttf"
-dest_files=["res://.godot/imported/KenneyPixelSquare.ttf-93dc3348126adce8c7715f56edb122cc.fontdata"]
+source_file="res://ui/theme/fonts/Handjet.ttf"
+dest_files=["res://.godot/imported/Handjet.ttf-a8af830a7254b8e6b036829b50fd4aad.fontdata"]
 
 [params]
 
