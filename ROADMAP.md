@@ -907,10 +907,18 @@ P2a Damage pipeline migration ....... ✅ a747cf1
 P2b Player attack + enemy reactions . ✅ a88272b
 P2.5 Mobile touch controls ......... ✅ 05684cf  (APK chưa build)
 P3-P8 ............................... ✅ (xem các note ở trên)
-P9  Level & World Redesign .......... 🔨 CODE XONG — 6 màn + 2 boss + hub, 3 tileset/parallax riêng, chờ playtest in-editor
-P10 Audio & Polish ................. 🔨 CODE XONG — AudioManager (nhạc/SFX/volume), camera shake, bụi tiếp đất, hit-spark, cửa hub có animation
-P11 Achievements .................... 🔨 CODE XONG — 6 mốc, Toast; challenge mode chưa làm
+P9  Level & World Redesign .......... ✅ verified (branch polish/full-review-fixes) — 6 màn + 2 boss + hub
+P10 Audio & Polish ................. ✅ verified
+P11 Achievements .................... ✅ verified + có màn Thành tựu riêng (ui/achievements/), 6 mốc
 ```
+
+**Rà soát & hoàn thiện toàn bộ (branch `polish/full-review-fixes`, 09/09/2026):** pass 7 phase —
+(1) bug chặn (level_5 qua được màn, boss hết spawn trong tường, diamond bí mật);
+(2) code correctness (time-scale/i-frame/save flush/SceneTransition guard/`GameIds`);
+(3) nền hiển thị (base 1152×648, gamepad, font); (4) design system UI + Việt hoá toàn bộ +
+hộp xác nhận + focus + màn Thành tựu; (5) đặt lại vị trí/kích thước vật thể mọi màn;
+(6) dùng lại flyer/orbit_saw/spikes + dọn `objects/_retired/`; (7) tài liệu + verify (Godot 4.7.2
+có ở máy — import sạch lỗi, screenshot mọi màn). Còn: chơi thật end-to-end trong editor, build APK.
 
 **P9-6 (28/08): World 3 có boss thật.** `boss_dungeon` (Warden — King Pig reskin tím, hp 14,
 `boss_id="dungeon_boss"`) nối vào chuỗi `dungeon`: level_5 → level_6 → boss_dungeon. Thành tựu
