@@ -18,6 +18,9 @@ extends Node
 var hp: int
 var _invincible: bool = false
 var _dead: bool = false
+## Tăng mỗi lần bắt đầu/kết thúc/huỷ một khoảng i-frame — coroutine i-frame cũ so
+## khớp generation của mình, không khớp thì bỏ qua (đã bị revive/grant huỷ giữa chừng).
+var _iframe_gen: int = 0
 
 signal health_changed(current: int, maximum: int)
 signal damaged(amount: int, source: Node)
@@ -30,20 +33,22 @@ func _ready() -> void:
 	# Phát 1 lần lúc khởi tạo để HUD / mirror đồng bộ ngay, không phụ thuộc thứ tự _ready.
 	health_changed.emit(hp, max_hp)
 
-## Trừ máu. Bỏ qua nếu đang bất tử hoặc đã chết. `source` là node gây sát thương
-## (Hitbox, bẫy...) — dùng cho knockback / hiệu ứng phía owner.
-func damage(amount: int, source: Node = null) -> void:
+## Trừ máu. Trả về true nếu THỰC SỰ trừ được (không bất tử / chưa chết / amount > 0)
+## — owner dùng để chỉ phát rung/SFX/anim "hit" khi đòn có tác dụng.
+## `source` là node gây sát thương (Hitbox, bẫy...) — dùng cho knockback phía owner.
+func damage(amount: int, source: Node = null) -> bool:
 	if _dead or _invincible or amount <= 0:
-		return
+		return false
 	hp = max(hp - amount, 0)
 	damaged.emit(amount, source)
 	health_changed.emit(hp, max_hp)
 	if hp == 0:
 		_dead = true
 		died.emit()
-		return
+		return true
 	if invincibility_on_hit:
 		_start_invincibility()
+	return true
 
 func heal(amount: int) -> void:
 	if _dead or amount <= 0:
@@ -57,10 +62,17 @@ func heal_to_full() -> void:
 	hp = max_hp
 	health_changed.emit(hp, max_hp)
 
+## Đổi máu tối đa lúc đang chạy (heart container). Kẹp hp lại + phát signal.
+func set_max_hp(value: int) -> void:
+	max_hp = max(value, 1)
+	hp = min(hp, max_hp) if not _dead else hp
+	health_changed.emit(hp, max_hp)
+
 ## Hồi sinh sau khi đã chết (dùng khi respawn tại checkpoint).
 func revive() -> void:
 	_dead = false
 	_invincible = false
+	_iframe_gen += 1  # huỷ mọi coroutine i-frame còn treo từ trước khi chết
 	hp = max_hp
 	health_changed.emit(hp, max_hp)
 
@@ -76,10 +88,13 @@ func is_invincible() -> bool:
 	return _invincible
 
 func _start_invincibility() -> void:
+	_iframe_gen += 1
+	var gen := _iframe_gen
 	_invincible = true
 	invincibility_started.emit(invincibility_duration)
 	await get_tree().create_timer(invincibility_duration).timeout
-	if not is_inside_tree():
-		return  # node đã bị giải phóng (đổi scene) trong lúc chờ
+	# Bỏ qua nếu node đã bị giải phóng, hoặc một i-frame/revive mới đã bắt đầu trong lúc chờ.
+	if not is_inside_tree() or gen != _iframe_gen:
+		return
 	_invincible = false
 	invincibility_ended.emit()

@@ -6,8 +6,9 @@ func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
 
 func _on_boss_defeated(boss_id: String) -> void:
-	if boss_id != "dungeon_boss":
+	if boss_id != GameIds.BOSS_DUNGEON:
 		return
-	await get_tree().create_timer(1.6).timeout
+	Engine.time_scale = 1.0
+	await get_tree().create_timer(1.6, true, false, true).timeout
 	if is_instance_valid(player) and not player.is_dead:
 		player.win()

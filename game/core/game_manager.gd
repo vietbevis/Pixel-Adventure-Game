@@ -14,6 +14,9 @@ var respawn_position: Vector2 = Vector2.ZERO
 var has_checkpoint: bool = false
 ## Tổng thời gian (giây) đã chơi trong lượt hiện tại (cộng dồn delta, dừng khi Pause).
 var _elapsed: float = 0.0
+## Chỉ đếm giờ khi đang thực sự chơi trong 1 màn — không tính thời gian ở menu,
+## hub, end_screen hay lúc fade chuyển scene. level_base bật; win/thua tắt.
+var _timer_running: bool = false
 
 ## Gọi khi bắt đầu 1 lượt chơi mới (từ Level Select / Continue).
 func start_new_run(level_id: String = current_level_id) -> void:
@@ -23,10 +26,14 @@ func start_new_run(level_id: String = current_level_id) -> void:
 	has_checkpoint = false
 	respawn_position = Vector2.ZERO
 	_elapsed = 0.0
+	_timer_running = false
 	SaveManager.set_last_level(level_id)
 
+func set_timer_running(value: bool) -> void:
+	_timer_running = value
+
 func _process(delta: float) -> void:
-	if not get_tree().paused:
+	if _timer_running and not get_tree().paused:
 		_elapsed += delta
 
 func elapsed_time() -> float:

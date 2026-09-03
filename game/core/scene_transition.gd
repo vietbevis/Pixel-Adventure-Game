@@ -6,7 +6,17 @@ extends CanvasLayer
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+## Chặn gọi chồng: goto() là coroutine nối thẳng vào signal `pressed` của ~10 nút,
+## double-click sẽ khởi 2 lượt fade + 2 lần change_scene → màn đen / kẹt.
+var _busy: bool = false
+
 func goto(path: String) -> void:
+	if _busy:
+		return
+	if path.is_empty():
+		push_error("SceneTransition.goto: đường dẫn scene rỗng — bỏ qua.")
+		return
+	_busy = true
 	get_tree().paused = false
 	# An toàn: nếu đổi scene ngay giữa lúc hit-stop (player.gd) chưa kịp khôi phục.
 	Engine.time_scale = 1.0
@@ -16,3 +26,4 @@ func goto(path: String) -> void:
 	await get_tree().process_frame
 	animation_player.play("fade_out")
 	await animation_player.animation_finished
+	_busy = false

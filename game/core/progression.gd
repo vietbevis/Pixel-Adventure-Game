@@ -10,8 +10,8 @@ extends Node
 const BOSS_REWARDS := {}
 
 ## Nhặt đủ toàn bộ Diamond của Forest → +1 tim tối đa (heart container).
-const FOREST_SECRETS: Array[String] = ["diamond_forest_1", "diamond_forest_2", "diamond_forest_3"]
-const MAX_HP_BASE := 3
+## Danh sách + máu gốc: xem core/game_ids.gd (nguồn duy nhất).
+const FOREST_SECRETS := GameIds.FOREST_SECRETS
 
 func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
@@ -35,4 +35,4 @@ func _on_collectible_collected(_id: String, kind: String) -> void:
 		if not SaveManager.is_secret_collected(secret_id):
 			return
 	SaveManager.add_max_hp_bonus(1)
-	Events.max_hp_increased.emit(MAX_HP_BASE + SaveManager.get_max_hp_bonus())
+	Events.max_hp_increased.emit(GameIds.PLAYER_BASE_HP + SaveManager.get_max_hp_bonus())

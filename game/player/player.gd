@@ -21,7 +21,8 @@ const DASH_DURATION := 0.16
 const DASH_COOLDOWN := 0.5
 
 const ATTACK_ANIM := &"attack"
-const DASH_DUST := preload("res://objects/fx/dust.tscn")
+## dust.tscn dùng lại cho 3 hiệu ứng: bụi tiếp đất, bụi dash, tia sáng khi trúng đòn.
+const HIT_FX := preload("res://objects/fx/dust.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## Nguồn thật của số tim + trạng thái bất tử. Xem components/health_component.gd.
@@ -58,11 +59,11 @@ func _ready() -> void:
 	_apply_sprite_frames()
 	global_position = GameManager.respawn_position
 	sprite.play("idle")
-	# Heart container (Phase 8): tim tối đa cộng thêm vĩnh viễn từ phần thưởng đã lưu.
+	# Heart container: tim tối đa cộng thêm vĩnh viễn từ phần thưởng đã lưu.
 	var hp_bonus := SaveManager.get_max_hp_bonus()
 	if hp_bonus > 0:
-		health.max_hp += hp_bonus
-		health.hp = health.max_hp
+		health.set_max_hp(GameIds.PLAYER_BASE_HP + hp_bonus)
+		health.heal_to_full()
 	Events.max_hp_increased.connect(_on_max_hp_increased)
 	health.died.connect(_on_health_died)
 	health.health_changed.connect(_on_health_changed)
@@ -97,6 +98,12 @@ func _physics_process(delta: float) -> void:
 		if _dash_timer <= 0.0:
 			is_dashing = false
 		move_and_slide()
+		# Vẫn nạp lại số nhảy khi dash ngang trên mặt đất, để dash xong không bị mất
+		# hết nhảy trên không.
+		if is_on_floor():
+			jumps_left = MAX_JUMPS
+			last_wall_jump_dir = 0.0
+		_fall_speed_prev = velocity.y
 		return
 
 	if Input.is_action_just_pressed("dash") and _dash_cooldown <= 0.0 \
@@ -156,7 +163,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	# Vừa tiếp đất sau khi rơi đủ nhanh → bụi + tiếng bịch.
 	if was_airborne and is_on_floor() and velocity.y >= 0.0 and _fall_speed_prev > 180.0:
-		var d := DASH_DUST.instantiate()
+		var d := HIT_FX.instantiate()
 		get_parent().add_child(d)
 		d.global_position = global_position + Vector2(0, 10)
 	_fall_speed_prev = velocity.y
@@ -219,7 +226,7 @@ func _start_dash() -> void:
 	_dash_dir = facing
 	sprite.flip_h = facing < 0
 	sprite.play("jump")
-	var dust := DASH_DUST.instantiate()
+	var dust := HIT_FX.instantiate()
 	get_parent().add_child(dust)
 	dust.global_position = global_position + Vector2(-_dash_dir * 8.0, 8.0)
 	dust.scale.x = -_dash_dir
@@ -227,7 +234,7 @@ func _start_dash() -> void:
 ## Khựng hình cực ngắn khi đòn trúng — làm cú đánh "đã tay" hơn.
 func _on_hit_landed(target: Hurtbox) -> void:
 	# Tia sáng vàng chỗ trúng đòn (dùng lại dust.tscn, đổi màu).
-	var spark := DASH_DUST.instantiate()
+	var spark := HIT_FX.instantiate()
 	get_parent().add_child(spark)
 	spark.global_position = target.global_position if is_instance_valid(target) else hitbox.global_position
 	spark.color = Color(1.0, 0.92, 0.55, 0.9)
@@ -256,6 +263,9 @@ func hit(force_reposition: bool = false) -> void:
 
 	_end_attack()
 	sprite.play("hit")
+	# Rơi khỏi map cũng phải có rung + tiếng như trúng bẫy (đường Hurtbox tự phát,
+	# đường này thì không nên phải phát tay).
+	Events.player_damaged.emit(1)
 	if force_reposition:
 		# Rơi khỏi map: còn tim vẫn phải bung ngay về respawn, tránh gọi hit() mỗi frame.
 		global_position = GameManager.respawn_position
@@ -270,8 +280,8 @@ func _on_checkpoint_activated(_position: Vector2) -> void:
 
 ## Nhặt đủ Diamond → tim tối đa tăng ngay tại chỗ (không phải đợi load màn mới).
 func _on_max_hp_increased(new_max: int) -> void:
-	health.max_hp = new_max
-	health.heal(new_max)  # heal() tự kẹp ở max_hp → lấp đầy phần tim mới
+	health.set_max_hp(new_max)
+	health.heal_to_full()
 
 ## Hurtbox vừa chạm bẫy/quái — sát thương đã được chuyển vào HealthComponent, ở đây
 ## chỉ phản ứng hình ảnh (nếu đòn chí mạng thì _on_health_died đã lo, is_dead = true).
@@ -284,17 +294,22 @@ func _on_hurt(_source: Area2D) -> void:
 ## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
 func _on_health_died() -> void:
 	is_dead = true
+	# Đòn kết liễu có thể xảy ra cùng frame với hit-stop (time_scale = 0.05); nếu
+	# không khôi phục ở đây thì các create_timer bên dưới giãn ra 8–12s màn đen.
+	Engine.time_scale = 1.0
+	_hit_stop_active = false
 	_end_attack()
 	velocity = Vector2.ZERO
 	sprite.play("hit")
 	Events.player_died.emit()
 
 	if GameManager.has_checkpoint:
-		await get_tree().create_timer(0.4).timeout
+		await get_tree().create_timer(0.4, true, false, true).timeout
 		_respawn_at_checkpoint()
 	else:
 		GameManager.last_result = "lose"
-		await get_tree().create_timer(0.6).timeout
+		GameManager.set_timer_running(false)
+		await get_tree().create_timer(0.6, true, false, true).timeout
 		SceneTransition.goto("res://ui/end_screen/end_screen.tscn")
 
 ## Bung lại tại vị trí checkpoint gần nhất, đầy lại tim, cho chơi tiếp ngay
@@ -340,4 +355,5 @@ func win() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
 	GameManager.last_result = "win"
+	GameManager.set_timer_running(false)  # dừng đồng hồ ngay, không tính thời gian fade
 	SceneTransition.goto("res://ui/end_screen/end_screen.tscn")

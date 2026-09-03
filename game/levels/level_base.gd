@@ -23,28 +23,35 @@ const TOUCH_CONTROLS_SCENE := preload("res://ui/touch_controls/touch_controls.ts
 @export var camera_limit_bottom: int = 256
 
 @onready var player: CharacterBody2D = $Player
+@onready var _camera: Camera2D = $Player/Camera2D
 
 var pause_menu_instance: CanvasLayer = null
 
 func _enter_tree() -> void:
 	# Runs before any child's _ready(), so Player picks up the right spawn point.
-	if not GameManager.has_checkpoint:
-		GameManager.respawn_position = $Interactables/StartMarker.global_position
+	var start_marker := get_node_or_null(^"Interactables/StartMarker")
+	if start_marker == null:
+		push_error("%s: thiếu node Interactables/StartMarker — spawn sẽ sai." % name)
+	elif not GameManager.has_checkpoint:
+		GameManager.respawn_position = start_marker.global_position
 	# (Tim đầy lại tự động: player được tạo mới khi load màn → HealthComponent._ready
 	# đặt hp = max_hp.)
 
 func _ready() -> void:
-	var camera: Camera2D = player.get_node("Camera2D")
-	camera.limit_left = camera_limit_left
-	camera.limit_right = camera_limit_right
-	camera.limit_top = camera_limit_top
-	camera.limit_bottom = camera_limit_bottom
+	_camera.limit_left = camera_limit_left
+	_camera.limit_right = camera_limit_right
+	_camera.limit_top = camera_limit_top
+	_camera.limit_bottom = camera_limit_bottom
 
 	var touch := TOUCH_CONTROLS_SCENE.instantiate()
 	touch.pause_pressed.connect(_on_pause_requested)
 	add_child(touch)
 
-	AudioManager.play_music(WorldData.world_of(GameManager.current_level_id))
+	var world := WorldData.world_of(GameManager.current_level_id)
+	GameManager.current_world = world
+	GameManager.set_timer_running(true)
+	AudioManager.play_music(world)
+	Events.level_started.emit(GameManager.current_level_id)
 
 	if world_title != "":
 		_show_title_card()

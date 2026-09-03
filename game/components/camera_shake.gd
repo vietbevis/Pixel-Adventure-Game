@@ -7,13 +7,16 @@ extends Node
 @export var max_offset: float = 7.0        ## biên độ lệch tối đa (px) khi trauma = 1
 
 var _trauma: float = 0.0
+var _base_offset: Vector2 = Vector2.ZERO
 
 @onready var _camera: Camera2D = get_parent() as Camera2D
 
 func _ready() -> void:
 	if _camera == null:
-		push_warning("CameraShake: parent is not a Camera2D")
+		push_warning("CameraShake: node cha không phải Camera2D — tắt.")
+		set_process(false)
 		return
+	_base_offset = _camera.offset
 	Events.player_damaged.connect(func(_a: int) -> void: add_trauma(0.45))
 	Events.enemy_died.connect(func(_n: Node, _p: Vector2) -> void: add_trauma(0.18))
 	Events.boss_phase_changed.connect(func(_p: int) -> void: add_trauma(0.7))
@@ -24,14 +27,12 @@ func add_trauma(amount: float) -> void:
 	_trauma = clampf(_trauma + amount, 0.0, 1.0)
 
 func _process(delta: float) -> void:
-	if _camera == null:
-		return
 	if _trauma <= 0.0:
-		if _camera.offset != Vector2.ZERO:
-			_camera.offset = Vector2.ZERO
+		if _camera.offset != _base_offset:
+			_camera.offset = _base_offset
 		return
 	_trauma = maxf(_trauma - trauma_decay * delta, 0.0)
 	var shake := _trauma * _trauma
-	_camera.offset = Vector2(
+	_camera.offset = _base_offset + Vector2(
 		max_offset * shake * randf_range(-1.0, 1.0),
 		max_offset * shake * randf_range(-1.0, 1.0))

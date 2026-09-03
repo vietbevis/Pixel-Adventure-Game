@@ -15,7 +15,7 @@ func _ready() -> void:
 	body_exited.connect(_on_exit)
 
 func _process(_delta: float) -> void:
-	if _near and not Dialogue.is_open and Input.is_action_just_pressed("interact"):
+	if _near and not Dialogue.is_blocking_interact() and Input.is_action_just_pressed("interact"):
 		var lines := PackedStringArray()
 		if line_1 != "":
 			lines.append(line_1)

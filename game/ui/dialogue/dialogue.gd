@@ -7,8 +7,10 @@ extends CanvasLayer
 signal finished
 
 ## true ngay khi `open()` được gọi — mọi chỗ polling `interact` (portal, hub_sign, npc)
-## phải kiểm tra cờ này để không kích hoạt trùng trong cùng frame mở thoại.
+## nên gọi `is_blocking_interact()` (bao cả 1 frame sau khi đóng) để không kích hoạt trùng.
 var is_open: bool = false
+## Đúng 1 frame sau khi thoại đóng.
+var _just_closed: bool = false
 
 var _lines: PackedStringArray = []
 var _index: int = 0
@@ -54,8 +56,17 @@ func _close() -> void:
 	var tween := create_tween()
 	tween.tween_property(_panel, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(func() -> void: _panel.visible = false)
-	finished.emit()
-	# Giữ is_open thêm 1 frame: cú nhấn `interact` đóng thoại này KHÔNG được để NPC/portal
-	# bắt lại trong cùng frame (polling is_action_just_pressed bỏ qua set_input_as_handled).
-	await get_tree().process_frame
+	# is_open = false NGAY (không phải sau khi phát signal) — listener của `finished`
+	# kiểm tra Dialogue.is_open phải thấy giá trị đúng.
 	is_open = false
+	# ...nhưng chặn NPC/portal bắt lại cú `interact` đóng thoại trong CÙNG frame:
+	# giữ một cờ riêng thêm 1 frame (polling is_action_just_pressed bỏ qua set_input_as_handled).
+	_just_closed = true
+	finished.emit()
+	await get_tree().process_frame
+	_just_closed = false
+
+## Node polling `interact` (portal/hub_sign/npc/story_sign) gọi hàm này thay vì chỉ
+## `is_open`, để không kích hoạt trùng ngay frame đóng thoại.
+func is_blocking_interact() -> bool:
+	return is_open or _just_closed

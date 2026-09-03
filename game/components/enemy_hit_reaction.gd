@@ -12,6 +12,8 @@ extends Node
 ## Node để nháy / phóng to khi trúng (thường là AnimatedSprite2D của quái).
 @export var sprite: CanvasItem
 
+var _flash_tween: Tween
+
 func _ready() -> void:
 	if health_component == null:
 		health_component = get_parent().get_node_or_null(^"HealthComponent")
@@ -28,11 +30,15 @@ func _on_damaged(_amount: int, _source: Node) -> void:
 	if sprite == null or health_component.hp <= 0:
 		return
 	# modulate > 1 kẹp về trắng → hiệu ứng "flash" khi trúng đòn.
-	var tween := create_tween()
-	tween.tween_property(sprite, "modulate", Color(10, 10, 10), 0.04)
-	tween.tween_property(sprite, "modulate", Color.WHITE, 0.14)
+	if _flash_tween and _flash_tween.is_valid():
+		_flash_tween.kill()
+	_flash_tween = create_tween()
+	_flash_tween.tween_property(sprite, "modulate", Color(10, 10, 10), 0.04)
+	_flash_tween.tween_property(sprite, "modulate", Color.WHITE, 0.14)
 
 func _on_died() -> void:
+	if _flash_tween and _flash_tween.is_valid():
+		_flash_tween.kill()  # không để flash chạy chồng lên fade chết
 	var enemy := get_parent()
 	enemy.set_process(false)
 	enemy.set_physics_process(false)

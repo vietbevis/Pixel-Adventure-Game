@@ -38,6 +38,8 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	collected = true
 	GameManager.score += 1
+	Events.fruit_collected.emit(GameManager.score)
+	AudioManager.play_sfx("pickup")
 	collision.set_deferred("disabled", true)
 	# Hiệu ứng "collect" (phóng to + mờ dần) được dựng bằng AnimationPlayer trong
 	# fruit.tscn (Godot editor), script chỉ phát rồi xoá node khi chạy xong.

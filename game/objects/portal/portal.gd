@@ -23,7 +23,7 @@ func _ready() -> void:
 	Events.boss_defeated.connect(func(_id: String) -> void: _refresh())
 
 func _process(_delta: float) -> void:
-	if _entering or Dialogue.is_open:
+	if _entering or Dialogue.is_blocking_interact():
 		return
 	if _player_near and _is_open() and Input.is_action_just_pressed("interact"):
 		_enter()

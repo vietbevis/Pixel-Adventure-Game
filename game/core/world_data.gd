@@ -29,20 +29,20 @@ const WORLDS: Array[Dictionary] = [
 		"id": "dungeon",
 		"name": "Hầm Ngục Cổ",
 		"levels": ["level_5", "level_6", "boss_dungeon"],
-		"unlock_boss": "forest_boss",
+		"unlock_boss": GameIds.BOSS_FOREST,
 		"unlock_level": "",
 	},
 ]
 
 static func get_world(world_id: String) -> Dictionary:
-	for w in WORLDS:
+	for w: Dictionary in WORLDS:
 		if w["id"] == world_id:
 			return w
 	return {}
 
 ## world chứa level_id ("" nếu không thuộc world nào — vd hub).
 static func world_of(level_id: String) -> String:
-	for w in WORLDS:
+	for w: Dictionary in WORLDS:
 		if level_id in w["levels"]:
 			return w["id"]
 	return ""

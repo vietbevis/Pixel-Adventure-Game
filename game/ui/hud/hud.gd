@@ -17,8 +17,13 @@ var _max_hearts: int = 3
 func _ready() -> void:
 	Events.player_health_changed.connect(_on_health_changed)
 	Events.collectible_collected.connect(_on_collectible_collected)
+	Events.fruit_collected.connect(_on_fruit_collected)
 	_update_secret_label()
 	_rebuild_hearts()
+	_on_fruit_collected(GameManager.score)
+
+func _on_fruit_collected(total: int) -> void:
+	label.text = "Trái cây: %d" % total
 
 func _on_health_changed(current: int, maximum: int) -> void:
 	_hearts = current
@@ -33,8 +38,7 @@ func _on_collectible_collected(_id: String, kind: String) -> void:
 		_update_secret_label()
 
 func _process(_delta: float) -> void:
-	label.text = "Fruits: %d" % GameManager.score
-	time_label.text = "Time: %s" % LevelData.format_time(GameManager.elapsed_time())
+	time_label.text = "Giờ: %s" % LevelData.format_time(GameManager.elapsed_time())
 
 ## Sinh đúng `_max_hearts` icon (dùng lại các icon có sẵn trong scene, thêm/bớt cho khớp).
 func _rebuild_hearts() -> void:

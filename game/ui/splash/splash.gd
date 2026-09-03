@@ -24,6 +24,8 @@ const MIN_DISPLAY_TIME := 1.4
 
 var _elapsed: float = 0.0
 var _ready_to_go: bool = false
+## Giữ ref các scene đã nạp trước để chúng còn trong cache khi chuyển màn.
+var _preloaded: Array[Resource] = []
 
 func _ready() -> void:
 	start_button.visible = false
@@ -60,6 +62,12 @@ func _process(delta: float) -> void:
 func _finish_loading() -> void:
 	_ready_to_go = true
 	bar.value = 1.0
+	# Lấy hẳn kết quả về (giữ ref trong _preloaded) — nếu không gọi load_threaded_get
+	# thì loader nhả tài nguyên và lần change_scene sau vẫn nạp lại từ đĩa.
+	for path: String in PRELOAD:
+		var res := ResourceLoader.load_threaded_get(path)
+		if res:
+			_preloaded.append(res)
 	status.text = "NHẤN PHÍM BẤT KỲ ĐỂ BẮT ĐẦU"
 	start_button.visible = true
 	start_button.grab_focus()

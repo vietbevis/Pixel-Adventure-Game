@@ -33,7 +33,7 @@ func _ready() -> void:
 	Dialogue.finished.connect(_on_dialogue_finished)
 
 func _process(_delta: float) -> void:
-	if _near and not Dialogue.is_open and Input.is_action_just_pressed("interact"):
+	if _near and not Dialogue.is_blocking_interact() and Input.is_action_just_pressed("interact"):
 		_face_player()
 		_bubble.visible = true
 		_bubble.play("in")

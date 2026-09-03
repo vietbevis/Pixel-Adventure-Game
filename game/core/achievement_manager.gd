@@ -12,13 +12,11 @@ const ACHIEVEMENTS := {
 }
 const PIG_PURGE_TARGET := 40
 
-var _kills: int = 0
-
 func _ready() -> void:
 	Events.level_completed.connect(_on_level_completed)
 	Events.ability_unlocked.connect(_on_ability_unlocked)
 	Events.boss_defeated.connect(_on_boss_defeated)
-	Events.max_hp_increased.connect(func(_m: int) -> void: _grant("royal_seal"))
+	Events.max_hp_increased.connect(_on_max_hp_increased)
 	Events.enemy_died.connect(_on_enemy_died)
 
 func _on_level_completed(level_id: String) -> void:
@@ -30,14 +28,22 @@ func _on_ability_unlocked(id: String) -> void:
 		_grant("the_dash")
 
 func _on_boss_defeated(boss_id: String) -> void:
-	if boss_id == "forest_boss":
+	if boss_id == GameIds.BOSS_FOREST:
 		_grant("king_returns")
-	elif boss_id == "dungeon_boss":
+	elif boss_id == GameIds.BOSS_DUNGEON:
 		_grant("the_crown")
 
+## Chỉ trao khi phần thưởng CHÍNH LÀ heart-container của Rừng (đủ 3 diamond) — không
+## trao nhầm khi có heart-container khác sau này.
+func _on_max_hp_increased(_new_max: int) -> void:
+	for secret_id: String in GameIds.FOREST_SECRETS:
+		if not SaveManager.is_secret_collected(secret_id):
+			return
+	_grant("royal_seal")
+
 func _on_enemy_died(_enemy: Node, _pos: Vector2) -> void:
-	_kills += 1
-	if _kills >= PIG_PURGE_TARGET:
+	SaveManager.add_enemy_kill()
+	if SaveManager.get_enemy_kills() >= PIG_PURGE_TARGET:
 		_grant("pig_purge")
 
 func _grant(id: String) -> void:
