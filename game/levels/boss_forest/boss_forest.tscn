@@ -54,4 +54,4 @@ arena_bounds = Vector2(0, 520)
 [node name="BossHealthBar" parent="." instance=ExtResource("8")]
 
 [node name="BossGate" parent="." instance=ExtResource("9")]
-position = Vector2(24, 140)
+position = Vector2(24, 190)

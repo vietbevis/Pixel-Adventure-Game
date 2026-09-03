@@ -106,7 +106,7 @@ swing_degrees = 62.0
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Sign1" parent="Decor" instance=ExtResource("7")]
-position = Vector2(64, 232)
+position = Vector2(96, 232)
 speaker = "Khắc trên đá"
 line_1 = "TƯỜNG THÀNH.  Lâu đài của ngài — giờ đầy Heo."
 

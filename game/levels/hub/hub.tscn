@@ -35,7 +35,15 @@ shape = SubResource("floor")
 
 [node name="FloorVisual" type="Polygon2D" parent="Ground"]
 color = Color(0.29, 0.22, 0.16, 1)
-polygon = PackedVector2Array(-30, 200, 1010, 200, 1010, 280, -30, 280)
+polygon = PackedVector2Array(-30, 204, 1010, 204, 1010, 400, -30, 400)
+
+[node name="FloorGrass" type="Polygon2D" parent="Ground"]
+color = Color(0.29, 0.55, 0.24, 1)
+polygon = PackedVector2Array(-30, 200, 1010, 200, 1010, 206, -30, 206)
+
+[node name="FloorGrassEdge" type="Polygon2D" parent="Ground"]
+color = Color(0.22, 0.42, 0.18, 1)
+polygon = PackedVector2Array(-30, 206, 1010, 206, 1010, 210, -30, 210)
 
 [node name="WallL" type="CollisionShape2D" parent="Ground"]
 position = Vector2(-6, 60)
@@ -48,10 +56,10 @@ shape = SubResource("wall")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="StartMarker" type="Marker2D" parent="Interactables"]
-position = Vector2(70, 178)
+position = Vector2(130, 178)
 
 [node name="Advisor" parent="." instance=ExtResource("6")]
-position = Vector2(120, 198)
+position = Vector2(190, 198)
 speaker = "Cố vấn"
 report_abilities = true
 line_1 = "Mừng ngài trở về, thưa Đức Vua. Trại nhỏ này là tất cả những gì còn lại."
@@ -59,7 +67,7 @@ line_2 = "Băng qua Rừng Ranh Giới để tới lâu đài. Cổng Lâu Đài
 line_3 = "Hạ Vua Heo trong lâu đài, rồi đường xuống Hầm Ngục Cổ sẽ tự lộ ra."
 
 [node name="ForestPortal" parent="." instance=ExtResource("4")]
-position = Vector2(220, 168)
+position = Vector2(268, 168)
 world_id = "forest"
 
 [node name="Villager" parent="." instance=ExtResource("6")]

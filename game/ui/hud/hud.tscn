@@ -16,15 +16,19 @@ theme_override_constants/margin_right = 14
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 5
 
 [node name="FruitLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 theme_type_variation = &"Caption"
+theme_override_font_sizes/font_size = 19
+theme_override_constants/outline_size = 5
 layout_mode = 2
 text = "Trái cây: 0"
 
 [node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 theme_type_variation = &"Caption"
+theme_override_font_sizes/font_size = 19
+theme_override_constants/outline_size = 5
 layout_mode = 2
 text = "Giờ: 0:00"
 
@@ -33,25 +37,27 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Heart1" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("2")
 stretch_mode = 5
 
 [node name="Heart2" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("2")
 stretch_mode = 5
 
 [node name="Heart3" type="TextureRect" parent="MarginContainer/VBoxContainer/HeartsRow"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("2")
 stretch_mode = 5
 
 [node name="SecretLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 theme_type_variation = &"Caption"
+theme_override_font_sizes/font_size = 19
+theme_override_constants/outline_size = 5
 layout_mode = 2
 theme_override_colors/font_color = Color(0.55, 0.8, 1, 1)
 text = "Ngọc 0/3"

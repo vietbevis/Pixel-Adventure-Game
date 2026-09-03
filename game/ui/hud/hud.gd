@@ -3,9 +3,10 @@
 ## `maximum` để hỗ trợ heart container, không cố định 3.
 extends CanvasLayer
 
+const SafeArea := preload("res://core/safe_area.gd")
 const HEART_FULL := preload("res://ui/shared/controls/heart_full.png")
 const HEART_EMPTY := preload("res://ui/shared/controls/heart_empty.png")
-const HEART_SIZE := Vector2(36, 36)
+const HEART_SIZE := Vector2(30, 30)
 
 @onready var _margin: MarginContainer = $MarginContainer
 @onready var label: Label = $MarginContainer/VBoxContainer/FruitLabel
@@ -29,12 +30,9 @@ func _ready() -> void:
 ## Chừa lề theo vùng an toàn (tai thỏ / thanh cử chỉ) như touch_controls.
 func _apply_safe_area() -> void:
 	var vp := get_viewport().get_visible_rect().size
-	var safe := DisplayServer.get_display_safe_area()
-	var full := DisplayServer.screen_get_size()
-	var inset_l := 14.0 + (maxf(safe.position.x, 0.0) / maxf(full.x, 1.0)) * vp.x
-	var inset_t := 12.0 + (maxf(safe.position.y, 0.0) / maxf(full.y, 1.0)) * vp.y
-	_margin.add_theme_constant_override("margin_left", int(inset_l))
-	_margin.add_theme_constant_override("margin_top", int(inset_t))
+	var safe: Dictionary = SafeArea.insets(vp)
+	_margin.add_theme_constant_override("margin_left", int(14.0 + float(safe["left"])))
+	_margin.add_theme_constant_override("margin_top", int(12.0 + float(safe["top"])))
 
 func _on_fruit_collected(total: int) -> void:
 	label.text = "Trái cây: %d" % total

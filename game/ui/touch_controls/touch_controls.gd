@@ -7,6 +7,8 @@ extends CanvasLayer
 ## Pause phát qua signal (an toàn hơn dựa vào InputEventAction tới _unhandled_input).
 signal pause_pressed
 
+const SafeArea := preload("res://core/safe_area.gd")
+
 ## Kích thước nút sau khi scale (px), + lề mép màn hình + khoảng cách 2 nút cạnh nhau.
 const BTN := 96.0
 const MARGIN := 40.0
@@ -46,14 +48,13 @@ func _should_show() -> bool:
 ## Trừ safe-area (tai thỏ / bo góc) khỏi vùng bố trí nút.
 func _layout() -> void:
 	var vp := get_viewport().get_visible_rect().size
-	var safe := DisplayServer.get_display_safe_area()
-	var full := DisplayServer.screen_get_size()
-	var pad_l := MARGIN + (maxf(safe.position.x, 0.0) / maxf(full.x, 1.0)) * vp.x
-	var pad_r := MARGIN + (maxf(full.x - safe.end.x, 0.0) / maxf(full.x, 1.0)) * vp.x
-	var pad_b := MARGIN + (maxf(full.y - safe.end.y, 0.0) / maxf(full.y, 1.0)) * vp.y
-	var pad_t := MARGIN + (maxf(safe.position.y, 0.0) / maxf(full.y, 1.0)) * vp.y
-	var bottom := vp.y - pad_b - BTN
-	var corner_x := vp.x - pad_r - BTN
+	var safe: Dictionary = SafeArea.insets(vp)
+	var pad_l: float = MARGIN + safe["left"]
+	var pad_r: float = MARGIN + safe["right"]
+	var pad_b: float = MARGIN + safe["bottom"]
+	var pad_t: float = MARGIN + safe["top"]
+	var bottom: float = vp.y - pad_b - BTN
+	var corner_x: float = vp.x - pad_r - BTN
 	$BtnLeft.position = Vector2(pad_l, bottom)
 	$BtnRight.position = Vector2(pad_l + BTN + GAP, bottom)
 	$BtnJump.position = Vector2(corner_x, bottom)

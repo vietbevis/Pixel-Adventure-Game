@@ -42,6 +42,11 @@ func _ready() -> void:
 	_camera.limit_right = camera_limit_right
 	_camera.limit_top = camera_limit_top
 	_camera.limit_bottom = camera_limit_bottom
+	# Snap camera vào đúng vị trí đã kẹp biên ngay khi vào màn — nếu không,
+	# position_smoothing sẽ để camera "trôi vào" từ chỗ spawn (lộ vùng ngoài map,
+	# nhân vật lệch khung hình trong ~0.5s đầu).
+	_camera.reset_smoothing()
+	_camera.force_update_scroll()
 
 	var touch := TOUCH_CONTROLS_SCENE.instantiate()
 	touch.pause_pressed.connect(_on_pause_requested)

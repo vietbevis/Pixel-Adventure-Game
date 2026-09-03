@@ -92,7 +92,7 @@ start_delay = 0.5
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Sign1" parent="Decor" instance=ExtResource("7")]
-position = Vector2(56, -16)
+position = Vector2(84, -16)
 speaker = "Khắc mờ"
 line_1 = "LỐI XUỐNG.  Hầm Vàng nằm sâu bên dưới, nơi giữ Vương Miện."
 
@@ -120,7 +120,7 @@ position = Vector2(60, 656)
 [node name="Fruits" type="Node2D" parent="."]
 
 [node name="F1" parent="Fruits" instance=ExtResource("20")]
-position = Vector2(60, -14)
+position = Vector2(110, -14)
 variant_frames = ExtResource("21")
 
 [node name="F2" parent="Fruits" instance=ExtResource("20")]

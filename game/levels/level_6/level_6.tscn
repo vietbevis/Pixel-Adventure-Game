@@ -57,7 +57,7 @@ position = Vector2(1360, 64)
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Pig1" parent="Enemies" instance=ExtResource("10")]
-position = Vector2(150, 214)
+position = Vector2(250, 214)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
@@ -101,15 +101,15 @@ swing_degrees = 70.0
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Sign1" parent="Decor" instance=ExtResource("7")]
-position = Vector2(60, 204)
+position = Vector2(104, 204)
 speaker = "Khắc vàng"
 line_1 = "HẦM VÀNG.  Vương Miện thật đang chờ ở bệ đá cuối hầm."
 
 [node name="T1" parent="Decor" instance=ExtResource("8")]
-position = Vector2(48, 208)
+position = Vector2(210, 208)
 
 [node name="C1" parent="Decor" instance=ExtResource("9")]
-position = Vector2(140, 216)
+position = Vector2(150, 216)
 
 [node name="T2" parent="Decor" instance=ExtResource("8")]
 position = Vector2(1160, 128)
@@ -123,7 +123,7 @@ position = Vector2(1264, 176)
 [node name="Fruits" type="Node2D" parent="."]
 
 [node name="F1" parent="Fruits" instance=ExtResource("20")]
-position = Vector2(110, 200)
+position = Vector2(180, 190)
 variant_frames = ExtResource("21")
 
 [node name="F2" parent="Fruits" instance=ExtResource("20")]
