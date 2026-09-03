@@ -26,6 +26,7 @@ collision_mask = 1
 script = ExtResource("1")
 stats = ExtResource("7")
 boss_id = "dungeon_boss"
+display_name = "Người Gác Hầm"
 bomb_scene = ExtResource("6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -37,15 +37,14 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/DialogPanel"]
 layout_mode = 2
-theme_override_constants/separation = 22
+theme_override_constants/separation = 18
 custom_minimum_size = Vector2(280, 0)
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer"]
 layout_mode = 2
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 30
-theme_override_constants/outline_size = 4
-text = "SETTINGS"
+theme_type_variation = &"Heading1"
+text = "CÀI ĐẶT"
 
 [node name="FullscreenRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
 layout_mode = 2
@@ -54,7 +53,7 @@ theme_override_constants/separation = 12
 [node name="FullscreenLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/FullscreenRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Fullscreen"
+text = "Toàn màn hình"
 
 [node name="FullscreenCheck" parent="CenterContainer/DialogPanel/VBoxContainer/FullscreenRow" instance=ExtResource("4")]
 layout_mode = 2
@@ -66,12 +65,12 @@ theme_override_constants/separation = 12
 [node name="TouchLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Touch controls"
+text = "Nút cảm ứng"
 
 [node name="TouchButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
 custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
-text = "Auto"
+text = "Tự động"
 
 [node name="VolumeRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
 layout_mode = 2
@@ -80,7 +79,7 @@ theme_override_constants/separation = 12
 [node name="VolumeLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Volume"
+text = "Âm lượng"
 
 [node name="VolumeSlider" type="HSlider" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeRow"]
 custom_minimum_size = Vector2(140, 16)
@@ -91,15 +90,17 @@ theme_override_icons/grabber_highlight = ExtResource("5")
 theme_override_styles/slider = SubResource("StyleBoxTexture_slider")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_1")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_1")
-value = 100.0
+max_value = 1.0
+step = 0.05
+value = 0.8
 
 [node name="Spacer" type="Control" parent="CenterContainer/DialogPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
 [node name="BackButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(160, 48)
+custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 size_flags_horizontal = 4
 icon = ExtResource("3")
-text = "  Back"
+text = "Quay lại"

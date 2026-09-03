@@ -12,13 +12,26 @@ const BTN := 96.0
 const MARGIN := 40.0
 const GAP := 22.0
 
+var _enabled: bool = false
+
 func _ready() -> void:
 	layer = 10
-	visible = _should_show()
+	_enabled = _should_show()
+	visible = _enabled
 	get_viewport().size_changed.connect(_layout)
 	_layout()
-	$BtnDash.visible = SaveManager.is_ability_unlocked("dash")
+	_refresh_dash_button()
 	$BtnPause.pressed.connect(func() -> void: pause_pressed.emit())
+	# Nút Dash hiện ngay khi nhặt relic giữa màn, không đợi load lại.
+	Events.ability_unlocked.connect(func(_id: String) -> void: _refresh_dash_button())
+	# Ẩn khi đang thoại / tạm dừng để không che và không bấm nhầm.
+	set_process(_enabled)
+
+func _process(_delta: float) -> void:
+	visible = not Dialogue.is_open and not get_tree().paused
+
+func _refresh_dash_button() -> void:
+	$BtnDash.visible = SaveManager.is_ability_unlocked("dash")
 
 func _should_show() -> bool:
 	match SaveManager.get_setting("touch_controls", "auto"):

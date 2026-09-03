@@ -22,6 +22,8 @@ const SLAM_RECOVER := 0.7
 
 @export var stats: EnemyStats
 @export var boss_id: String = "boss"
+## Tên hiển thị trên thanh máu boss (mỗi boss đặt riêng trên instance).
+@export var display_name: String = "Boss"
 ## Sprite gốc quay mặt phải hay trái (King Pig quay trái).
 @export var sprite_faces_right: bool = false
 @export var intro_time: float = 1.2
@@ -65,6 +67,7 @@ func _ready() -> void:
 	hurtbox.hurt.connect(_on_hurt)
 	health.died.connect(_on_died)
 	health.health_changed.connect(_on_health_changed)
+	Events.boss_intro.emit(display_name, health.max_hp)
 	Events.boss_health_changed.emit(health.hp, health.max_hp)
 	sprite.animation_finished.connect(_on_anim_finished)
 	sprite.play("idle")

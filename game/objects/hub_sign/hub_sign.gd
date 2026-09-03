@@ -3,7 +3,7 @@ extends Area2D
 ## Dùng cho "Levels" (chơi lẻ), và sau này Settings / Achievements...
 
 @export var target_scene: String = "res://ui/level_select/level_select.tscn"
-@export var label_text: String = "Levels"
+@export var label_text: String = "Chọn màn"
 
 @onready var _label: Label = $Label
 @onready var _prompt: Label = $Prompt

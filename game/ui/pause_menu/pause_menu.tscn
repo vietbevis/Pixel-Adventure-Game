@@ -40,9 +40,8 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="Root/CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 30
-theme_override_constants/outline_size = 4
-text = "PAUSED"
+theme_type_variation = &"Heading1"
+text = "TẠM DỪNG"
 
 [node name="Spacer" type="Control" parent="Root/CenterContainer/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 4)
@@ -52,16 +51,21 @@ layout_mode = 2
 theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(240, 50)
 layout_mode = 2
-text = "Resume"
+text = "Tiếp tục"
 
 [node name="RestartButton" type="Button" parent="Root/CenterContainer/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(240, 50)
 layout_mode = 2
-text = "  Restart"
+text = "Chơi lại"
 icon = ExtResource("2")
+
+[node name="SettingsButton" type="Button" parent="Root/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "Cài đặt"
 
 [node name="MenuButton" type="Button" parent="Root/CenterContainer/Panel/VBoxContainer"]
 theme_type_variation = &"DangerButton"
 custom_minimum_size = Vector2(240, 50)
 layout_mode = 2
-text = "Back to Levels"
+text = "Về Hub"

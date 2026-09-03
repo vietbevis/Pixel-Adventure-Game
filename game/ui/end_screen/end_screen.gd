@@ -17,17 +17,19 @@ const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
 
 func _ready() -> void:
 	_play_intro()
+	_center_confetti()
+	get_viewport().size_changed.connect(_center_confetti)
 	var won := GameManager.last_result == "win"
 	var time_taken := GameManager.elapsed_time()
 	var previous_best := SaveManager.get_best_time(GameManager.current_level_id)
 	var is_new_best := won and (previous_best < 0.0 or time_taken < previous_best)
 	SaveManager.record_result(GameManager.current_level_id, GameManager.score, won, time_taken)
-	title_label.text = "YOU WIN!" if won else "GAME OVER"
-	score_label.text = "Fruits collected: %d" % GameManager.score
+	title_label.text = "CHIẾN THẮNG!" if won else "THUA RỒI"
+	score_label.text = "Trái cây: %d" % GameManager.score
 	if won:
-		score_label.text += "\nTime: %s%s" % [
+		score_label.text += "\nThời gian: %s%s" % [
 			LevelData.format_time(time_taken),
-			"  (New Best!)" if is_new_best else "",
+			"  (Kỷ lục mới!)" if is_new_best else "",
 		]
 	# Đổi ảnh nền lát theo kết quả: vàng ấm áp khi thắng, xám trầm khi thua
 	background.texture = WIN_BG_TEXTURE if won else LOSE_BG_TEXTURE
@@ -45,6 +47,10 @@ func _ready() -> void:
 	next_button.pressed.connect(_on_next.bind(next_id))
 	retry_button.pressed.connect(_on_retry)
 	menu_button.pressed.connect(_on_menu)
+	(next_button if next_button.visible else retry_button).grab_focus()
+
+func _center_confetti() -> void:
+	confetti.position.x = get_viewport().get_visible_rect().size.x * 0.5
 
 ## Fade + pop nhẹ khi mở (thay cho AnimationPlayer cũ — animate scale trên
 ## PanelContainer từng làm khung co lại không bao hết nút).

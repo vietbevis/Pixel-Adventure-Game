@@ -36,7 +36,7 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Logo" type="TextureRect" parent="CenterContainer/DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(300, 138)
+custom_minimum_size = Vector2(420, 180)
 layout_mode = 2
 texture = ExtResource("6")
 expand_mode = 1
@@ -48,26 +48,26 @@ layout_mode = 2
 
 [node name="ContinueButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer"]
 theme_type_variation = &"PrimaryButton"
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
-text = "  Continue"
+text = "Chơi tiếp"
 
 [node name="PlayButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=129655669]
 theme_type_variation = &"PrimaryButton"
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
-text = "  Play"
+text = "Bắt đầu"
 icon = ExtResource("3")
 
 [node name="SettingsButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=1319010219]
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
-text = "  Settings"
+text = "Cài đặt"
 icon = ExtResource("4")
 
 [node name="QuitButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=1304562635]
 theme_type_variation = &"DangerButton"
-custom_minimum_size = Vector2(220, 52)
+custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
-text = "  Quit"
+text = "Thoát"
 icon = ExtResource("5")

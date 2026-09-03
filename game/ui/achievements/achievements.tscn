@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://ui/level_select/level_select.gd" id="1"]
+[ext_resource type="Script" path="res://ui/achievements/achievements.gd" id="1"]
 [ext_resource type="Texture2D" path="res://shared/backgrounds/Purple.png" id="2"]
-[ext_resource type="Texture2D" path="res://ui/shared/buttons/Back.png" id="3"]
 
-[node name="LevelSelect" type="Control"]
+[node name="Achievements" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
@@ -25,33 +24,26 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/DialogPanel"]
 layout_mode = 2
-theme_override_constants/separation = 20
-alignment = 1
+theme_override_constants/separation = 16
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer"]
-layout_mode = 2
 theme_type_variation = &"Heading1"
-text = "CHỌN MÀN"
+layout_mode = 2
 horizontal_alignment = 1
+text = "THÀNH TỰU"
 
-[node name="Spacer" type="Control" parent="CenterContainer/DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(0, 4)
+[node name="Scroll" type="ScrollContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+custom_minimum_size = Vector2(380, 240)
 layout_mode = 2
-
-[node name="LevelsScroll" type="ScrollContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(300, 280)
-layout_mode = 2
-size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="LevelsBox" type="VBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/LevelsScroll"]
+[node name="ListBox" type="VBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 12
-alignment = 1
 
 [node name="BackButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer"]
-custom_minimum_size = Vector2(280, 48)
+custom_minimum_size = Vector2(180, 44)
 layout_mode = 2
-icon = ExtResource("3")
+size_flags_horizontal = 4
 text = "Quay lại"

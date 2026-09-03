@@ -3,6 +3,8 @@ extends CanvasLayer
 ## Sống xuyên scene (autoload) nên hiện được cả khi vừa đổi sang end_screen.
 
 const DISPLAY := {"dash": "Lướt (Dash)"}
+## Tối đa số toast xếp hàng — burst (3 mảnh + heart + thành tựu) không kẹt kênh ~9s.
+const MAX_QUEUE := 4
 
 @onready var _panel: Control = $Panel
 @onready var _label: Label = $Panel/Margin/Label
@@ -10,8 +12,8 @@ const DISPLAY := {"dash": "Lướt (Dash)"}
 var _queue: Array[String] = []
 var _busy: bool = false
 
-## 3 mảnh Vương Ấn giấu trong Rừng (khớp Progression.FOREST_SECRETS).
-const SEAL_SHARDS := ["diamond_forest_1", "diamond_forest_2", "diamond_forest_3"]
+## 3 mảnh Vương Ấn giấu trong Rừng.
+const SEAL_SHARDS := GameIds.FOREST_SECRETS
 
 func _ready() -> void:
 	layer = 100
@@ -25,10 +27,10 @@ func _on_ability_unlocked(id: String) -> void:
 	_show("Đã học %s!" % String(DISPLAY.get(id, id.capitalize())))
 
 func _on_max_hp_increased(_new_max: int) -> void:
-	_show("Vương Ấn hoàn chỉnh!  +1 ♥ tối đa")
+	_show("Vương Ấn hoàn chỉnh — tăng 1 tim tối đa")
 
 func _on_achievement(_id: String, title: String) -> void:
-	_show("★ Thành tựu:  %s" % title)
+	_show("Thành tựu: %s" % title)
 
 func _on_collectible_collected(id: String, kind: String) -> void:
 	if kind != "diamond" or id not in SEAL_SHARDS:
@@ -40,7 +42,11 @@ func _on_collectible_collected(id: String, kind: String) -> void:
 	_show("Mảnh Vương Ấn  (%d/%d)" % [got, SEAL_SHARDS.size()])
 
 func _show(message: String) -> void:
+	if message in _queue:
+		return  # dedupe
 	_queue.append(message)
+	if _queue.size() > MAX_QUEUE:
+		_queue = _queue.slice(_queue.size() - MAX_QUEUE)
 	if not _busy:
 		_run_queue()
 
@@ -49,8 +55,8 @@ func _run_queue() -> void:
 	while not _queue.is_empty():
 		_label.text = _queue.pop_front()
 		var tween := create_tween()
-		tween.tween_property(_panel, "modulate:a", 1.0, 0.3)
-		tween.tween_interval(2.0)
-		tween.tween_property(_panel, "modulate:a", 0.0, 0.5)
+		tween.tween_property(_panel, "modulate:a", 1.0, 0.25)
+		tween.tween_interval(1.2)
+		tween.tween_property(_panel, "modulate:a", 0.0, 0.4)
 		await tween.finished
 	_busy = false

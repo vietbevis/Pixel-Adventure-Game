@@ -25,14 +25,14 @@ theme_override_constants/separation = 24
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
-text = "Choose your character"
+theme_type_variation = &"Heading1"
+text = "Chọn nhân vật"
 
 [node name="CharactersBox" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 alignment = 1
 theme_override_constants/separation = 24
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(140, 44)
+custom_minimum_size = Vector2(180, 44)
 icon = ExtResource("3")
-text = "  Back"
+text = "Quay lại"

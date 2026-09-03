@@ -7,8 +7,18 @@ extends CanvasLayer
 
 func _ready() -> void:
 	visible = false
+	Events.boss_intro.connect(_on_intro)
 	Events.boss_health_changed.connect(_on_health_changed)
+	Events.boss_phase_changed.connect(_on_phase_changed)
 	Events.boss_defeated.connect(_on_defeated)
+
+func _on_intro(display_name: String, _max_hp: int) -> void:
+	_label.text = display_name.to_upper()
+
+func _on_phase_changed(phase: int) -> void:
+	# đỏ dần theo phase (1 = vàng cam, 3 = đỏ)
+	var t := clampf((phase - 1) / 2.0, 0.0, 1.0)
+	_bar.modulate = Color(1, 1, 1).lerp(Color(1, 0.4, 0.35), t)
 
 func _on_health_changed(current: int, maximum: int) -> void:
 	visible = true

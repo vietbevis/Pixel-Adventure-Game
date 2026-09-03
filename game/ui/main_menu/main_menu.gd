@@ -17,6 +17,7 @@ func _ready() -> void:
 	settings_button.pressed.connect(_on_settings)
 	quit_button.pressed.connect(_on_quit)
 	_apply_saved_fullscreen()
+	(continue_button if continue_button.visible else play_button).grab_focus()
 
 ## Về hub: từ đây người chơi chọn world để chơi tiếp (world đã mở khoá vẫn giữ nguyên).
 ## Khôi phục nhân vật đã chọn lần trước để không bị reset về mặc định sau khi mở lại game.
@@ -41,6 +42,7 @@ func _on_play() -> void:
 func _on_settings() -> void:
 	SceneTransition.goto("res://ui/settings_menu/settings_menu.tscn")
 
-## Thoát game
+## Thoát game (có xác nhận — tránh lỡ tay).
 func _on_quit() -> void:
-	get_tree().quit()
+	var d := ConfirmDialog.show_confirm(self, "Thoát game?", "Thoát", "Ở lại")
+	d.confirmed.connect(func() -> void: get_tree().quit())

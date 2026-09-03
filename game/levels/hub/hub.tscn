@@ -96,5 +96,10 @@ line_2 = "« Ấn vỡ làm ba mảnh trong đêm thất thủ, thất lạc gi�
 [node name="LevelsSign" parent="." instance=ExtResource("5")]
 position = Vector2(850, 178)
 
+[node name="AchievementsSign" parent="." instance=ExtResource("5")]
+position = Vector2(920, 178)
+target_scene = "res://ui/achievements/achievements.tscn"
+label_text = "Thành tựu"
+
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(70, 178)

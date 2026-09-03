@@ -5,9 +5,12 @@ extends Control
 @onready var levels_box: VBoxContainer = $CenterContainer/DialogPanel/VBoxContainer/LevelsScroll/LevelsBox
 @onready var back_button: Button = $CenterContainer/DialogPanel/VBoxContainer/BackButton
 
+var _first_button: Button = null
+
 func _ready() -> void:
 	back_button.pressed.connect(_on_back)
 	_populate_levels()
+	(_first_button if _first_button else back_button).grab_focus()
 
 func _populate_levels() -> void:
 	for child in levels_box.get_children():
@@ -19,10 +22,9 @@ func _populate_levels() -> void:
 
 func _add_world_header(world_name: String) -> void:
 	var label := Label.new()
+	label.theme_type_variation = &"Caption"
 	label.text = world_name.to_upper()
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", Color(0.85, 0.78, 0.55))
 	levels_box.add_child(label)
 
 func _add_level_button(level_id: String, level_name: String) -> void:
@@ -37,13 +39,15 @@ func _add_level_button(level_id: String, level_name: String) -> void:
 		button.theme_type_variation = &"PrimaryButton"
 		var stats := ""
 		if high_score > 0:
-			stats += "  ·  Best %d" % high_score
+			stats += "  ·  Kỷ lục %d" % high_score
 		if best_time >= 0.0:
-			stats += "  ·  ⏱ %s" % LevelData.format_time(best_time)
+			stats += "  ·  %s" % LevelData.format_time(best_time)
 		button.text = level_name + stats
 		button.pressed.connect(_on_level_chosen.bind(level_id))
+		if _first_button == null:
+			_first_button = button
 	else:
-		button.text = "🔒  %s" % level_name
+		button.text = "[Khoá]  %s" % level_name
 	levels_box.add_child(button)
 
 func _on_level_chosen(level_id: String) -> void:
