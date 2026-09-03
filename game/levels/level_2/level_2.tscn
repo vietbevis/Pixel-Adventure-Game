@@ -30,6 +30,7 @@
 script = ExtResource("1")
 world_title = "RỪNG RANH GIỚI"
 level_subtitle = "Tán Cây & Tiền Đồn"
+fall_death_y = 760.0
 camera_limit_left = -48
 camera_limit_right = 592
 camera_limit_top = -280
