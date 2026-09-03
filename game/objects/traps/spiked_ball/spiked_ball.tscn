@@ -13,7 +13,7 @@ script = ExtResource("1_spiked")
 [node name="Chain" type="Line2D" parent="."]
 texture = ExtResource("2_chain")
 texture_mode = 1
-width = 8.0
+width = 5.0
 points = PackedVector2Array(0, 0, 0, 64)
 
 [node name="Ball" type="Area2D" parent="."]

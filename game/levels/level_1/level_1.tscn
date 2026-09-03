@@ -39,28 +39,28 @@ tile_set = ExtResource("16")
 [node name="Interactables" type="Node2D" parent="." unique_id=1449204258]
 
 [node name="StartMarker" parent="Interactables" unique_id=715466738 instance=ExtResource("11")]
-position = Vector2(32, 208)
+position = Vector2(32, 204)
 
 [node name="GoalFlag" parent="Interactables" unique_id=1680196780 instance=ExtResource("6")]
-position = Vector2(1016, 108)
+position = Vector2(1016, 112)
 
 [node name="Checkpoint" parent="Interactables" unique_id=8464225 instance=ExtResource("5")]
-position = Vector2(600, 128)
+position = Vector2(600, 116)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1599377532]
 
 [node name="Pig1" parent="Enemies" unique_id=1006168572 instance=ExtResource("22")]
-position = Vector2(208, 200)
+position = Vector2(208, 214)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 22.0
 
 [node name="Pig2" parent="Enemies" unique_id=527055601 instance=ExtResource("22")]
-position = Vector2(672, 124)
+position = Vector2(672, 136)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig3" parent="Enemies" unique_id=1209298974 instance=ExtResource("22")]
-position = Vector2(872, 176)
+position = Vector2(872, 184)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 20.0
 
@@ -139,9 +139,9 @@ position = Vector2(816, 168)
 variant_frames = ExtResource("14")
 
 [node name="Fruit9" parent="Fruits" unique_id=1063415461 instance=ExtResource("4")]
-position = Vector2(912, 104)
+position = Vector2(912, 168)
 variant_frames = ExtResource("15")
 
 [node name="Fruit10" parent="Fruits" unique_id=1382485883 instance=ExtResource("4")]
-position = Vector2(1000, 84)
+position = Vector2(1000, 136)
 variant_frames = ExtResource("13_tk2t7")

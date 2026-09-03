@@ -56,15 +56,15 @@ position = Vector2(360, 664)
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Pig1" parent="Enemies" instance=ExtResource("11")]
-position = Vector2(300, 56)
+position = Vector2(300, 52)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 22.0
 
 [node name="Spk1" parent="Enemies" instance=ExtResource("14")]
-position = Vector2(100, 380)
+position = Vector2(100, 176)
 
 [node name="Pig2" parent="Enemies" instance=ExtResource("15")]
-position = Vector2(200, 560)
+position = Vector2(240, 656)
 
 [node name="Traps" type="Node2D" parent="."]
 
@@ -74,8 +74,8 @@ chain_length = 78.0
 swing_degrees = 72.0
 
 [node name="Ball2" parent="Traps" instance=ExtResource("10")]
-position = Vector2(120, 240)
-chain_length = 86.0
+position = Vector2(120, 160)
+chain_length = 60.0
 swing_degrees = 66.0
 
 [node name="FP1" parent="Traps" instance=ExtResource("13")]
@@ -85,33 +85,33 @@ position = Vector2(230, 372)
 position = Vector2(300, 372)
 
 [node name="Fire1" parent="Traps" instance=ExtResource("16")]
-position = Vector2(160, 688)
+position = Vector2(160, 672)
 start_delay = 0.5
 
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Sign1" parent="Decor" instance=ExtResource("7")]
-position = Vector2(56, -8)
+position = Vector2(56, -16)
 speaker = "Khắc mờ"
 line_1 = "LỐI XUỐNG.  Hầm Vàng nằm sâu bên dưới, nơi giữ Vương Miện."
 
 [node name="T1" parent="Decor" instance=ExtResource("8")]
-position = Vector2(16, -10)
+position = Vector2(16, -16)
 
 [node name="T2" parent="Decor" instance=ExtResource("8")]
-position = Vector2(300, 60)
+position = Vector2(300, 48)
 
 [node name="T3" parent="Decor" instance=ExtResource("8")]
-position = Vector2(300, 300)
+position = Vector2(300, 368)
 
 [node name="C1" parent="Decor" instance=ExtResource("9")]
-position = Vector2(120, 130)
+position = Vector2(120, 136)
 
 [node name="C2" parent="Decor" instance=ExtResource("9")]
-position = Vector2(200, 370)
+position = Vector2(240, 216)
 
 [node name="Chest1" parent="Decor" instance=ExtResource("17")]
-position = Vector2(24, 456)
+position = Vector2(40, 424)
 
 [node name="T4" parent="Decor" instance=ExtResource("18")]
 position = Vector2(60, 656)

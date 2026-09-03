@@ -81,8 +81,8 @@ patrol_speed = 24.0
 position = Vector2(250, 16)
 
 [node name="Pig4" parent="Enemies" unique_id=1768817731 instance=ExtResource("8")]
-position = Vector2(350, 16)
-patrol_distance = Vector2(40, 0)
+position = Vector2(300, 16)
+patrol_distance = Vector2(48, 0)
 patrol_speed = 22.0
 
 [node name="Traps" type="Node2D" parent="." unique_id=1407570254]
@@ -132,7 +132,7 @@ position = Vector2(141, 536)
 variant_frames = ExtResource("21")
 
 [node name="F2" parent="Fruits" unique_id=266818114 instance=ExtResource("20")]
-position = Vector2(140, 440)
+position = Vector2(140, 404)
 variant_frames = ExtResource("22")
 
 [node name="F3" parent="Fruits" unique_id=1248768140 instance=ExtResource("20")]
@@ -148,7 +148,7 @@ position = Vector2(40, 220)
 variant_frames = ExtResource("25")
 
 [node name="F6" parent="Fruits" unique_id=1766537934 instance=ExtResource("20")]
-position = Vector2(200, 80)
+position = Vector2(200, 96)
 variant_frames = ExtResource("21")
 
 [node name="F7" parent="Fruits" unique_id=735112148 instance=ExtResource("20")]

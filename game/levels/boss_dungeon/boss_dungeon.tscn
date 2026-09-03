@@ -34,13 +34,13 @@ position = Vector2(56, 124)
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Torch1" parent="Decor" instance=ExtResource("10")]
-position = Vector2(140, 144)
+position = Vector2(140, 128)
 
 [node name="Torch2" parent="Decor" instance=ExtResource("10")]
-position = Vector2(420, 208)
+position = Vector2(420, 192)
 
 [node name="Torch3" parent="Decor" instance=ExtResource("10")]
-position = Vector2(560, 128)
+position = Vector2(560, 112)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(56, 124)

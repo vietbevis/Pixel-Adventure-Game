@@ -33,7 +33,7 @@ level_subtitle = "Hành Lang Ngai"
 camera_limit_left = -48
 camera_limit_right = 1360
 camera_limit_top = -100
-camera_limit_bottom = 440
+camera_limit_bottom = 400
 
 [node name="Parallax" parent="." instance=ExtResource("3")]
 
@@ -44,13 +44,13 @@ tile_set = ExtResource("2")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="StartMarker" parent="Interactables" instance=ExtResource("5")]
-position = Vector2(24, 216)
+position = Vector2(24, 204)
 
 [node name="Checkpoint" parent="Interactables" instance=ExtResource("10")]
-position = Vector2(330, 200)
+position = Vector2(330, 196)
 
 [node name="GoalFlag" parent="Interactables" instance=ExtResource("19")]
-position = Vector2(1296, 168)
+position = Vector2(1296, 160)
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -65,27 +65,27 @@ patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
 [node name="Chand1" parent="Enemies" instance=ExtResource("11")]
-position = Vector2(416, 120)
+position = Vector2(984, 96)
 
 [node name="Pig3" parent="Enemies" instance=ExtResource("13")]
 position = Vector2(470, 208)
 
 [node name="Cannon1" parent="Enemies" instance=ExtResource("14")]
-position = Vector2(760, 128)
+position = Vector2(800, 176)
 direction = Vector2(-1, 0)
 fire_interval = 2.5
 
 [node name="Pig4" parent="Enemies" instance=ExtResource("15")]
-position = Vector2(600, 128)
+position = Vector2(600, 208)
 patrol_distance = Vector2(30, 0)
 
 [node name="Pig5" parent="Enemies" instance=ExtResource("9")]
-position = Vector2(680, 128)
+position = Vector2(680, 208)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
 [node name="Pig6" parent="Enemies" instance=ExtResource("9")]
-position = Vector2(1200, 176)
+position = Vector2(1200, 184)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 26.0
 
@@ -97,31 +97,31 @@ chain_length = 80.0
 swing_degrees = 68.0
 
 [node name="Fire1" parent="Traps" instance=ExtResource("16")]
-position = Vector2(880, 176)
+position = Vector2(880, 144)
 start_delay = 0.3
 
 [node name="Fire2" parent="Traps" instance=ExtResource("16")]
-position = Vector2(960, 176)
+position = Vector2(960, 144)
 start_delay = 1.1
 
 [node name="Decor" type="Node2D" parent="."]
 
 [node name="Sign1" parent="Decor" instance=ExtResource("7")]
-position = Vector2(64, 216)
+position = Vector2(64, 204)
 speaker = "Khắc trên đá"
 line_1 = "HÀNH LANG NGAI.  Phòng ngai ngay cuối hành lang."
 
 [node name="T1" parent="Decor" instance=ExtResource("8")]
-position = Vector2(48, 214)
+position = Vector2(48, 208)
 
 [node name="T2" parent="Decor" instance=ExtResource("8")]
-position = Vector2(260, 214)
+position = Vector2(260, 208)
 
 [node name="Chest1" parent="Decor" instance=ExtResource("17")]
-position = Vector2(1024, 56)
+position = Vector2(1024, 64)
 
 [node name="T3" parent="Decor" instance=ExtResource("18")]
-position = Vector2(1120, 176)
+position = Vector2(1140, 176)
 
 [node name="T4" parent="Decor" instance=ExtResource("18")]
 position = Vector2(1280, 176)
@@ -149,11 +149,11 @@ position = Vector2(700, 116)
 variant_frames = ExtResource("25")
 
 [node name="F6" parent="Fruits" instance=ExtResource("20")]
-position = Vector2(920, 150)
+position = Vector2(920, 128)
 variant_frames = ExtResource("21")
 
 [node name="F7" parent="Fruits" instance=ExtResource("20")]
-position = Vector2(1024, 90)
+position = Vector2(1024, 108)
 variant_frames = ExtResource("22")
 
 [node name="F8" parent="Fruits" instance=ExtResource("20")]
@@ -161,6 +161,6 @@ position = Vector2(1180, 160)
 variant_frames = ExtResource("23")
 
 [node name="Player" parent="." instance=ExtResource("4")]
-position = Vector2(24, 208)
+position = Vector2(24, 204)
 
 [node name="HUD" parent="." instance=ExtResource("6")]

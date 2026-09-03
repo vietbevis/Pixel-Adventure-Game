@@ -32,7 +32,7 @@ level_subtitle = "Tường Thành"
 camera_limit_left = -48
 camera_limit_right = 1264
 camera_limit_top = -80
-camera_limit_bottom = 440
+camera_limit_bottom = 432
 
 [node name="Parallax" parent="." instance=ExtResource("3")]
 
@@ -43,13 +43,13 @@ tile_set = ExtResource("2")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="StartMarker" parent="Interactables" instance=ExtResource("5")]
-position = Vector2(24, 232)
+position = Vector2(24, 220)
 
 [node name="Checkpoint" parent="Interactables" instance=ExtResource("10")]
-position = Vector2(300, 160)
+position = Vector2(380, 156)
 
 [node name="GoalFlag" parent="Interactables" instance=ExtResource("18")]
-position = Vector2(1216, 136)
+position = Vector2(1210, 128)
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -67,22 +67,22 @@ patrol_speed = 22.0
 position = Vector2(680, 224)
 
 [node name="Cannon1" parent="Enemies" instance=ExtResource("14")]
-position = Vector2(900, 112)
+position = Vector2(900, 126)
 direction = Vector2(-1, 0)
 fire_interval = 2.8
 
 [node name="Pig4" parent="Enemies" instance=ExtResource("8")]
-position = Vector2(820, 112)
+position = Vector2(820, 120)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 20.0
 
 [node name="Pig5" parent="Enemies" instance=ExtResource("8")]
-position = Vector2(1050, 144)
+position = Vector2(1050, 152)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig6" parent="Enemies" instance=ExtResource("15")]
-position = Vector2(1160, 144)
+position = Vector2(1160, 152)
 patrol_distance = Vector2(30, 0)
 
 [node name="Traps" type="Node2D" parent="."]
@@ -92,12 +92,12 @@ position = Vector2(256, 240)
 start_delay = 0.4
 
 [node name="Arrow1" parent="Traps" instance=ExtResource("11")]
-position = Vector2(600, 128)
+position = Vector2(708, 116)
 direction = Vector2(-1, 0)
 fire_interval = 2.4
 
 [node name="Ball1" parent="Traps" instance=ExtResource("13")]
-position = Vector2(740, 96)
+position = Vector2(700, 92)
 chain_length = 72.0
 swing_degrees = 62.0
 
@@ -114,13 +114,13 @@ speaker = "Khắc trên đá"
 line_1 = "Lỗ châu mai. Chạy qua khi mũi tên vừa bay."
 
 [node name="Torch1" parent="Decor" instance=ExtResource("16")]
-position = Vector2(1000, 150)
+position = Vector2(1000, 144)
 
 [node name="Torch2" parent="Decor" instance=ExtResource("16")]
-position = Vector2(1200, 150)
+position = Vector2(1200, 64)
 
 [node name="Chest1" parent="Decor" instance=ExtResource("17")]
-position = Vector2(1120, 64)
+position = Vector2(1120, 80)
 
 [node name="Fruits" type="Node2D" parent="."]
 
@@ -149,14 +149,14 @@ position = Vector2(800, 104)
 variant_frames = ExtResource("20")
 
 [node name="F7" parent="Fruits" instance=ExtResource("19")]
-position = Vector2(960, 104)
+position = Vector2(960, 138)
 variant_frames = ExtResource("21")
 
 [node name="F8" parent="Fruits" instance=ExtResource("19")]
-position = Vector2(1100, 136)
+position = Vector2(1100, 120)
 variant_frames = ExtResource("22")
 
 [node name="Player" parent="." instance=ExtResource("4")]
-position = Vector2(24, 224)
+position = Vector2(24, 220)
 
 [node name="HUD" parent="." instance=ExtResource("6")]
