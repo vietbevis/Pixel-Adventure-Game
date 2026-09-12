@@ -42,7 +42,7 @@ tile_set = ExtResource("16")
 position = Vector2(32, 208)
 
 [node name="GoalFlag" parent="Interactables" unique_id=1680196780 instance=ExtResource("6")]
-position = Vector2(1016, 108)
+position = Vector2(1040, 96)
 
 [node name="Checkpoint" parent="Interactables" unique_id=8464225 instance=ExtResource("5")]
 position = Vector2(600, 128)
@@ -60,7 +60,7 @@ patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig3" parent="Enemies" unique_id=1209298974 instance=ExtResource("22")]
-position = Vector2(872, 176)
+position = Vector2(864, 112)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 20.0
 
@@ -98,10 +98,10 @@ position = Vector2(32, 204)
 [node name="Secrets" type="Node2D" parent="." unique_id=1429103331]
 
 [node name="SecretAlcove1" parent="Secrets" unique_id=1448768724 instance=ExtResource("24")]
-position = Vector2(856, 150)
+position = Vector2(848, 128)
 
 [node name="Diamond1" parent="Secrets" unique_id=1033052913 instance=ExtResource("25")]
-position = Vector2(900, 136)
+position = Vector2(944, 112)
 secret_id = "diamond_forest_1"
 
 [node name="Fruits" type="Node2D" parent="." unique_id=1907867508]
@@ -115,7 +115,7 @@ position = Vector2(176, 200)
 variant_frames = ExtResource("13")
 
 [node name="Fruit3" parent="Fruits" unique_id=2088593280 instance=ExtResource("4")]
-position = Vector2(300, 176)
+position = Vector2(272, 176)
 variant_frames = ExtResource("14")
 
 [node name="Fruit4" parent="Fruits" unique_id=686182508 instance=ExtResource("4")]
@@ -135,13 +135,13 @@ position = Vector2(664, 108)
 variant_frames = ExtResource("13")
 
 [node name="Fruit8" parent="Fruits" unique_id=919789241 instance=ExtResource("4")]
-position = Vector2(816, 168)
+position = Vector2(832, 192)
 variant_frames = ExtResource("14")
 
 [node name="Fruit9" parent="Fruits" unique_id=1063415461 instance=ExtResource("4")]
-position = Vector2(912, 104)
+position = Vector2(816, 96)
 variant_frames = ExtResource("15")
 
 [node name="Fruit10" parent="Fruits" unique_id=1382485883 instance=ExtResource("4")]
-position = Vector2(1000, 84)
+position = Vector2(1024, 64)
 variant_frames = ExtResource("13_tk2t7")

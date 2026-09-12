@@ -8,12 +8,12 @@ const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
 
 @onready var background: TextureRect = $Background
 @onready var panel: PanelContainer = $CenterContainer/Panel
-@onready var confetti: CPUParticles2D = $Confetti
+@onready var fireworks_container: Node2D = $FireworksContainer
 @onready var title_label: Label = $CenterContainer/Panel/VBoxContainer/TitleLabel
 @onready var score_label: Label = $CenterContainer/Panel/VBoxContainer/ScoreLabel
-@onready var next_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/NextButton
-@onready var retry_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/RetryButton
-@onready var menu_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsBox/MenuButton
+@onready var next_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsVBox/NextButton
+@onready var retry_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsVBox/SecondaryButtons/RetryButton
+@onready var menu_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsVBox/SecondaryButtons/MenuButton
 
 func _ready() -> void:
 	_play_intro()
@@ -23,7 +23,7 @@ func _ready() -> void:
 	var is_new_best := won and (previous_best < 0.0 or time_taken < previous_best)
 	SaveManager.record_result(GameManager.current_level_id, GameManager.score, won, time_taken)
 	title_label.text = "YOU WIN!" if won else "GAME OVER"
-	score_label.text = "Fruits collected: %d" % GameManager.score
+	score_label.text = "Fruits: %d" % GameManager.score
 	if won:
 		score_label.text += "\nTime: %s%s" % [
 			LevelData.format_time(time_taken),
@@ -31,10 +31,8 @@ func _ready() -> void:
 		]
 	# Đổi ảnh nền lát theo kết quả: vàng ấm áp khi thắng, xám trầm khi thua
 	background.texture = WIN_BG_TEXTURE if won else LOSE_BG_TEXTURE
-	# Hiệu ứng confetti và khung nền vàng chỉ hiện khi thắng, tạo cảm giác ăn mừng
-	confetti.emitting = won
-	confetti.visible = won
 	if won:
+		_spawn_fireworks()
 		title_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.35))
 		# Khung vàng ấm khi thắng — dùng biến thể theme (khớp quy ước "không dựng
 		# StyleBox trong code"; đổi stylebox lúc runtime từng làm panel co lại).
@@ -45,6 +43,47 @@ func _ready() -> void:
 	next_button.pressed.connect(_on_next.bind(next_id))
 	retry_button.pressed.connect(_on_retry)
 	menu_button.pressed.connect(_on_menu)
+
+var _is_fireworks_active := false
+
+func _spawn_fireworks() -> void:
+	_is_fireworks_active = true
+	# Dùng mã màu thật sáng (neon/chói) để trông rực rỡ hơn
+	var colors := [
+		Color("#ff3333"), # Red
+		Color("#33ff33"), # Green
+		Color("#5555ff"), # Blue
+		Color("#ffff33"), # Yellow
+		Color("#ff33ff"), # Magenta
+		Color("#33ffff"), # Cyan
+		Color("#ff9933")  # Orange
+	]
+	
+	while _is_fireworks_active:
+		var p := CPUParticles2D.new()
+		p.emitting = false
+		p.one_shot = true
+		p.explosiveness = 1.0
+		p.lifetime = 1.0
+		p.amount = 100
+		p.direction = Vector2.UP
+		p.spread = 180.0
+		p.gravity = Vector2(0, 150)
+		p.initial_velocity_min = 150.0
+		p.initial_velocity_max = 300.0
+		p.scale_amount_min = 3.0
+		p.scale_amount_max = 7.0
+		p.color = colors.pick_random()
+		
+		p.position = Vector2(randf_range(200, 952), randf_range(100, 300))
+		fireworks_container.add_child(p)
+		p.emitting = true
+		
+		# Tự động hủy particle sau khi nổ xong để dọn dẹp bộ nhớ
+		get_tree().create_timer(1.2).timeout.connect(p.queue_free)
+		
+		# Đợi 0.2 - 0.6 giây rồi bắn quả tiếp theo (bắn liên tục)
+		await get_tree().create_timer(randf_range(0.2, 0.6)).timeout
 
 ## Fade + pop nhẹ khi mở (thay cho AnimationPlayer cũ — animate scale trên
 ## PanelContainer từng làm khung co lại không bao hết nút).
@@ -66,6 +105,16 @@ func _on_retry() -> void:
 
 ## Đi tiếp màn kế trong world (flow "chain trong world"): bắt đầu lượt mới cho màn đó.
 func _on_next(next_id: String) -> void:
+	next_button.disabled = true
+	retry_button.disabled = true
+	menu_button.disabled = true
+	_is_fireworks_active = false
+	
+	if fireworks_container:
+		var tween = create_tween()
+		tween.tween_property(fireworks_container, "modulate:a", 0.0, 0.5)
+		await tween.finished
+
 	GameManager.has_checkpoint = false
 	GameManager.start_new_run(next_id)
 	SceneTransition.goto(LevelData.get_scene_path(next_id))
