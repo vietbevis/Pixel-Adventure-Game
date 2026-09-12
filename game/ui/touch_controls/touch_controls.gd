@@ -33,18 +33,12 @@ func _should_show() -> bool:
 ## Trừ safe-area (tai thỏ / bo góc) khỏi vùng bố trí nút.
 func _layout() -> void:
 	var vp := get_viewport().get_visible_rect().size
-	var safe := DisplayServer.get_display_safe_area()
-	var full := DisplayServer.screen_get_size()
-	var pad_l := MARGIN + (maxf(safe.position.x, 0.0) / maxf(full.x, 1.0)) * vp.x
-	var pad_r := MARGIN + (maxf(full.x - safe.end.x, 0.0) / maxf(full.x, 1.0)) * vp.x
-	var pad_b := MARGIN + (maxf(full.y - safe.end.y, 0.0) / maxf(full.y, 1.0)) * vp.y
-	var pad_t := MARGIN + (maxf(safe.position.y, 0.0) / maxf(full.y, 1.0)) * vp.y
-	var bottom := vp.y - pad_b - BTN
-	var corner_x := vp.x - pad_r - BTN
-	$BtnLeft.position = Vector2(pad_l, bottom)
-	$BtnRight.position = Vector2(pad_l + BTN + GAP, bottom)
+	var bottom := vp.y - MARGIN - BTN
+	var corner_x := vp.x - MARGIN - BTN
+	$BtnLeft.position = Vector2(MARGIN, bottom)
+	$BtnRight.position = Vector2(MARGIN + BTN + GAP, bottom)
 	$BtnJump.position = Vector2(corner_x, bottom)
 	$BtnAttack.position = Vector2(corner_x - BTN - GAP, bottom)
 	$BtnDash.position = Vector2(corner_x, bottom - BTN - GAP)
 	$BtnInteract.position = Vector2(corner_x - BTN - GAP, bottom - BTN - GAP)
-	$BtnPause.position = Vector2(corner_x, pad_t)
+	$BtnPause.position = Vector2(corner_x, MARGIN)

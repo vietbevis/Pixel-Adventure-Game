@@ -25,6 +25,15 @@ func _ready() -> void:
 		return
 	sprite.play("idle")
 	body_entered.connect(_on_body_entered)
+	call_deferred("_snap_to_ground")
+
+func _snap_to_ground() -> void:
+	var space_state = get_world_2d().direct_space_state
+	# Cast from 50px above to 100px below to find the exact ground surface
+	var query = PhysicsRayQueryParameters2D.create(global_position + Vector2(0, -50), global_position + Vector2(0, 100), 1)
+	var result = space_state.intersect_ray(query)
+	if result:
+		global_position.y = result.position.y
 
 func _apply_variant_frames() -> void:
 	# get_node_or_null vì setter có thể chạy trước khi @onready var sprite
