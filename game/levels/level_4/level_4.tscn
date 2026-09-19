@@ -55,12 +55,12 @@ position = Vector2(1296, 168)
 [node name="Enemies" type="Node2D" parent="." unique_id=302240783]
 
 [node name="Pig1" parent="Enemies" unique_id=340295878 instance=ExtResource("9")]
-position = Vector2(150, 208)
+position = Vector2(161, 214)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
 [node name="Pig2" parent="Enemies" unique_id=1875791679 instance=ExtResource("9")]
-position = Vector2(230, 208)
+position = Vector2(241, 214)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
@@ -68,17 +68,17 @@ patrol_speed = 26.0
 position = Vector2(416, 120)
 
 [node name="Pig3" parent="Enemies" unique_id=1486186755 instance=ExtResource("13")]
-position = Vector2(470, 208)
+position = Vector2(481, 213)
 
 [node name="Cannon1" parent="Enemies" unique_id=737796141 instance=ExtResource("14")]
-position = Vector2(760, 128)
+position = Vector2(1083, 53)
 
 [node name="Pig4" parent="Enemies" unique_id=1241209453 instance=ExtResource("15")]
-position = Vector2(600, 128)
+position = Vector2(968, 133)
 patrol_distance = Vector2(30, 0)
 
 [node name="Pig5" parent="Enemies" unique_id=647741579 instance=ExtResource("9")]
-position = Vector2(680, 128)
+position = Vector2(759, 195)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
@@ -109,7 +109,7 @@ speaker = "Khắc trên đá"
 position = Vector2(48, 214)
 
 [node name="T2" parent="Decor" unique_id=574068994 instance=ExtResource("8")]
-position = Vector2(260, 214)
+position = Vector2(972, 50)
 
 [node name="Chest1" parent="Decor" unique_id=751396422 instance=ExtResource("17")]
 position = Vector2(1023, 48)
@@ -159,6 +159,6 @@ position = Vector2(1195, 147)
 variant_frames = ExtResource("23")
 
 [node name="Player" parent="." unique_id=792107121 instance=ExtResource("4")]
-position = Vector2(24, 208)
+position = Vector2(25, 206)
 
 [node name="HUD" parent="." unique_id=1867161180 instance=ExtResource("6")]
