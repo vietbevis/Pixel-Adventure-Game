@@ -54,34 +54,34 @@ position = Vector2(1216, 136)
 [node name="Enemies" type="Node2D" parent="." unique_id=1847151149]
 
 [node name="Pig1" parent="Enemies" unique_id=1689557938 instance=ExtResource("8")]
-position = Vector2(150, 224)
+position = Vector2(169, 231)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig2" parent="Enemies" unique_id=1427975081 instance=ExtResource("8")]
-position = Vector2(440, 160)
+position = Vector2(428, 166)
 patrol_distance = Vector2(70, 0)
 patrol_speed = 22.0
 
 [node name="Pig3" parent="Enemies" unique_id=244362532 instance=ExtResource("12")]
-position = Vector2(680, 224)
+position = Vector2(681, 233)
 
 [node name="Cannon1" parent="Enemies" unique_id=476656400 instance=ExtResource("14")]
-position = Vector2(900, 112)
+position = Vector2(909, 118)
 fire_interval = 2.8
 
 [node name="Pig4" parent="Enemies" unique_id=1592121322 instance=ExtResource("8")]
-position = Vector2(820, 112)
+position = Vector2(828, 117)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 20.0
 
 [node name="Pig5" parent="Enemies" unique_id=771053728 instance=ExtResource("8")]
-position = Vector2(1050, 144)
+position = Vector2(1057, 149)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig6" parent="Enemies" unique_id=1332934434 instance=ExtResource("15")]
-position = Vector2(824, 220)
+position = Vector2(824, 230)
 patrol_distance = Vector2(30, 0)
 
 [node name="Traps" type="Node2D" parent="." unique_id=235406785]
@@ -112,7 +112,7 @@ line_1 = "Lỗ châu mai. Chạy qua khi mũi tên vừa bay."
 speaker = "Khắc trên đá"
 
 [node name="Torch1" parent="Decor" unique_id=659695401 instance=ExtResource("16")]
-position = Vector2(1000, 150)
+position = Vector2(1246, 31)
 
 [node name="Torch2" parent="Decor" unique_id=1784854198 instance=ExtResource("16")]
 position = Vector2(1200, 150)
