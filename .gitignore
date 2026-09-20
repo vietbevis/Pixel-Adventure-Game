@@ -23,3 +23,9 @@ game/.godot/
 
 # CodeGraph local index
 .codegraph/
+
+# Harness chụp ảnh khi phát triển (nạp 1 scene → lưu PNG → thoát). Là công cụ dev,
+# không thuộc game — xem PLAN.md mục 11.3 để biết cách chạy.
+game/_dev_shot.gd
+game/_dev_shot.gd.uid
+game/_dev_shot.tscn

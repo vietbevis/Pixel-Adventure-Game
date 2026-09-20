@@ -319,3 +319,60 @@ Toàn bộ T1–T6 đã code xong. Khác biệt so với spec nháp ở trên, �
 `game/audio/sfx/{game_over,victory,final_victory}.wav`.
 **File sửa:** `core/{audio_manager,game_manager,progression}.gd`, `player/player.gd`,
 `objects/npc/npc.gd`, `levels/hub/hub.tscn`, `ui/end_screen/*`, `ui/main_menu/*`.
+
+---
+
+## 11. Bổ sung 20/09/2026 — UI âm lượng + Việt hoá toàn bộ
+
+Ngoài phạm vi 4 yêu cầu đồ án, làm theo yêu cầu trực tiếp. Vẫn trên `main`.
+
+### 11.1 Thanh âm lượng
+
+`HSlider` cũ hỏng thật chứ không chỉ xấu — chụp màn hình bằng Godot mới thấy:
+texture nguồn chỉ 55×15px nhưng `texture_margin_left/right = 14` chừa lõi 27px để giãn ra 140px
+→ thanh rách có mối nối; núm kéo dạt hẳn khỏi rãnh; `grabber_area` là `StyleBoxEmpty` nên
+không có phần tô đầy → không nhìn ra đang ở mức nào; và không có số.
+
+Thay bằng **thanh 10 ô + nút −/+**:
+- Ô dựng trong code (giống `hud.gd` dựng icon tim) để số ô luôn khớp `VOLUME_STEPS`.
+- Bấm/kéo thẳng trên dãy ô nhảy tới bậc đó; `size_flags_vertical = SHRINK_CENTER` giữ ô vuông
+  thay vì bị `HBoxContainer` kéo cao bằng hàng nút.
+- Nhãn `80%`, đổi thành `Tắt` ở mức 0; nút − / + tự khoá ở hai đầu.
+- `AudioManager` tách `apply_master_volume()` (chỉ áp lên bus) khỏi `set_master_volume()`
+  (áp + lưu) — `SaveManager.set_setting` gọi `save_data()` mỗi lần nên kéo rê mà lưu từng bậc
+  là ghi file liên tục. `_ready` của AudioManager cũng chuyển sang `apply_` (giá trị vừa đọc
+  từ save, ghi lại là thừa).
+
+### 11.2 Việt hoá
+
+Toàn bộ chữ hiển thị cho người chơi đã sang tiếng Việt: 34 chuỗi trong 12 `.tscn` + các chuỗi
+định dạng trong `end_screen.gd`, `hud.gd`, `settings_menu.gd`, `npc.gd`, `hub_sign.gd`.
+Không dựng lớp i18n — viết thẳng tiếng Việt (xem CLAUDE.md, mục Conventions).
+
+Định danh giữ tiếng Anh: `CharacterData.NAMES` vẫn là `["King", "Captain"]` vì nó dùng để tra
+thư mục sprite và lưu vào save; chỉ trường `display` đổi thành "Nhà Vua" / "Thuyền Trưởng".
+
+Hai chỗ không nhất quán được thống nhất luôn:
+- Boss cuối từng mang hai tên: `LevelData` + thẻ tiêu đề gọi "Người Gác Hầm", còn các dòng mục
+  tiêu mới gọi "Cai Ngục". Chốt **"Cai Ngục"** (ngắn, vừa thanh máu).
+- `boss_health_bar.tscn` hardcode "KING PIG" và không code nào đổi → trận boss cuối vẫn hiện tên
+  Vua Heo. Thêm `Events.boss_intro(boss_id, display_name)`, `BossBase` phát khi vào trận
+  (**deferred** — trong cả hai scene arena node boss đứng trước `BossHealthBar` nên phát ngay
+  thì thanh máu chưa connect, bỏ lỡ cả tên lẫn máu ban đầu).
+
+### 11.3 Kiểm chứng
+
+Dựng harness `game/_dev_shot.tscn` (**gitignored, không commit**) — nạp một scene, chờ 40 frame
+cho tween chạy xong, lưu PNG rồi thoát:
+
+```
+/Applications/Godot.app/Contents/MacOS/Godot --path game res://_dev_shot.tscn -- <res://scene.tscn> <out.png>
+```
+
+Đã nạp và chụp 12 scene (5 màn UI + progress + hud + hub + level_1 + 2 boss arena):
+**không lỗi biên dịch, không lỗi runtime**, bố cục không vỡ dù chữ Việt dài hơn tiếng Anh.
+Thanh máu boss cuối xác nhận hiện "CAI NGỤC".
+
+> **Bẫy công cụ:** `sips -c H W` cắt ảnh **từ tâm**, không phải từ góc trái — `--cropOffset` là
+> độ lệch so với tâm. Cắt nhầm từng làm tôi tưởng HUD không hiển thị; probe in `get_global_rect()`
+> cho thấy HUD hoàn toàn bình thường. Xem ảnh đầy đủ trước khi kết luận.

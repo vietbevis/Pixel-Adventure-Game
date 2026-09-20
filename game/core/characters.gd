@@ -11,13 +11,13 @@ const NAMES: Array[String] = ["King", "Captain"]
 ## dùng chung của player (kích thước frame mỗi nhân vật khác nhau) — canh trong editor.
 const CHARACTERS := {
 	"King": {
-		"display": "King",
+		"display": "Nhà Vua",
 		"offset": Vector2(0, 6),
 		"attack_reach": 24.0,  # búa dài
 		"attack_damage": 1,
 	},
 	"Captain": {
-		"display": "Captain",
+		"display": "Thuyền Trưởng",
 		"offset": Vector2(0, 9),
 		"attack_reach": 18.0,  # kiếm ngắn hơn
 		"attack_damage": 1,

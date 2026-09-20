@@ -48,15 +48,15 @@ func _ready() -> void:
 	if is_final:
 		title_label.text = "VƯƠNG MIỆN TRỞ VỀ!"
 	elif won:
-		title_label.text = "YOU WIN!"
+		title_label.text = "CHIẾN THẮNG!"
 	else:
-		title_label.text = "GAME OVER"
+		title_label.text = "THẤT BẠI"
 
-	score_label.text = "Fruits collected: %d" % GameManager.score
+	score_label.text = "Quả đã ăn: %d" % GameManager.score
 	if won:
-		score_label.text += "\nTime: %s%s" % [
+		score_label.text += "\nThời gian: %s%s" % [
 			LevelData.format_time(time_taken),
-			"  (New Best!)" if is_new_best else "",
+			"  (Kỷ lục mới!)" if is_new_best else "",
 		]
 	# Đổi ảnh nền lát theo kết quả: vàng ấm áp khi thắng, xám trầm khi thua
 	background.texture = WIN_BG_TEXTURE if won else LOSE_BG_TEXTURE

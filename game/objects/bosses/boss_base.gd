@@ -2,8 +2,8 @@ class_name BossBase
 extends CharacterBody2D
 ## Boss: CharacterBody2D + FSM riêng (không phải EnemyBase — FSM khác hẳn). Dùng lại
 ## component HealthComponent / Hurtbox / Hitbox + EnemyStats. Máu forward lên
-## `Events.boss_health_changed`; đổi phase → `Events.boss_phase_changed`; chết →
-## `Events.boss_defeated`.
+## `Events.boss_health_changed`; tên lên `Events.boss_intro`; đổi phase →
+## `Events.boss_phase_changed`; chết → `Events.boss_defeated`.
 ##
 ## Pattern là sub-machine theo `_pattern_step` + `_step_timer` (KHÔNG coroutine dài),
 ## để pause / chết giữa chừng không vỡ. Pool pattern mở dần theo phase.
@@ -22,6 +22,8 @@ const SLAM_RECOVER := 0.7
 
 @export var stats: EnemyStats
 @export var boss_id: String = "boss"
+## Tên hiển thị trên thanh máu. Để trống thì thanh máu dùng boss_id.
+@export var display_name: String = ""
 ## Sprite gốc quay mặt phải hay trái (King Pig quay trái).
 @export var sprite_faces_right: bool = false
 @export var intro_time: float = 1.2
@@ -65,7 +67,11 @@ func _ready() -> void:
 	hurtbox.hurt.connect(_on_hurt)
 	health.died.connect(_on_died)
 	health.health_changed.connect(_on_health_changed)
-	Events.boss_health_changed.emit(health.hp, health.max_hp)
+	# Hoãn sang cuối frame: trong cả hai scene arena, node boss đứng TRƯỚC
+	# BossHealthBar nên `_ready` của boss chạy trước — phát ngay thì thanh máu
+	# chưa connect và bỏ lỡ cả tên lẫn máu ban đầu.
+	Events.boss_intro.emit.call_deferred(boss_id, display_name)
+	Events.boss_health_changed.emit.call_deferred(health.hp, health.max_hp)
 	sprite.animation_finished.connect(_on_anim_finished)
 	sprite.play("idle")
 

@@ -317,7 +317,7 @@ func _update_prompt() -> void:
 		_prompt.visible = false
 		return
 	_prompt.visible = true
-	_prompt.text = "Press E" if _can_talk() else "Đứng yên..."
+	_prompt.text = "Nhấn E" if _can_talk() else "Đứng yên..."
 
 func _start_dialogue() -> void:
 	_talking = true

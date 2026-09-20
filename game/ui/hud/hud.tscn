@@ -22,14 +22,14 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 theme_override_constants/outline_size = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
-text = "Fruits: 0"
+text = "Quả: 0"
 
 [node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 theme_override_constants/outline_size = 4
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
-text = "Time: 0:00"
+text = "Thời gian: 0:00"
 
 [node name="HeartsRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=985118212]
 layout_mode = 2
