@@ -44,13 +44,13 @@ tile_set = ExtResource("2")
 [node name="Interactables" type="Node2D" parent="." unique_id=2140855603]
 
 [node name="StartMarker" parent="Interactables" unique_id=189140294 instance=ExtResource("5")]
-position = Vector2(24, 216)
+position = Vector2(21, 209)
 
 [node name="Checkpoint" parent="Interactables" unique_id=875755696 instance=ExtResource("10")]
-position = Vector2(330, 200)
+position = Vector2(330, 198)
 
 [node name="GoalFlag" parent="Interactables" unique_id=1255470625 instance=ExtResource("19")]
-position = Vector2(1296, 168)
+position = Vector2(1296, 161)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=302240783]
 
@@ -78,12 +78,12 @@ position = Vector2(968, 133)
 patrol_distance = Vector2(30, 0)
 
 [node name="Pig5" parent="Enemies" unique_id=647741579 instance=ExtResource("9")]
-position = Vector2(759, 195)
+position = Vector2(759, 196)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 26.0
 
 [node name="Pig6" parent="Enemies" unique_id=823478083 instance=ExtResource("9")]
-position = Vector2(1200, 176)
+position = Vector2(1200, 181)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 26.0
 
@@ -106,7 +106,7 @@ line_1 = "HÀNH LANG NGAI.  Phòng ngai ngay cuối hành lang."
 speaker = "Khắc trên đá"
 
 [node name="T1" parent="Decor" unique_id=261827384 instance=ExtResource("8")]
-position = Vector2(48, 214)
+position = Vector2(57, 209)
 
 [node name="T2" parent="Decor" unique_id=574068994 instance=ExtResource("8")]
 position = Vector2(972, 50)
@@ -115,10 +115,10 @@ position = Vector2(972, 50)
 position = Vector2(1023, 48)
 
 [node name="T3" parent="Decor" unique_id=1400272892 instance=ExtResource("18")]
-position = Vector2(1120, 176)
+position = Vector2(430, 80)
 
 [node name="T4" parent="Decor" unique_id=1959763969 instance=ExtResource("18")]
-position = Vector2(1280, 176)
+position = Vector2(1328, 82)
 
 [node name="Fire2" parent="Decor" unique_id=70985683 instance=ExtResource("16")]
 position = Vector2(928, 141)

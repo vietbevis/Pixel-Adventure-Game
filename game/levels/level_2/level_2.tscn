@@ -40,7 +40,7 @@ camera_limit_bottom = 720
 scroll_offset = Vector2(160, -16)
 
 [node name="Pig1" parent="Parallax" unique_id=1638771361 instance=ExtResource("8")]
-position = Vector2(272, 288)
+position = Vector2(272, 276)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 20.0
 
@@ -56,18 +56,18 @@ metadata/_edit_lock_ = true
 position = Vector2(10, 529)
 
 [node name="Checkpoint" parent="Interactables" unique_id=561800038 instance=ExtResource("11")]
-position = Vector2(16, 352)
+position = Vector2(16, 342)
 
 [node name="DashRelic" parent="Interactables" unique_id=420342851 instance=ExtResource("18")]
 position = Vector2(464, -96)
 
 [node name="GoalFlag" parent="Interactables" unique_id=2042277396 instance=ExtResource("19")]
-position = Vector2(536, -44)
+position = Vector2(536, -48)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=502514296]
 
 [node name="Pig1" parent="Enemies" unique_id=149893387 instance=ExtResource("8")]
-position = Vector2(240, 544)
+position = Vector2(240, 534)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 20.0
 
@@ -77,26 +77,26 @@ move_distance = Vector2(36, 0)
 move_speed = 1.6
 
 [node name="Cannon1" parent="Enemies" unique_id=1398733007 instance=ExtResource("14")]
-position = Vector2(288, 240)
+position = Vector2(288, 245)
 fire_interval = 2.6
 
 [node name="Pig2" parent="Enemies" unique_id=1990734227 instance=ExtResource("8")]
-position = Vector2(96, 464)
+position = Vector2(96, 454)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig3" parent="Enemies" unique_id=1332971586 instance=ExtResource("15")]
-position = Vector2(128, 256)
+position = Vector2(128, 246)
 
 [node name="Pig4" parent="Enemies" unique_id=1768817731 instance=ExtResource("8")]
-position = Vector2(256, -96)
+position = Vector2(224, 20)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 22.0
 
 [node name="Traps" type="Node2D" parent="." unique_id=1407570254]
 
 [node name="Fan1" parent="Traps" unique_id=1779669302 instance=ExtResource("9")]
-position = Vector2(30, 244)
+position = Vector2(30, 252)
 max_rise_speed = 175.0
 
 [node name="Secrets" type="Node2D" parent="." unique_id=414301920]
@@ -120,7 +120,7 @@ line_1 = "Tiền đồn Heo trên đỉnh tán cây. Leo lên."
 speaker = "Vết khắc"
 
 [node name="Sign2" parent="Decor" unique_id=2092477238 instance=ExtResource("6")]
-position = Vector2(54, 352)
+position = Vector2(54, 349)
 line_1 = "Cột gió lùa qua khe. Để nó nâng ngươi lên bệ trên."
 speaker = "Vết khắc"
 
@@ -153,7 +153,7 @@ position = Vector2(40, 220)
 variant_frames = ExtResource("25")
 
 [node name="F6" parent="Fruits" unique_id=1766537934 instance=ExtResource("20")]
-position = Vector2(368, -96)
+position = Vector2(361, -101)
 variant_frames = ExtResource("21")
 
 [node name="F7" parent="Fruits" unique_id=735112148 instance=ExtResource("20")]
