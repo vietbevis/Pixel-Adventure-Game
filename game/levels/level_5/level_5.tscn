@@ -46,18 +46,18 @@ tile_set = ExtResource("2")
 [node name="Interactables" type="Node2D" parent="." unique_id=1774763206]
 
 [node name="StartMarker" parent="Interactables" unique_id=1553639650 instance=ExtResource("5")]
-position = Vector2(24, 0)
+position = Vector2(14, -15)
 
 [node name="Checkpoint" parent="Interactables" unique_id=899902635 instance=ExtResource("12")]
 position = Vector2(323, 197)
 
 [node name="GoalFlag" parent="Interactables" unique_id=113416665 instance=ExtResource("19")]
-position = Vector2(4, 637)
+position = Vector2(4, 640)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=710436558]
 
 [node name="Pig1" parent="Enemies" unique_id=1442656496 instance=ExtResource("11")]
-position = Vector2(300, 56)
+position = Vector2(300, 52)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 22.0
 
@@ -65,7 +65,7 @@ patrol_speed = 22.0
 position = Vector2(100, 380)
 
 [node name="Pig2" parent="Enemies" unique_id=1478240340 instance=ExtResource("15")]
-position = Vector2(292, 663)
+position = Vector2(292, 661)
 
 [node name="Traps" type="Node2D" parent="." unique_id=650360818]
 
@@ -86,13 +86,13 @@ position = Vector2(192, 401)
 position = Vector2(182, 748)
 
 [node name="Fire1" parent="Traps" unique_id=1126893163 instance=ExtResource("16")]
-position = Vector2(137, 664)
+position = Vector2(137, 672)
 start_delay = 0.5
 
 [node name="Decor" type="Node2D" parent="." unique_id=534126942]
 
 [node name="Sign1" parent="Decor" unique_id=47346622 instance=ExtResource("7")]
-position = Vector2(56, -8)
+position = Vector2(106, -20)
 line_1 = "LỐI XUỐNG.  Hầm Vàng nằm sâu bên dưới, nơi giữ Vương Miện."
 speaker = "Khắc mờ"
 
@@ -100,19 +100,19 @@ speaker = "Khắc mờ"
 position = Vector2(16, -10)
 
 [node name="T2" parent="Decor" unique_id=1580379264 instance=ExtResource("8")]
-position = Vector2(300, 60)
+position = Vector2(355, 49)
 
 [node name="T3" parent="Decor" unique_id=980115239 instance=ExtResource("8")]
 position = Vector2(248, 561)
 
 [node name="C1" parent="Decor" unique_id=1963900737 instance=ExtResource("9")]
-position = Vector2(120, 130)
+position = Vector2(249, 76)
 
 [node name="C2" parent="Decor" unique_id=495095122 instance=ExtResource("9")]
 position = Vector2(218, 235)
 
 [node name="Chest1" parent="Decor" unique_id=1056803418 instance=ExtResource("17")]
-position = Vector2(8, 414)
+position = Vector2(8, 416)
 
 [node name="T4" parent="Decor" unique_id=455575326 instance=ExtResource("18")]
 position = Vector2(-28, 585)
@@ -160,6 +160,6 @@ position = Vector2(327, 359)
 variant_frames = ExtResource("23")
 
 [node name="Player" parent="." unique_id=1401665473 instance=ExtResource("4")]
-position = Vector2(24, -8)
+position = Vector2(24, -19)
 
 [node name="HUD" parent="." unique_id=145236460 instance=ExtResource("6")]

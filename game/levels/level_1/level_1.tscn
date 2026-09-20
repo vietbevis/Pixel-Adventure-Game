@@ -45,22 +45,22 @@ position = Vector2(32, 208)
 position = Vector2(992, 128)
 
 [node name="Checkpoint" parent="Interactables" unique_id=8464225 instance=ExtResource("5")]
-position = Vector2(608, 128)
+position = Vector2(608, 118)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1599377532]
 
 [node name="Pig1" parent="Enemies" unique_id=1006168572 instance=ExtResource("22")]
-position = Vector2(208, 224)
+position = Vector2(208, 214)
 patrol_distance = Vector2(50, 0)
 patrol_speed = 22.0
 
 [node name="Pig2" parent="Enemies" unique_id=527055601 instance=ExtResource("22")]
-position = Vector2(688, 144)
+position = Vector2(688, 134)
 patrol_distance = Vector2(60, 0)
 patrol_speed = 24.0
 
 [node name="Pig3" parent="Enemies" unique_id=1209298974 instance=ExtResource("22")]
-position = Vector2(864, 64)
+position = Vector2(864, 57)
 patrol_distance = Vector2(40, 0)
 patrol_speed = 20.0
 
@@ -72,23 +72,23 @@ move_speed = 1.6
 [node name="Traps" type="Node2D" parent="." unique_id=1264496306]
 
 [node name="Trampoline1" parent="Traps" unique_id=694058429 instance=ExtResource("27")]
-position = Vector2(392, 268)
+position = Vector2(392, 273)
 
 [node name="Decor" type="Node2D" parent="." unique_id=778305359]
 
 [node name="Sign1" parent="Decor" unique_id=2043260529 instance=ExtResource("28")]
-position = Vector2(80, 208)
+position = Vector2(80, 205)
 line_1 = "RỪNG RANH GIỚI  —  lâu đài ở phía đông."
 line_2 = "Đi hết cánh rừng này là tới tường thành."
 speaker = "Bảng chỉ đường"
 
 [node name="Sign2" parent="Decor" unique_id=1965917789 instance=ExtResource("28")]
-position = Vector2(576, 128)
+position = Vector2(576, 124)
 line_1 = "Dấu chân heo khắp lối. Chúng đi qua đây không lâu trước."
 speaker = "Vết khắc"
 
 [node name="Crate1" parent="Decor" unique_id=1106622539 instance=ExtResource("29")]
-position = Vector2(624, 144)
+position = Vector2(624, 138)
 
 [node name="Player" parent="." unique_id=1355743432 instance=ExtResource("2")]
 position = Vector2(32, 204)
@@ -98,7 +98,7 @@ position = Vector2(32, 204)
 [node name="Secrets" type="Node2D" parent="." unique_id=1429103331]
 
 [node name="SecretAlcove1" parent="Secrets" unique_id=1448768724 instance=ExtResource("24")]
-position = Vector2(848, 64)
+position = Vector2(848, 70)
 
 [node name="Diamond1" parent="Secrets" unique_id=1033052913 instance=ExtResource("25")]
 position = Vector2(928, 32)
@@ -135,7 +135,7 @@ position = Vector2(664, 108)
 variant_frames = ExtResource("13")
 
 [node name="Fruit8" parent="Fruits" unique_id=919789241 instance=ExtResource("4")]
-position = Vector2(832, 192)
+position = Vector2(864, 112)
 variant_frames = ExtResource("14")
 
 [node name="Fruit9" parent="Fruits" unique_id=1063415461 instance=ExtResource("4")]
