@@ -54,9 +54,10 @@ position = Vector2(70, 178)
 position = Vector2(120, 198)
 speaker = "Cố vấn"
 report_abilities = true
+dynamic_line = 1
+behavior = 0
 line_1 = "Mừng ngài trở về, thưa Đức Vua. Trại nhỏ này là tất cả những gì còn lại."
-line_2 = "Băng qua Rừng Ranh Giới để tới lâu đài. Cổng Lâu Đài chỉ mở khi ngài vượt hết khu Rừng."
-line_3 = "Hạ Vua Heo trong lâu đài, rồi đường xuống Hầm Ngục Cổ sẽ tự lộ ra."
+line_2 = "Trước mặt là ba cánh cổng. Ngài cứ hỏi, ta sẽ nói cổng nào đang chờ ngài."
 
 [node name="ForestPortal" parent="." instance=ExtResource("4")]
 position = Vector2(220, 168)
@@ -65,6 +66,10 @@ world_id = "forest"
 [node name="Villager" parent="." instance=ExtResource("6")]
 position = Vector2(300, 196)
 speaker = "Dân làng"
+dynamic_line = 2
+behavior = 1
+wander_range = 60.0
+walk_speed = 24.0
 idle_frames = ExtResource("8")
 sprite_faces_right = true
 modulate = Color(0.72, 0.74, 0.82, 1)
@@ -78,10 +83,14 @@ world_id = "castle"
 [node name="Deserter" parent="." instance=ExtResource("6")]
 position = Vector2(510, 196)
 speaker = "Heo đào ngũ"
+dynamic_line = 3
+behavior = 2
+flee_radius = 72.0
+calm_time = 1.2
+walk_speed = 22.0
 modulate = Color(0.82, 0.95, 0.78, 1)
 line_1 = "Suỵt! Đừng hét. Tôi bỏ hàng ngũ Vua Heo rồi, thề đấy."
 line_2 = "Lão ta phát bom cho cả lũ rồi bắt xông lên trước. Điên hết cả."
-line_3 = "Trong lâu đài lão cho gác pháo ở sân. Cẩn thận mấy khẩu đó."
 
 [node name="DungeonPortal" parent="." instance=ExtResource("4")]
 position = Vector2(590, 168)

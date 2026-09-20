@@ -13,6 +13,42 @@ const BOSS_REWARDS := {}
 const FOREST_SECRETS: Array[String] = ["diamond_forest_1", "diamond_forest_2", "diamond_forest_3"]
 const MAX_HP_BASE := 3
 
+## Chuỗi mục tiêu của người chơi, theo đúng thứ tự phải hoàn thành. Mỗi mốc:
+##   check — hàm trả về true khi mốc này ĐÃ xong
+##   world — world_id mà người chơi cần tới (NPC Cố vấn quay mặt về portal này)
+##   text  — câu mô tả mục tiêu
+## Lưu ý: Dash KHÔNG đến từ boss mà nhặt ở `objects/ability_relic/` cuối level_2,
+## nên mốc đầu tiên nói về việc vượt hết Rừng chứ không phải hạ boss.
+const OBJECTIVES: Array[Dictionary] = [
+	{
+		"world": "forest",
+		"text": "Băng qua Rừng Ranh Giới. Di vật Lướt nằm ở cuối rừng, và Cổng Lâu Đài chỉ mở khi ngài vượt hết khu Rừng.",
+	},
+	{
+		"world": "castle",
+		"text": "Vào Lâu Đài Thất Thủ, hạ Vua Heo. Hạ được hắn thì đường xuống Hầm Ngục Cổ mới lộ ra.",
+	},
+	{
+		"world": "dungeon",
+		"text": "Xuống Hầm Ngục Cổ, hạ Cai Ngục — Vương Miện đang nằm trong tay hắn.",
+	},
+]
+const OBJECTIVE_DONE := {
+	"world": "",
+	"text": "Vương Miện đã trở về. Ngài lại là Vua, thưa Đức Vua.",
+}
+
+## Mục tiêu kế tiếp suy ra từ save. Dùng bởi NPC Cố vấn (hub) và màn Tiến trình —
+## giữ ở đây để hai nơi không tự suy luận tiến trình theo hai kiểu khác nhau.
+func next_objective() -> Dictionary:
+	if not SaveManager.is_level_completed("level_2"):
+		return OBJECTIVES[0]
+	if not SaveManager.is_boss_defeated("forest_boss"):
+		return OBJECTIVES[1]
+	if not SaveManager.is_boss_defeated("dungeon_boss"):
+		return OBJECTIVES[2]
+	return OBJECTIVE_DONE
+
 func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
 	Events.collectible_collected.connect(_on_collectible_collected)

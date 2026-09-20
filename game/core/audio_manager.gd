@@ -15,6 +15,10 @@ const SFX_PATHS := {
 	"hurt": "res://audio/sfx/hurt.ogg",
 	"enemy_die": "res://audio/sfx/enemy_die.ogg",
 	"pickup": "res://audio/sfx/pickup.ogg",
+	## Sting kết quả: .wav (máy dev không có bộ mã hoá ogg; Godot import wav native).
+	"game_over": "res://audio/sfx/game_over.wav",
+	"victory": "res://audio/sfx/victory.wav",
+	"final_victory": "res://audio/sfx/final_victory.wav",
 }
 const POOL_SIZE := 6
 
@@ -77,6 +81,13 @@ func play_sfx(name: String, pitch_var: float = 0.06) -> void:
 			p.pitch_scale = 1.0 + randf_range(-pitch_var, pitch_var)
 			p.play()
 			return
+
+## Sting kết quả (thắng/thua): tắt nhạc nền rồi phát 1 lần, KHÔNG lệch cao độ —
+## sting là một câu giai điệu, pitch_var làm nó nghe sai nốt.
+## AudioManager là autoload nên tiếng vẫn ngân tiếp qua lúc đổi scene.
+func play_sting(sting_name: String) -> void:
+	stop_music()
+	play_sfx(sting_name, 0.0)
 
 ## value 0..1 → Master bus dB (0 = -40dB gần tắt, 1 = 0dB).
 func set_master_volume(value: float) -> void:

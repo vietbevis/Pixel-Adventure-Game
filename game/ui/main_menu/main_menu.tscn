@@ -59,6 +59,11 @@ layout_mode = 2
 text = "  Play"
 icon = ExtResource("3")
 
+[node name="ProgressButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+text = "  Tiến trình"
+
 [node name="SettingsButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer" unique_id=1319010219]
 custom_minimum_size = Vector2(220, 52)
 layout_mode = 2
