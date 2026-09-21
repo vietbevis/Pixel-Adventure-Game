@@ -78,7 +78,7 @@ visible = false
 theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(316, 50)
 layout_mode = 2
-text = "  Màn tiếp theo"
+text = "Màn tiếp theo"
 
 [node name="ButtonsGrid" type="GridContainer" parent="CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2
@@ -89,14 +89,12 @@ theme_override_constants/v_separation = 10
 [node name="RetryButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
 layout_mode = 2
-text = "  Chơi lại"
-icon = ExtResource("3")
+text = "Chơi lại"
 
 [node name="HubButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
 layout_mode = 2
-text = "  Về Làng"
-icon = ExtResource("4")
+text = "Về Làng"
 
 [node name="HomeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
