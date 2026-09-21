@@ -29,3 +29,9 @@ game/.godot/
 game/_dev_shot.gd
 game/_dev_shot.gd.uid
 game/_dev_shot.tscn
+
+# Môi trường / công cụ cục bộ, không thuộc repo
+.venv
+tools
+game/addons
+scratchpad
