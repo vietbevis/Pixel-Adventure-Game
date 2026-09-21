@@ -75,12 +75,14 @@ autowrap_mode = 3
 visible = false
 
 [node name="NextButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+size_flags_horizontal = 4
 theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(316, 50)
 layout_mode = 2
 text = "Màn tiếp theo"
 
 [node name="ButtonsGrid" type="GridContainer" parent="CenterContainer/Panel/VBoxContainer"]
+size_flags_horizontal = 4
 layout_mode = 2
 columns = 2
 theme_override_constants/h_separation = 14
