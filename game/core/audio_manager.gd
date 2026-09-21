@@ -15,6 +15,10 @@ const SFX_PATHS := {
 	"hurt": "res://audio/sfx/hurt.ogg",
 	"enemy_die": "res://audio/sfx/enemy_die.ogg",
 	"pickup": "res://audio/sfx/pickup.ogg",
+	## Sting kết quả: .wav (máy dev không có bộ mã hoá ogg; Godot import wav native).
+	"game_over": "res://audio/sfx/game_over.wav",
+	"victory": "res://audio/sfx/victory.wav",
+	"final_victory": "res://audio/sfx/final_victory.wav",
 }
 const POOL_SIZE := 6
 
@@ -37,8 +41,8 @@ func _ready() -> void:
 		add_child(p)
 		_pool.append(p)
 
-	var vol: float = SaveManager.get_setting("volume", 0.8)
-	set_master_volume(vol)
+	# Áp thôi, không lưu: giá trị vừa đọc từ save, ghi lại chỉ tốn 1 lần IO mỗi lần mở game.
+	apply_master_volume(float(SaveManager.get_setting("volume", 0.8)))
 
 	Events.player_damaged.connect(func(_a: int) -> void: play_sfx("hurt"))
 	Events.enemy_died.connect(func(_n: Node, _p: Vector2) -> void: play_sfx("enemy_die"))
@@ -78,12 +82,25 @@ func play_sfx(name: String, pitch_var: float = 0.06) -> void:
 			p.play()
 			return
 
-## value 0..1 → Master bus dB (0 = -40dB gần tắt, 1 = 0dB).
-func set_master_volume(value: float) -> void:
+## Sting kết quả (thắng/thua): tắt nhạc nền rồi phát 1 lần, KHÔNG lệch cao độ —
+## sting là một câu giai điệu, pitch_var làm nó nghe sai nốt.
+## AudioManager là autoload nên tiếng vẫn ngân tiếp qua lúc đổi scene.
+func play_sting(sting_name: String) -> void:
+	stop_music()
+	play_sfx(sting_name, 0.0)
+
+## Áp âm lượng lên bus Master NGAY mà không ghi đĩa. value 0..1 (0 = tắt tiếng).
+## Tách khỏi `set_master_volume` để lúc kéo/bấm liên tục không ghi file mỗi bước —
+## `SaveManager.set_setting` gọi `save_data()` mỗi lần.
+func apply_master_volume(value: float) -> void:
 	var bus := AudioServer.get_bus_index("Master")
 	if value <= 0.001:
 		AudioServer.set_bus_mute(bus, true)
 	else:
 		AudioServer.set_bus_mute(bus, false)
 		AudioServer.set_bus_volume_db(bus, linear_to_db(clampf(value, 0.0, 1.0)))
+
+## Áp + lưu. Gọi khi người chơi đã chốt giá trị.
+func set_master_volume(value: float) -> void:
+	apply_master_volume(value)
 	SaveManager.set_setting("volume", value)

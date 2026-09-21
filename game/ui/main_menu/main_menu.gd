@@ -3,9 +3,11 @@
 extends Control
 
 const HUB_SCENE := "res://levels/hub/hub.tscn"
+const PROGRESS_SCENE := "res://ui/progress_screen/progress_screen.tscn"
 
 @onready var continue_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ContinueButton
 @onready var play_button: Button = $CenterContainer/DialogPanel/VBoxContainer/PlayButton
+@onready var progress_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ProgressButton
 @onready var settings_button: Button = $CenterContainer/DialogPanel/VBoxContainer/SettingsButton
 @onready var quit_button: Button = $CenterContainer/DialogPanel/VBoxContainer/QuitButton
 
@@ -14,9 +16,13 @@ func _ready() -> void:
 	continue_button.visible = continue_level != "" and LevelData.get_index(continue_level) != -1
 	continue_button.pressed.connect(_on_continue)
 	play_button.pressed.connect(_on_play)
+	progress_button.pressed.connect(_on_progress)
 	settings_button.pressed.connect(_on_settings)
 	quit_button.pressed.connect(_on_quit)
 	_apply_saved_fullscreen()
+	# Nhạc menu: cần gọi tường minh vì sting thắng/thua đã `stop_music()` ở màn chơi,
+	# nếu không menu sẽ im lặng khi người chơi vừa từ end_screen quay về.
+	AudioManager.play_music("")
 
 ## Về hub: từ đây người chơi chọn world để chơi tiếp (world đã mở khoá vẫn giữ nguyên).
 ## Khôi phục nhân vật đã chọn lần trước để không bị reset về mặc định sau khi mở lại game.
@@ -36,6 +42,11 @@ func _apply_saved_fullscreen() -> void:
 ## Sang màn chọn nhân vật để bắt đầu chơi
 func _on_play() -> void:
 	SceneTransition.goto("res://ui/character_select/character_select.tscn")
+
+## Xem tiến trình đã lưu (màn đã qua, sức mạnh, thành tựu). Quay lại thì về đây.
+func _on_progress() -> void:
+	GameManager.progress_return_scene = "res://ui/main_menu/main_menu.tscn"
+	SceneTransition.goto(PROGRESS_SCENE)
 
 ## Mở màn hình Cài đặt
 func _on_settings() -> void:

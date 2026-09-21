@@ -22,6 +22,8 @@ signal player_respawned(position: Vector2)
 
 # --- Enemy / Boss ---
 signal enemy_died(enemy: Node, position: Vector2)
+## Boss vào trận: báo id + tên hiển thị để thanh máu đặt nhãn đúng boss.
+signal boss_intro(boss_id: String, display_name: String)
 signal boss_health_changed(current: int, maximum: int)
 signal boss_phase_changed(phase: int)
 signal boss_defeated(boss_id: String)

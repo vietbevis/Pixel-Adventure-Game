@@ -45,7 +45,7 @@ theme_override_constants/separation = 6
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.82, 0.4, 1)
 theme_override_font_sizes/font_size = 16
-text = "Speaker"
+text = "Nhân vật"
 
 [node name="Body" type="Label" parent="Panel/Margin/VBox"]
 layout_mode = 2

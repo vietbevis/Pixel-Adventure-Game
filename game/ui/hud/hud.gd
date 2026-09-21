@@ -33,8 +33,8 @@ func _on_collectible_collected(_id: String, kind: String) -> void:
 		_update_secret_label()
 
 func _process(_delta: float) -> void:
-	label.text = "Fruits: %d" % GameManager.score
-	time_label.text = "Time: %s" % LevelData.format_time(GameManager.elapsed_time())
+	label.text = "Quả: %d" % GameManager.score
+	time_label.text = "Thời gian: %s" % LevelData.format_time(GameManager.elapsed_time())
 
 ## Sinh đúng `_max_hearts` icon (dùng lại các icon có sẵn trong scene, thêm/bớt cho khớp).
 func _rebuild_hearts() -> void:

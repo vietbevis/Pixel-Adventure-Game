@@ -22,6 +22,11 @@ const DASH_COOLDOWN := 0.5
 
 const ATTACK_ANIM := &"attack"
 const DASH_DUST := preload("res://objects/fx/dust.tscn")
+const RESULT_FLASH := preload("res://ui/result_flash/result_flash.tscn")
+## Màn boss cuối: thắng ở đây = thắng cả game, không phải chỉ thắng 1 màn.
+const FINAL_LEVEL_ID := "boss_dungeon"
+## Kiểu kết quả (ResultFlash) → tên sting trong AudioManager.SFX_PATHS.
+const RESULT_STINGS := {"lose": "game_over", "win": "victory", "final": "final_victory"}
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 ## Nguồn thật của số tim + trạng thái bất tử. Xem components/health_component.gd.
@@ -294,7 +299,9 @@ func _on_health_died() -> void:
 		_respawn_at_checkpoint()
 	else:
 		GameManager.last_result = "lose"
-		await get_tree().create_timer(0.6).timeout
+		_flash_result("lose")
+		# Chờ lâu hơn trước (0.6s) để flash + sting kịp chơi trên màn chơi.
+		await get_tree().create_timer(1.4).timeout
 		SceneTransition.goto("res://ui/end_screen/end_screen.tscn")
 
 ## Bung lại tại vị trí checkpoint gần nhất, đầy lại tim, cho chơi tiếp ngay
@@ -340,4 +347,25 @@ func win() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO
 	GameManager.last_result = "win"
+	# Lượt chơi đã kết thúc: ngắt Hurtbox trong lúc chờ hiệu ứng thắng. Nếu không,
+	# một lưỡi cưa chạm vào trong ~1-2s đó vẫn trừ máu tới 0 → `died` → lật kết quả
+	# vừa thắng thành "lose". (Hurtbox là bên CHỦ ĐỘNG dò Hitbox nên tắt `monitoring`
+	# ở đây là đúng chiều, không dính gotcha "monitoring=false chặn bị dò" ở ROADMAP.)
+	hurtbox.set_deferred("monitoring", false)
+	var is_final := GameManager.current_level_id == FINAL_LEVEL_ID
+	_flash_result("final" if is_final else "win")
+	await get_tree().create_timer(2.0 if is_final else 1.2).timeout
 	SceneTransition.goto("res://ui/end_screen/end_screen.tscn")
+
+## Báo kết quả ngay trên màn chơi (chữ lớn + lớp phủ + sting) trước khi đổi scene.
+## Đặt ở đây chứ không ở listener của `Events.player_died` vì signal đó phát cả khi
+## người chơi còn checkpoint để bung lại — chỉ nhánh trong `_on_health_died` mới biết
+## đây là kết thúc thật. AudioManager là autoload nên sting ngân tiếp qua lúc đổi scene.
+func _flash_result(kind: String) -> void:
+	AudioManager.play_sting(String(RESULT_STINGS[kind]))
+	var flash := RESULT_FLASH.instantiate()
+	var host := get_tree().current_scene
+	if host == null:
+		return
+	host.add_child(flash)
+	flash.show_result(kind)

@@ -1,9 +1,9 @@
 extends Area2D
 ## Biển chỉ dẫn trong hub: player đứng gần + bấm `interact` → đổi sang `target_scene`.
-## Dùng cho "Levels" (chơi lẻ), và sau này Settings / Achievements...
+## Dùng cho "Chọn màn" (chơi lẻ), và sau này Cài đặt / Thành tựu...
 
 @export var target_scene: String = "res://ui/level_select/level_select.tscn"
-@export var label_text: String = "Levels"
+@export var label_text: String = "Chọn màn"
 
 @onready var _label: Label = $Label
 @onready var _prompt: Label = $Prompt
