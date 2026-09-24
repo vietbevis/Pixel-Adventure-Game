@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/bosses/ghost_warden/soul_orb.gd" id="1_pcbhq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_teaxn"]
+radius = 6.0
+
+[node name="SoulOrb" type="Area2D" unique_id=2058861926]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_pcbhq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1326980047]
+shape = SubResource("CircleShape2D_teaxn")
+
+[node name="Orb" type="Node2D" parent="." unique_id=1622023581]
+
+[node name="Glow" type="Polygon2D" parent="Orb" unique_id=1988112715]
+color = Color(0.55, 0.25, 0.9, 0.45)
+polygon = PackedVector2Array(9, 0, 7.7942286, 4.5, 4.4999995, 7.794229, -3.934025e-07, 9, -4.5000005, 7.7942286, -7.7942286, 4.5000005, -9, -7.86805e-07, -7.7942286, -4.4999995, -4.499999, -7.794229, 1.0732393e-07, -9, 4.499999, -7.794229, 7.794228, -4.5000014)
+
+[node name="Core" type="Polygon2D" parent="Orb" unique_id=301033964]
+color = Color(0.75, 0.5, 1, 1)
+polygon = PackedVector2Array(6, 0, 5.196152, 3, 2.9999998, 5.1961527, -2.6226832e-07, 6, -3.0000005, 5.196152, -5.196152, 3.0000005, -6, -5.2453663e-07, -5.196152, -2.9999998, -2.9999995, -5.1961527, 7.154928e-08, -6, 2.9999995, -5.1961527, 5.1961517, -3.000001)
+
+[node name="Heart" type="Polygon2D" parent="Orb" unique_id=221078923]
+color = Color(1, 0.95, 1, 1)
+polygon = PackedVector2Array(2.5, 0, 2.1650634, 1.25, 1.2499999, 2.1650636, -1.09278474e-07, 2.5, -1.2500001, 2.1650634, -2.1650634, 1.2500001, -2.5, -2.1855695e-07, -2.1650634, -1.2499999, -1.2499998, -2.1650636, 2.9812202e-08, -2.5, 1.2499998, -2.1650636, 2.1650634, -1.2500005)
+
+[node name="Mark" type="Polygon2D" parent="." unique_id=512759894]
+color = Color(1, 0.25, 0.35, 0.9)
+polygon = PackedVector2Array(-9, 0, -5, -2, 5, -2, 9, 0, 5, 2, -5, 2)

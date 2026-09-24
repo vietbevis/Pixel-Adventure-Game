@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://objects/enemies/enemy_base.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://objects/enemies/pig/sprites/pig_frames.tres" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://components/hitbox.gd" id="5"]
 [ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="6"]
 [ext_resource type="Resource" path="res://objects/enemies/pig/pig_stats.tres" id="7"]
+[ext_resource type="Script" path="res://components/stomp_box.gd" id="8"]
 
 [sub_resource type="RectangleShape2D" id="body"]
 size = Vector2(16, 18)
@@ -16,6 +17,9 @@ size = Vector2(18, 20)
 
 [sub_resource type="RectangleShape2D" id="hit"]
 size = Vector2(20, 18)
+
+[sub_resource type="RectangleShape2D" id="stomp"]
+size = Vector2(18, 6)
 
 [node name="Pig" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
@@ -61,3 +65,12 @@ script = ExtResource("6")
 [node name="FloorCheck" type="RayCast2D" parent="."]
 position = Vector2(9, 6)
 target_position = Vector2(0, 12)
+
+[node name="StompBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StompBox"]
+position = Vector2(0, -12)
+shape = SubResource("stomp")

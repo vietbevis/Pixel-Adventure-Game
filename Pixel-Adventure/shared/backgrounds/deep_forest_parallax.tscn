@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://shared/backgrounds/deep_forest/back_trees.png" id="1_4spf0"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/deep_forest/lights.png" id="2_gfrs7"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/deep_forest/middle_trees.png" id="3_d4krx"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/deep_forest/front_trees.png" id="4_jdi8n"]
+
+[node name="DeepForestBackdrop" type="Node2D" unique_id=998658820]
+
+[node name="Backstop" type="Parallax2D" parent="." unique_id=1926696849]
+scroll_scale = Vector2(0, 0)
+
+[node name="Top" type="Polygon2D" parent="Backstop" unique_id=1368140096]
+color = Color(0.6901961, 0.4392157, 0.1882353, 1)
+polygon = PackedVector2Array(-4000, -4000, 4000, -4000, 4000, 190.5, -4000, 190.5)
+
+[node name="Bottom" type="Polygon2D" parent="Backstop" unique_id=47864634]
+color = Color(0.15686275, 0.101960786, 0.09411765, 1)
+polygon = PackedVector2Array(-4000, 190.5, 4000, 190.5, 4000, 4190.5, -4000, 4190.5)
+
+[node name="Layer0" type="Parallax2D" parent="." unique_id=2090244093]
+scroll_scale = Vector2(0.06, 0.03)
+repeat_size = Vector2(544, 0)
+repeat_times = 4
+
+[node name="BackTrees" type="Sprite2D" parent="Layer0" unique_id=276522909]
+texture_filter = 1
+position = Vector2(0, 61)
+scale = Vector2(2, 2)
+texture = ExtResource("1_4spf0")
+centered = false
+
+[node name="Layer1" type="Parallax2D" parent="." unique_id=1585654183]
+scroll_scale = Vector2(0.1, 0.03)
+repeat_size = Vector2(544, 0)
+repeat_times = 4
+
+[node name="Lights" type="Sprite2D" parent="Layer1" unique_id=905673079]
+texture_filter = 1
+position = Vector2(0, 61)
+scale = Vector2(2, 2)
+texture = ExtResource("2_gfrs7")
+centered = false
+
+[node name="Layer2" type="Parallax2D" parent="." unique_id=1441204983]
+scroll_scale = Vector2(0.16, 0.03)
+repeat_size = Vector2(544, 0)
+repeat_times = 4
+
+[node name="MiddleTrees" type="Sprite2D" parent="Layer2" unique_id=162243181]
+texture_filter = 1
+position = Vector2(0, 61)
+scale = Vector2(2, 2)
+texture = ExtResource("3_d4krx")
+centered = false
+
+[node name="Layer3" type="Parallax2D" parent="." unique_id=703362353]
+scroll_scale = Vector2(0.26, 0.03)
+repeat_size = Vector2(544, 0)
+repeat_times = 4
+
+[node name="FrontTrees" type="Sprite2D" parent="Layer3" unique_id=175627430]
+texture_filter = 1
+position = Vector2(0, 61)
+scale = Vector2(2, 2)
+texture = ExtResource("4_jdi8n")
+centered = false

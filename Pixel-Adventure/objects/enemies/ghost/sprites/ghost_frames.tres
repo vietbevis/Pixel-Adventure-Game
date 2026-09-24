@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://objects/enemies/ghost/sprites/ghost_float.png" id="1_tfiq0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c446y"]
+atlas = ExtResource("1_tfiq0")
+region = Rect2(0, 0, 37, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvdu0"]
+atlas = ExtResource("1_tfiq0")
+region = Rect2(37, 0, 37, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_no3j3"]
+atlas = ExtResource("1_tfiq0")
+region = Rect2(74, 0, 37, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cml8o"]
+atlas = ExtResource("1_tfiq0")
+region = Rect2(111, 0, 37, 65)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c446y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvdu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_no3j3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cml8o")
+}],
+"loop": 1,
+"name": &"fly",
+"speed": 6.0
+}]

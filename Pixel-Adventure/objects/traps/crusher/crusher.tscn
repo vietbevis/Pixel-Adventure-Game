@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/traps/crusher/crusher.gd" id="1_2amkv"]
+[ext_resource type="SpriteFrames" path="res://objects/traps/crusher/sprites/crusher_frames.tres" id="2_xe412"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t0nsd"]
+size = Vector2(34, 36)
+
+[node name="Crusher" type="Area2D" unique_id=44664710]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_2amkv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=872485968]
+sprite_frames = ExtResource("2_xe412")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=645971014]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_t0nsd")
+disabled = true

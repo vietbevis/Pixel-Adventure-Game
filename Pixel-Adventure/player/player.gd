@@ -158,7 +158,10 @@ func _physics_process(delta: float) -> void:
 		last_wall_jump_dir = 0.0
 
 	var was_airborne := not is_on_floor()
+	var rising_vy := velocity.y
 	move_and_slide()
+	if rising_vy < -60.0 and is_on_ceiling():
+		_correct_corner(rising_vy)
 	# Vừa tiếp đất sau khi rơi đủ nhanh → bụi + tiếng bịch.
 	if was_airborne and is_on_floor() and velocity.y >= 0.0 and _fall_speed_prev > 180.0:
 		var d := DASH_DUST.instantiate()
@@ -166,6 +169,20 @@ func _physics_process(delta: float) -> void:
 		d.global_position = global_position + Vector2(0, 10)
 	_fall_speed_prev = velocity.y
 	_update_animation(on_wall)
+
+## Chỉnh góc: đang nhảy lên mà đầu chỉ sượt MÉP một gờ/trần (vài px) thì đẩy người chơi
+## ngang ra khỏi mép và giữ nguyên đà nhảy, thay vì bị chặn cứng. Cụng giữa trần thật thì
+## không tìm được chỗ trống trong CORNER_NUDGE px nên vẫn bị chặn như thường.
+const CORNER_NUDGE := 6
+
+func _correct_corner(rising_vy: float) -> void:
+	for i in range(1, CORNER_NUDGE + 1):
+		for dir: int in [-1, 1]:
+			var shifted := global_transform.translated(Vector2(dir * i, 0))
+			if not test_move(shifted, Vector2(0, -2)) and not test_move(global_transform, Vector2(dir * i, 0)):
+				global_position.x += dir * i
+				velocity.y = rising_vy
+				return
 
 func _update_animation(on_wall: bool) -> void:
 	# Giữ nguyên anim "attack" cho tới khi phát xong. Điều kiện kèm `animation == attack`
@@ -265,6 +282,16 @@ func hit(force_reposition: bool = false) -> void:
 		# Rơi khỏi map: còn tim vẫn phải bung ngay về respawn, tránh gọi hit() mỗi frame.
 		global_position = GameManager.respawn_position
 		velocity = Vector2.ZERO
+
+## Đạp đầu quái (StompBox gọi): nảy lên như một cú nhảy, trả lại lượt nhảy đôi để
+## có thể nối cú đạp thành cú nhảy tiếp.
+func bounce() -> void:
+	if is_dead:
+		return
+	velocity.y = JUMP_VELOCITY * 0.9
+	jumps_left = MAX_JUMPS - 1
+	sprite.play("double_jump")
+	AudioManager.play_sfx("jump")
 
 ## Nguồn máu thật là HealthComponent; phát lên Events cho HUD / camera shake / ...
 func _on_health_changed(current: int, maximum: int) -> void:

@@ -39,7 +39,7 @@ shape = SubResource("body")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3")
-max_hp = 10
+max_hp = 18
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16

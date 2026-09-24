@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_sky.png" id="1_fw2kc"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_sun.png" id="2_ish6d"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_clouds.png" id="3_o81jn"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_mountains_3.png" id="4_sytgm"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_mountains_2.png" id="5_6ga0i"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_mountains_1.png" id="6_7cu4g"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_trees.png" id="7_u82bh"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/meadow/forest_background_rocks.png" id="8_rd3ox"]
+
+[node name="MeadowBackdrop" type="Node2D" unique_id=1147181487]
+
+[node name="Backstop" type="Parallax2D" parent="." unique_id=651832725]
+scroll_scale = Vector2(0, 0)
+
+[node name="Top" type="Polygon2D" parent="Backstop" unique_id=1491124870]
+color = Color(0.3764706, 0.65882355, 0.6901961, 1)
+polygon = PackedVector2Array(-4000, -4000, 4000, -4000, 4000, 190.5, -4000, 190.5)
+
+[node name="Bottom" type="Polygon2D" parent="Backstop" unique_id=132948410]
+color = Color(0.23529412, 0.32941177, 0.27450982, 1)
+polygon = PackedVector2Array(-4000, 190.5, 4000, 190.5, 4000, 4190.5, -4000, 4190.5)
+
+[node name="Layer0" type="Parallax2D" parent="." unique_id=1236684765]
+scroll_scale = Vector2(0, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundSky" type="Sprite2D" parent="Layer0" unique_id=1686264956]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("1_fw2kc")
+centered = false
+
+[node name="Layer1" type="Parallax2D" parent="." unique_id=1003029877]
+scroll_scale = Vector2(0.02, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundSun" type="Sprite2D" parent="Layer1" unique_id=276357076]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("2_ish6d")
+centered = false
+
+[node name="Layer2" type="Parallax2D" parent="." unique_id=1031893623]
+scroll_scale = Vector2(0.04, 0.03)
+repeat_size = Vector2(1280, 0)
+autoscroll = Vector2(-5, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundClouds" type="Sprite2D" parent="Layer2" unique_id=2075955770]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("3_o81jn")
+centered = false
+
+[node name="Layer3" type="Parallax2D" parent="." unique_id=840783485]
+scroll_scale = Vector2(0.08, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundMountains3" type="Sprite2D" parent="Layer3" unique_id=224291242]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("4_sytgm")
+centered = false
+
+[node name="Layer4" type="Parallax2D" parent="." unique_id=1930959739]
+scroll_scale = Vector2(0.14, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundMountains2" type="Sprite2D" parent="Layer4" unique_id=1922454724]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("5_6ga0i")
+centered = false
+
+[node name="Layer5" type="Parallax2D" parent="." unique_id=967690206]
+scroll_scale = Vector2(0.2, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundMountains1" type="Sprite2D" parent="Layer5" unique_id=798356345]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("6_7cu4g")
+centered = false
+
+[node name="Layer6" type="Parallax2D" parent="." unique_id=1841466665]
+scroll_scale = Vector2(0.3, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundTrees" type="Sprite2D" parent="Layer6" unique_id=476969319]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("7_u82bh")
+centered = false
+
+[node name="Layer7" type="Parallax2D" parent="." unique_id=1730550744]
+scroll_scale = Vector2(0.38, 0.03)
+repeat_size = Vector2(1280, 0)
+repeat_times = 4
+
+[node name="ForestBackgroundRocks" type="Sprite2D" parent="Layer7" unique_id=2056239715]
+texture_filter = 1
+position = Vector2(0, 21)
+texture = ExtResource("8_rd3ox")
+centered = false
