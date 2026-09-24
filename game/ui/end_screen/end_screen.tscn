@@ -28,25 +28,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.05, 0.05, 0.08, 0.55)
 
-[node name="Confetti" type="CPUParticles2D" parent="."]
-position = Vector2(576, -16)
-emitting = true
-amount = 22
-lifetime = 3.2
-speed_scale = 0.7
-randomness = 0.5
-emission_shape = 1
-emission_rect_extents = Vector2(600, 4)
-direction = Vector2(0, 1)
-spread = 25.0
-gravity = Vector2(0, 55)
-initial_velocity_min = 15.0
-initial_velocity_max = 45.0
-angular_velocity_min = -180.0
-angular_velocity_max = 180.0
-scale_amount_min = 1.0
-scale_amount_max = 1.8
-texture = ExtResource("2")
+[node name="FireworksContainer" type="Node2D" parent="."]
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -93,12 +75,14 @@ autowrap_mode = 3
 visible = false
 
 [node name="NextButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+size_flags_horizontal = 4
 theme_type_variation = &"PrimaryButton"
 custom_minimum_size = Vector2(316, 50)
 layout_mode = 2
-text = "  Màn tiếp theo"
+text = "Màn tiếp theo"
 
 [node name="ButtonsGrid" type="GridContainer" parent="CenterContainer/Panel/VBoxContainer"]
+size_flags_horizontal = 4
 layout_mode = 2
 columns = 2
 theme_override_constants/h_separation = 14
@@ -107,14 +91,12 @@ theme_override_constants/v_separation = 10
 [node name="RetryButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
 layout_mode = 2
-text = "  Chơi lại"
-icon = ExtResource("3")
+text = "Chơi lại"
 
 [node name="HubButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
 layout_mode = 2
-text = "  Về Làng"
-icon = ExtResource("4")
+text = "Về Làng"
 
 [node name="HomeButton" type="Button" parent="CenterContainer/Panel/VBoxContainer/ButtonsGrid"]
 custom_minimum_size = Vector2(151, 50)
