@@ -4,6 +4,7 @@
 # Godot 4 editor/import cache — regenerated automatically by the editor,
 # no need to track it.
 game/.godot/
+Pixel-Adventure/.godot/
 
 # Raw downloaded asset packs (from itch.io) + their archives. Not referenced by
 # the Godot project itself — the game/ tree has its own copies of what's used
@@ -29,9 +30,10 @@ game/.godot/
 game/_dev_shot.gd
 game/_dev_shot.gd.uid
 game/_dev_shot.tscn
+Pixel-Adventure/_dev_*
 
 # Môi trường / công cụ cục bộ, không thuộc repo
 .venv
-tools
+/tools
 game/addons
 scratchpad
