@@ -1,0 +1,65 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://objects/enemies/opossum/sprites/opossum_run.png" id="1_fqqe6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiqok"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(0, 0, 216, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8wem"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(0, 0, 36, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nph66"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(36, 0, 36, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ted85"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(72, 0, 36, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwpjy"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(108, 0, 36, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73a3j"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(144, 0, 36, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_japhk"]
+atlas = ExtResource("1_fqqe6")
+region = Rect2(180, 0, 36, 28)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiqok")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8wem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nph66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ted85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwpjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73a3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_japhk")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 10.0
+}]

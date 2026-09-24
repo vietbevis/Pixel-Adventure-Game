@@ -18,6 +18,7 @@ func _ready() -> void:
 	Events.enemy_died.connect(func(_n: Node, _p: Vector2) -> void: add_trauma(0.18))
 	Events.boss_phase_changed.connect(func(_p: int) -> void: add_trauma(0.7))
 	Events.boss_defeated.connect(func(_id: String) -> void: add_trauma(0.9))
+	Events.camera_shake_requested.connect(add_trauma)
 	Events.max_hp_increased.connect(func(_m: int) -> void: add_trauma(0.35))
 
 func add_trauma(amount: float) -> void:

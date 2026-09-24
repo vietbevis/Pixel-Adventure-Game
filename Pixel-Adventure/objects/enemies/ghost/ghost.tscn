@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/enemies/flying/flying_enemy.gd" id="1_wao77"]
+[ext_resource type="SpriteFrames" path="res://objects/enemies/ghost/sprites/ghost_frames.tres" id="2_d7wxs"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3_n510v"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4_esbto"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="5_qdlv1"]
+[ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="6_880xu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eeccx"]
+size = Vector2(16, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2tmro"]
+size = Vector2(22, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tg1eo"]
+size = Vector2(16, 32)
+
+[node name="Ghost" type="CharacterBody2D" unique_id=1424400962 groups=["enemy"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_wao77")
+kind = 1
+patrol_distance = 40.0
+speed = 34.0
+detect_range = 150.0
+sprite_faces_right = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=932746905]
+shape = SubResource("RectangleShape2D_eeccx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=61332046]
+modulate = Color(1, 1, 1, 0.92)
+sprite_frames = ExtResource("2_d7wxs")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=451230764]
+script = ExtResource("3_n510v")
+max_hp = 2
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=553458140]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("4_esbto")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1868095106]
+shape = SubResource("RectangleShape2D_2tmro")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1935438944]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("5_qdlv1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1479265686]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_tg1eo")
+
+[node name="HitReaction" type="Node" parent="." unique_id=487960790]
+script = ExtResource("6_880xu")

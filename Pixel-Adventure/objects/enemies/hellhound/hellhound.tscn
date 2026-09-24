@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/enemies/critter/critter.gd" id="1_5mn05"]
+[ext_resource type="SpriteFrames" path="res://objects/enemies/hellhound/sprites/hellhound_frames.tres" id="2_0xiyh"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3_bcc5t"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4_rsjun"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="5_exg4c"]
+[ext_resource type="Script" path="res://components/stomp_box.gd" id="6_lrhqp"]
+[ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="7_85omd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l28s2"]
+size = Vector2(34, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blja0"]
+size = Vector2(40, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2ahl"]
+size = Vector2(36, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sns3h"]
+size = Vector2(30, 6)
+
+[node name="Hellhound" type="CharacterBody2D" unique_id=389014297 groups=["enemy"]]
+collision_layer = 4
+script = ExtResource("1_5mn05")
+mode = 3
+speed = 40.0
+detect_range = 170.0
+charge_speed = 240.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=433392122]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_l28s2")
+
+[node name="FloorCheck" type="RayCast2D" parent="." unique_id=516083527]
+position = Vector2(19, -4)
+target_position = Vector2(0, 14)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=964040993]
+scale = Vector2(0.75, 0.75)
+sprite_frames = ExtResource("2_0xiyh")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, -26.5)
+
+[node name="HealthComponent" type="Node" parent="." unique_id=209475963]
+script = ExtResource("3_bcc5t")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=221760481]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("4_rsjun")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1007272293]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_blja0")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=2026196547]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("5_exg4c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1535389442]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_f2ahl")
+
+[node name="StompBox" type="Area2D" parent="." unique_id=1047342696]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_lrhqp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StompBox" unique_id=59348116]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_sns3h")
+
+[node name="HitReaction" type="Node" parent="." unique_id=1172293645]
+script = ExtResource("7_85omd")

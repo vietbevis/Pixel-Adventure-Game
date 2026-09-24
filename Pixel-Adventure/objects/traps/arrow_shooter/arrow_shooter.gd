@@ -10,6 +10,9 @@ var _arrow_scene: PackedScene = preload("res://objects/traps/arrow_shooter/arrow
 
 func _ready() -> void:
 	_timer = -start_delay
+	# Tấm đế vẽ sẵn cho hướng bắn sang TRÁI (đế gắn vào tường bên phải) — lật khi bắn phải.
+	if direction.x > 0.0:
+		$Visual.scale.x = -1.0
 
 func _process(delta: float) -> void:
 	_timer += delta

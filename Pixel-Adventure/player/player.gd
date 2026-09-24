@@ -266,6 +266,16 @@ func hit(force_reposition: bool = false) -> void:
 		global_position = GameManager.respawn_position
 		velocity = Vector2.ZERO
 
+## Đạp đầu quái (StompBox gọi): nảy lên như một cú nhảy, trả lại lượt nhảy đôi để
+## có thể nối cú đạp thành cú nhảy tiếp.
+func bounce() -> void:
+	if is_dead:
+		return
+	velocity.y = JUMP_VELOCITY * 0.9
+	jumps_left = MAX_JUMPS - 1
+	sprite.play("double_jump")
+	AudioManager.play_sfx("jump")
+
 ## Nguồn máu thật là HealthComponent; phát lên Events cho HUD / camera shake / ...
 func _on_health_changed(current: int, maximum: int) -> void:
 	Events.player_health_changed.emit(current, maximum)

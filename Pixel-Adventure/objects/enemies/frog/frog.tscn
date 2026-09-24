@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/enemies/critter/critter.gd" id="1_7q5sv"]
+[ext_resource type="SpriteFrames" path="res://objects/enemies/frog/sprites/frog_frames.tres" id="2_mbwvc"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="3_snck4"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4_sjbmc"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="5_f34ug"]
+[ext_resource type="Script" path="res://components/stomp_box.gd" id="6_fw6yy"]
+[ext_resource type="Script" path="res://components/enemy_hit_reaction.gd" id="7_5s5vy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kcc3b"]
+size = Vector2(18, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q3brw"]
+size = Vector2(22, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_45k66"]
+size = Vector2(16, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pnytc"]
+size = Vector2(20, 6)
+
+[node name="Frog" type="CharacterBody2D" unique_id=1408863644 groups=["enemy"]]
+collision_layer = 4
+script = ExtResource("1_7q5sv")
+mode = 1
+detect_range = 120.0
+hop_velocity = Vector2(75, -260)
+hop_interval = 1.4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1898641850]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_kcc3b")
+
+[node name="FloorCheck" type="RayCast2D" parent="." unique_id=1471712204]
+position = Vector2(11, -4)
+target_position = Vector2(0, 14)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1050445760]
+sprite_frames = ExtResource("2_mbwvc")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, -11)
+
+[node name="HealthComponent" type="Node" parent="." unique_id=812968515]
+script = ExtResource("3_snck4")
+max_hp = 1
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1558888146]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("4_sjbmc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2112899281]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_q3brw")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1092101580]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("5_f34ug")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=335785978]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_45k66")
+
+[node name="StompBox" type="Area2D" parent="." unique_id=1968002148]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_fw6yy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StompBox" unique_id=1337115367]
+position = Vector2(0, -17)
+shape = SubResource("RectangleShape2D_pnytc")
+
+[node name="HitReaction" type="Node" parent="." unique_id=1172535851]
+script = ExtResource("7_5s5vy")

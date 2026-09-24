@@ -37,3 +37,4 @@ Pixel-Adventure/_dev_*
 /tools
 game/addons
 scratchpad
+__pycache__/
