@@ -1,0 +1,107 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/sky.png" id="1_t6j38"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/clouds.png" id="2_opi8c"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/mountains.png" id="3_7nu76"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/mountains_lights.png" id="4_77u2x"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/far_buildings.png" id="5_1knjk"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/forest.png" id="6_5wif4"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/night_town/town.png" id="7_2gvbv"]
+
+[node name="NightTownBackdrop" type="Node2D" unique_id=956295680]
+
+[node name="Backstop" type="Parallax2D" parent="." unique_id=1312717028]
+scroll_scale = Vector2(0, 0)
+
+[node name="Top" type="Polygon2D" parent="Backstop" unique_id=1350297320]
+color = Color(0.015686275, 0.047058824, 0.047058824, 1)
+polygon = PackedVector2Array(-4000, -4000, 4000, -4000, 4000, 190.5, -4000, 190.5)
+
+[node name="Bottom" type="Polygon2D" parent="Backstop" unique_id=286817162]
+color = Color(0.03137255, 0.0627451, 0.0627451, 1)
+polygon = PackedVector2Array(-4000, 190.5, 4000, 190.5, 4000, 4190.5, -4000, 4190.5)
+
+[node name="Layer0" type="Parallax2D" parent="." unique_id=375076258]
+scroll_scale = Vector2(0, 0.03)
+repeat_size = Vector2(192, 0)
+repeat_times = 4
+
+[node name="Sky" type="Sprite2D" parent="Layer0" unique_id=400663079]
+texture_filter = 1
+position = Vector2(0, -67)
+scale = Vector2(2, 2)
+texture = ExtResource("1_t6j38")
+centered = false
+
+[node name="Layer1" type="Parallax2D" parent="." unique_id=325754984]
+scroll_scale = Vector2(0.03, 0.03)
+repeat_size = Vector2(576, 0)
+autoscroll = Vector2(-4, 0)
+repeat_times = 4
+
+[node name="Clouds" type="Sprite2D" parent="Layer1" unique_id=327948008]
+texture_filter = 1
+position = Vector2(0, -67)
+scale = Vector2(2, 2)
+texture = ExtResource("2_opi8c")
+centered = false
+
+[node name="Layer2" type="Parallax2D" parent="." unique_id=741218469]
+scroll_scale = Vector2(0.06, 0.03)
+repeat_size = Vector2(192, 0)
+repeat_times = 4
+
+[node name="Mountains" type="Sprite2D" parent="Layer2" unique_id=1702752762]
+texture_filter = 1
+position = Vector2(0, -67)
+scale = Vector2(2, 2)
+texture = ExtResource("3_7nu76")
+centered = false
+
+[node name="Layer3" type="Parallax2D" parent="." unique_id=1478653371]
+scroll_scale = Vector2(0.06, 0.03)
+repeat_size = Vector2(192, 0)
+repeat_times = 4
+
+[node name="MountainsLights" type="Sprite2D" parent="Layer3" unique_id=1158218188]
+texture_filter = 1
+position = Vector2(0, -67)
+scale = Vector2(2, 2)
+texture = ExtResource("4_77u2x")
+centered = false
+
+[node name="Layer4" type="Parallax2D" parent="." unique_id=1497202183]
+scroll_scale = Vector2(0.12, 0.03)
+repeat_size = Vector2(640, 0)
+repeat_times = 4
+
+[node name="FarBuildings" type="Sprite2D" parent="Layer4" unique_id=1947085993]
+texture_filter = 1
+position = Vector2(0, 191)
+scale = Vector2(2, 2)
+texture = ExtResource("5_1knjk")
+centered = false
+
+[node name="Layer5" type="Parallax2D" parent="." unique_id=140932286]
+scroll_scale = Vector2(0.18, 0.03)
+repeat_size = Vector2(128, 0)
+repeat_times = 4
+
+[node name="Forest" type="Sprite2D" parent="Layer5" unique_id=1688255861]
+texture_filter = 1
+position = Vector2(0, 189)
+scale = Vector2(2, 2)
+texture = ExtResource("6_5wif4")
+centered = false
+
+[node name="Layer6" type="Parallax2D" parent="." unique_id=1493251475]
+scroll_scale = Vector2(0.26, 0.03)
+repeat_size = Vector2(1024, 0)
+repeat_times = 4
+
+[node name="Town" type="Sprite2D" parent="Layer6" unique_id=1578449518]
+texture_filter = 1
+position = Vector2(0, 183)
+scale = Vector2(2, 2)
+texture = ExtResource("7_2gvbv")
+centered = false

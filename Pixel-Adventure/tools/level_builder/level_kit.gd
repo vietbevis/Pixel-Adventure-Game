@@ -30,11 +30,8 @@ const TILESETS := {
 	"castle": "res://levels/shared/tilesets/castle_auto.tres",
 	"dungeon": "res://levels/shared/tilesets/dungeon_auto.tres",
 }
-const PARALLAX := {
-	"forest": "res://shared/backgrounds/forest_parallax.tscn",
-	"castle": "res://shared/backgrounds/castle_parallax.tscn",
-	"dungeon": "res://shared/backgrounds/dungeon_parallax.tscn",
-}
+## Nền mặc định theo world; màn có thể đổi bằng `backdrop` (tên bộ trong build_backgrounds.gd).
+const BACKDROPS := {"forest": "meadow", "castle": "castle_hall", "dungeon": "dark_castle"}
 const FRUITS := [
 	"res://objects/fruit/sprites/apple_frames.tres",
 	"res://objects/fruit/sprites/bananas_frames.tres",
@@ -147,6 +144,7 @@ const GROUP_ORDER := ["Decor", "Terrain", "Secrets", "Traps", "Interactables", "
 var id: String = ""
 var world: String = "forest"
 var script_path: String = "res://levels/level_base.gd"
+var backdrop: String = ""
 var root_name: String = ""
 var title: String = ""
 var subtitle: String = ""
@@ -202,9 +200,17 @@ func solid(x: int, y: int) -> bool:
 func plank(x: int, y: int) -> bool:
 	return x >= 0 and x < _w and y >= 0 and y < _h and _grid[y][x] == 2
 
+## Hàng cho phép trần thấp đúng 3 ô (hành lang cố ý) — mặc định không kiểm "trần 2 ô"
+## ở những ô này. Màn khai báo bằng allow_low(x0, b0, x1, b1).
+var _low_ok: Array = []
+
+func allow_low(x0: int, b0: int, x1: int, b1: int) -> void:
+	_low_ok.append([x0, b0, x1, b1])
+
 func build() -> Node2D:
 	define()
 	_parse()
+	_lint_tight()
 	var root := Node2D.new()
 	root.name = root_name if root_name != "" else id.to_pascal_case()
 	root.set_script(load(script_path))
@@ -219,7 +225,8 @@ func build() -> Node2D:
 	for k: String in root_props:
 		root.set(k, root_props[k])
 
-	var parallax: Node = (load(PARALLAX[world]) as PackedScene).instantiate()
+	var bd: String = backdrop if backdrop != "" else String(BACKDROPS[world])
+	var parallax: Node = (load("res://shared/backgrounds/%s_parallax.tscn" % bd) as PackedScene).instantiate()
 	parallax.name = "Parallax"
 	root.add_child(parallax)
 	var ts: TileSet = load(TILESETS[world])
@@ -383,6 +390,82 @@ func _parse() -> void:
 		for x in _w:
 			line[x] = 1 if _grid[rows - 1][x] == 1 else 0
 		_grid.append(line)
+
+# --- kiểm "chỗ kẹt" ----------------------------------------------------------------
+# Thân người chơi 22x32 px = 1.4 x 2 ô. Khoảng trống đúng 2 ô cao / 2 ô rộng thì lọt được
+# trên lý thuyết nhưng trong game là cụng góc, kẹt đầu — người chơi thấy như bị kẹt.
+# Luật: (1) chỗ đứng nào cũng phải có >= 3 ô trống phía trên (ván một chiều không tính là
+# trần vì nhảy xuyên được); (2) khe dọc (lỗ trên sàn/trần, khe giữa 2 khối) người chơi đi
+# qua phải rộng >= 3 ô. Vi phạm = lỗi dựng, không xuất màn.
+
+func _lint_tight() -> void:
+	var off := 1 if walls else 0
+	for y in _h:
+		for x in _w:
+			if _grid[y][x] != 0:
+				continue
+			var floor_below := y + 1 < _h and _grid[y + 1][x] != 0
+			if floor_below:
+				var head := 0
+				while y - head >= 0 and _grid[y - head][x] != 1 and head < 3:
+					head += 1
+				if head < 3 and y - head >= 0 and not _is_low_ok(x - off, _h - 1 - y):
+					errors.append("chỗ kẹt: ô (%d,%d) chỉ có %d ô trống phía trên (cần >= 3)" % [x, y, head])
+	# Khe dọc: dải trống giữa 2 khối đặc trên cùng một hàng, rộng 1-2 ô, mà phía trên hoặc
+	# dưới dải đó cũng trống (tức là người chơi phải chui xuyên qua nó theo chiều dọc).
+	for y in range(1, _h - 1):
+		var x := 0
+		while x < _w:
+			if _grid[y][x] == 1:
+				x += 1
+				continue
+			var s0 := x
+			while x < _w and _grid[y][x] != 1:
+				x += 1
+			var width := x - s0
+			if width <= 2 and s0 > 0 and x < _w:
+				var through := true
+				for xx in range(s0, x):
+					if _grid[y - 1][xx] == 1 and _grid[y + 1][xx] == 1:
+						through = false
+				var open_above := false
+				var open_below := false
+				for xx in range(s0, x):
+					open_above = open_above or _grid[y - 1][xx] != 1
+					open_below = open_below or _grid[y + 1][xx] != 1
+				if through and open_above and open_below and y < _h - extrude - 1:
+					errors.append("khe hẹp: hàng %d, cột %d..%d chỉ rộng %d ô (cần >= 3)" % [y, s0, x - 1, width])
+
+	# (3) Góc cụng đầu: mép dưới của một gờ LƠ LỬNG (đất, bên dưới trống) nằm chéo phía trên
+	# mép một chỗ đứng — cách 1..3 hàng, lệch 1..2 cột. Nhảy từ chỗ đứng lên gờ đó là cụng
+	# góc (ảnh "gờ so le sát mép nhau" trong tháp canh). Chỉ xét mép của chỗ đứng (ô kế
+	# bên về phía gờ là khoảng trống) để không bắt nhầm lối vào hành lang.
+	for y in range(1, _h):
+		for x in _w:
+			if _grid[y][x] != 0 or y + 1 >= _h or _grid[y + 1][x] == 0:
+				continue  # không phải chỗ đứng
+			for dir: int in [-1, 1]:
+				var nx := x + dir
+				if nx < 0 or nx >= _w or _grid[y][nx] != 0 or _grid[y + 1][nx] != 0:
+					continue  # không phải mép hướng ra khoảng trống
+				for dx: int in [1, 2]:
+					var ox := x + dir * dx
+					if ox < 0 or ox >= _w:
+						continue
+					for dy: int in [1, 2, 3]:
+						var oy := y - dy
+						if oy < 1:
+							continue
+						# ô gờ: đất, bên dưới trống (gờ lơ lửng), và cột ngay trên chỗ đứng trống
+						if _grid[oy][ox] == 1 and _grid[oy + 1][ox] == 0 and _grid[oy][x] != 1 \
+								and not _is_low_ok(x - off, _h - 1 - y):
+							errors.append("góc cụng đầu: chỗ đứng (%d,%d) sát mép gờ (%d,%d) — lệch %d cột, cao %d hàng" % [x, y, ox, oy, dx, dy + 1])
+
+func _is_low_ok(cx: int, b: int) -> bool:
+	for r: Array in _low_ok:
+		if cx >= r[0] and cx <= r[2] and b >= r[1] and b <= r[3]:
+			return true
+	return false
 
 # --- tô tile ---------------------------------------------------------------------
 

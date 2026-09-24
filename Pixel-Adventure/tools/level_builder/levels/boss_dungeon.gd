@@ -19,7 +19,6 @@ func define() -> void:
 	canvas(W, H)
 	rect(0, 0, W - 1, 3)
 	rect(0, H - 3, W - 1, H - 1)
-	back(0, 4, W - 1, H - 4)
 	rect(5, 8, 11, 8, "=")
 	rect(32, 8, 38, 8, "=")
 	rect(18, 12, 25, 12, "=")

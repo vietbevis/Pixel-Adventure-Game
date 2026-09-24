@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bkrh861ot5css"]
 
 [ext_resource type="Script" uid="uid://22q2e72ddokb" path="res://ui/splash/splash.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dswkp2xh8u140" path="res://shared/backgrounds/forest_backdrop.png" id="2"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/menu/meadow.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://eoxjhgs5p6yy" path="res://ui/shared/logo.png" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="bar_bg"]

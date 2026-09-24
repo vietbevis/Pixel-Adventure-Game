@@ -25,7 +25,6 @@ func define() -> void:
 	canvas(W, H)
 	rect(0, 0, W - 1, 3)
 	rect(0, H - 3, W - 1, H - 1)
-	back(0, 4, W - 1, H - 4)
 	# A — tiền sảnh -------------------------------------------------------------------
 	text(2, 4, "S.1..$....k.....k....d")
 	text(9, 8, "*.*.*...*.*.*")
@@ -59,7 +58,7 @@ func define() -> void:
 	rect(88, 0, 108, 3, ".")
 	rect(88, 0, 108, 1)
 	text(88, 2, "^^^^^^^^^^^^^^^^^^^^^")
-	rect(88, 14, 108, H - 4)
+	rect(86, 14, 108, H - 4)
 	put(89, 3, "moving_platform", {"move_distance": Vector2(256, 0), "move_speed": 48.0})
 	for k in 3:
 		put(94 + 6 * k, 13, "spiked_ball", {"chain_length": 132.0, "swing_degrees": 50.0, "swing_speed": 1.7, "phase": 1.4 * k})

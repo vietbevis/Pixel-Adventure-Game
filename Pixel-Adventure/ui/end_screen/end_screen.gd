@@ -7,8 +7,8 @@
 extends Control
 
 ## Ảnh nền lát nền (tile) cho từng trạng thái: xám trầm khi thua, vàng ấm khi thắng
-const LOSE_BG_TEXTURE := preload("res://shared/backgrounds/Gray.png")
-const WIN_BG_TEXTURE := preload("res://shared/backgrounds/Yellow.png")
+const LOSE_BG_TEXTURE := preload("res://shared/backgrounds/menu/dark_castle.png")
+const WIN_BG_TEXTURE := preload("res://shared/backgrounds/menu/meadow.png")
 
 const HUB_SCENE := "res://levels/hub/hub.tscn"
 const MAIN_MENU_SCENE := "res://ui/main_menu/main_menu.tscn"

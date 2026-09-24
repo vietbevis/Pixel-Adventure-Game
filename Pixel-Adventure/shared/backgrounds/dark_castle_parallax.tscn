@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://shared/backgrounds/dark_castle/hall.png" id="1_uc4sg"]
+
+[node name="DarkCastleBackdrop" type="Node2D" unique_id=435058139]
+
+[node name="Backstop" type="Parallax2D" parent="." unique_id=2074263654]
+scroll_scale = Vector2(0, 0)
+
+[node name="Top" type="Polygon2D" parent="Backstop" unique_id=51458477]
+color = Color(0.05882353, 0.13333334, 0.16078432, 1)
+polygon = PackedVector2Array(-4000, -4000, 4000, -4000, 4000, 190.5, -4000, 190.5)
+
+[node name="Bottom" type="Polygon2D" parent="Backstop" unique_id=729228000]
+color = Color(0.05882353, 0.13333334, 0.16078432, 1)
+polygon = PackedVector2Array(-4000, 190.5, 4000, 190.5, 4000, 4190.5, -4000, 4190.5)
+
+[node name="Layer0" type="Parallax2D" parent="." unique_id=921363493]
+scroll_scale = Vector2(0.2, 0.03)
+repeat_size = Vector2(960, 0)
+repeat_times = 4
+
+[node name="Hall" type="Sprite2D" parent="Layer0" unique_id=2008405755]
+texture_filter = 1
+position = Vector2(0, 77)
+texture = ExtResource("1_uc4sg")
+centered = false

@@ -24,7 +24,6 @@ func define() -> void:
 		"4": {"type": "sign", "speaker": "Bia mộ", "line_1": "Tường nứt. LƯỚT vào để mở lối xuống."},
 	}
 	canvas(W, H)
-	back(0, 4, W - 1, 79)
 	# Z1 — nghĩa địa ----------------------------------------------------------------------
 	rect(0, 78, W - 1, 87)
 	rect(40, 78, 42, 87, ".")          # lỗ xuống hầm
@@ -69,7 +68,7 @@ func define() -> void:
 	rect(0, 31, 9, 31)
 	rect(14, 27, 23, 27)
 	rect(28, 23, 37, 23)
-	rect(38, 19, 43, 19)
+	rect(40, 19, 43, 19)
 	put(12, 30, "orbit_saw", {"radius": 26.0, "angular_speed": 1.8})
 	put(26, 26, "orbit_saw", {"radius": 26.0, "angular_speed": -1.8})
 	at(20, 33, "h")

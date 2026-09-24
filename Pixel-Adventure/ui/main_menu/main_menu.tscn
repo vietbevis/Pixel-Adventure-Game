@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://byd5p0c524h23"]
 
 [ext_resource type="Script" uid="uid://g1pp0n565bq0" path="res://ui/main_menu/main_menu.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://bduwysn5k1rkl" path="res://shared/backgrounds/Blue.png" id="2"]
+[ext_resource type="Texture2D" path="res://shared/backgrounds/menu/meadow.png" id="2"]
 [ext_resource type="Texture2D" path="res://ui/shared/logo.png" id="6"]
 [ext_resource type="Texture2D" uid="uid://b6xvyj58hi4in" path="res://ui/shared/buttons/Play.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://lhqbcgpbjwwj" path="res://ui/shared/buttons/Settings.png" id="4"]
@@ -15,11 +15,12 @@ anchor_bottom = 1.0
 script = ExtResource("1")
 
 [node name="Background" type="TextureRect" parent="." unique_id=391470516]
+expand_mode = 1
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("2")
-stretch_mode = 1
+stretch_mode = 6
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1849200440]
 layout_mode = 0

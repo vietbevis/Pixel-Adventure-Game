@@ -337,6 +337,14 @@ def validate(data, dash, verbose=False):
 
 
 def main():
+    global HW, HH
+    # --margin=N: phình thân người chơi thêm N px mỗi phía để lộ các khe chỉ lọt khi khít
+    # từng pixel (trong game thật sẽ kẹt / cụng góc).
+    for a in sys.argv[1:]:
+        if a.startswith("--margin="):
+            m = float(a.split("=")[1])
+            HW += m
+            HH += m
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dash_all = "--dash" in sys.argv
     jdir = args[0]
@@ -350,7 +358,16 @@ def main():
         data = json.load(open(os.path.join(jdir, i + ".json")))
         dash = dash_all or i in dash_levels
         ok, reach, total, report = validate(data, dash)
-        print("[%s] %s  đoạn đứng tới được %d/%d%s" % ("OK" if ok else "LỖI", i, reach, total, "  (có Dash)" if dash else ""))
+        note = "  (có Dash)" if dash else ""
+        has_relic = any(e["type"] == "relic" for e in data["entities"])
+        if not ok and not dash and has_relic:
+            # Di vật Dash nằm giữa màn: hợp lệ nếu tới được di vật khi CHƯA có Dash và
+            # tới được cờ khi ĐÃ có Dash (phần sau di vật chơi với Dash).
+            relic_ok = not any("relic" in line for line in report)
+            ok2, reach, total, report = validate(data, True)
+            ok = relic_ok and ok2
+            note = "  (tới di vật không cần Dash → phần sau dùng Dash)"
+        print("[%s] %s  đoạn đứng tới được %d/%d%s" % ("OK" if ok else "LỖI", i, reach, total, note))
         for line in report:
             print(line)
         bad += 0 if ok else 1

@@ -14,6 +14,7 @@ const H := 90
 
 func define() -> void:
 	id = "level_2"
+	backdrop = "deep_forest"
 	world = "forest"
 	title = "RỪNG RANH GIỚI"
 	subtitle = "Tán Cổ Thụ"
@@ -47,10 +48,10 @@ func define() -> void:
 	text(20, 13, "*.*.*.....o......j")
 	rect(17, 15, 21, 15, "=")
 	rect(10, 18, 14, 18, "=")
-	rect(3, 21, 7, 21, "=")
+	rect(2, 21, 5, 21, "=")
 	at(19, 17, "*")
 	at(12, 20, "*")
-	at(5, 23, "*")
+	at(3, 23, "*")
 	at(36, 19, "E")
 	# --- C: thềm gai + quạt ------------------------------------------------------------
 	rect(9, 24, 30, 24)            # thềm (trái là chỗ đứng, phải là gai)
@@ -73,11 +74,11 @@ func define() -> void:
 	rect(20, 49, 40, 49)
 	text(21, 50, "*.o...*...g..*")
 	at(30, 56, "E")
-	rect(12, 52, 16, 52)
-	at(14, 53, "*")
-	rect(4, 55, 8, 55, "=")
-	rect(0, 58, 6, 58)
-	text(1, 59, "C...*")
+	rect(13, 52, 17, 52)
+	at(15, 53, "*")
+	rect(7, 55, 10, 55, "=")
+	rect(0, 58, 4, 58)
+	text(1, 59, "C.*")
 	# --- F: khe dài lên ngọn --------------------------------------------------------------
 	rect(3, 62, 4, 76)             # cột phải của khe (vách trái = mép bản đồ)
 	for b in [63, 67, 71]:
