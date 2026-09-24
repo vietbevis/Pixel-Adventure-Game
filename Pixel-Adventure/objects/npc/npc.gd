@@ -77,9 +77,9 @@ const MOOD_SPEED_SCALE: Array[float] = [0.7, 1.0, 1.25]
 
 ## Mách nước về world đang là mục tiêu (heo đào ngũ biết quân mình bố trí thế nào).
 const WORLD_TIPS := {
-	"forest": "Trong rừng có lũ heo cầm chuỳ đi tuần. Chúng chỉ nhìn về phía trước — vòng ra sau lưng là xong.",
-	"castle": "Trong lâu đài lão cho gác pháo ở sân. Pháo bắn thẳng một đường, nấp sau bục đá mà tiến.",
-	"dungeon": "Dưới hầm là bọn ném bom. Đừng đứng yên một chỗ, bom rơi đúng chỗ ngài vừa đứng đấy.",
+	"forest": "Rừng không phải chỗ của bọn tôi — chỉ có opossum, ếch với đại bàng. Đại bàng mà khựng lại trên đầu ngài là sắp bổ nhào đấy, né sang bên!",
+	"castle": "Cổng lâu đài có khối đá nghiền. Nó chớp mắt là sắp rơi — nhử cho rơi rồi chạy qua lúc nó đang kéo lên. Còn cổng gỗ mục thì cứ LƯỚT mà phá.",
+	"dungeon": "Dưới hầm có chó ngục, thấy ngài ngang tầm là lao như tên bắn. Nhảy lên cao là nó lao hụt — rồi đạp đầu nó.",
 	"": "Hết chuyện để mách rồi. Tôi về làm ruộng đây.",
 }
 

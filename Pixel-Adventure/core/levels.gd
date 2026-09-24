@@ -7,7 +7,7 @@ extends RefCounted
 
 const LEVELS: Array[Dictionary] = [
 	{"id": "level_1", "name": "Rừng 1 · Bìa Rừng", "scene": "res://levels/level_1/level_1.tscn"},
-	{"id": "level_2", "name": "Rừng 2 · Tán Cây & Tiền Đồn", "scene": "res://levels/level_2/level_2.tscn"},
+	{"id": "level_2", "name": "Rừng 2 · Tán Cổ Thụ", "scene": "res://levels/level_2/level_2.tscn"},
 	{"id": "level_3", "name": "Lâu Đài 1 · Tường Thành", "scene": "res://levels/level_3/level_3.tscn"},
 	{"id": "level_4", "name": "Lâu Đài 2 · Hành Lang Ngai", "scene": "res://levels/level_4/level_4.tscn"},
 	{"id": "boss_forest", "name": "Trùm · Vua Heo", "scene": "res://levels/boss_forest/boss_forest.tscn"},
