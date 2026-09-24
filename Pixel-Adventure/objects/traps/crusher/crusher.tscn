@@ -6,17 +6,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t0nsd"]
 size = Vector2(34, 36)
 
-[node name="Crusher" type="Area2D" unique_id=1103903077]
+[node name="Crusher" type="Area2D" unique_id=44664710]
 collision_layer = 64
 collision_mask = 0
 script = ExtResource("1_2amkv")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1319181412]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=872485968]
 sprite_frames = ExtResource("2_xe412")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1615325097]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=645971014]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_t0nsd")
 disabled = true

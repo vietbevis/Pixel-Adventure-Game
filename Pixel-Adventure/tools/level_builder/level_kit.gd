@@ -13,6 +13,7 @@ extends RefCounted
 ##   w  cưa đứng yên   X  khối nghiền (treo trần)   c  pháo (bắn trái)
 ##   o  opossum  g  ếch  e  đại bàng  p  heo  a  heo phục kích  b  heo ném bom
 ##   k  bộ xương  h  hồn ma  H  chó ngục
+##   W  tường nứt (chỉ vỡ khi Lướt vào, cao 3 ô)   Z  cổng Lướt (biến mất khi đã có Dash)
 ##   t  đuốc tường  d  đuốc đứng  n  nến  x  thùng  $  rương
 ## Chữ số và ký tự khác: khai báo trong `legend` của màn — {"type": ..., <thuộc tính>...}
 ## với tuỳ chọn "dx"/"dy" (px) để xê dịch sau khi neo.
@@ -56,13 +57,14 @@ const TYPES := {
 	"diamond": {"scene": "res://objects/collectible_diamond/collectible_diamond.tscn", "anchor": "center", "group": "Secrets", "name": "Diamond"},
 	"relic": {"scene": "res://objects/ability_relic/ability_relic.tscn", "anchor": "center", "group": "Interactables", "name": "Relic"},
 	"ability_gate": {"scene": "res://objects/ability_gate/ability_gate.tscn", "anchor": "floor", "group": "Secrets", "name": "AbilityGate", "measure": "body"},
+	"dash_wall": {"scene": "res://objects/dash_wall/dash_wall.tscn", "anchor": "floor", "group": "Traps", "name": "DashWall", "measure": "body"},
 	"boss_gate": {"scene": "res://objects/boss_gate/boss_gate.tscn", "anchor": "floor", "group": "Interactables", "name": "BossGate", "measure": "body"},
 	"spikes": {"scene": "res://objects/enemies/spikes/spikes.tscn", "anchor": "floor", "group": "Traps", "name": "Spikes"},
 	"spikes_ceiling": {"scene": "res://objects/enemies/spikes/spikes.tscn", "anchor": "ceiling", "group": "Traps", "name": "SpikesTop", "rotation": PI},
 	"trampoline": {"scene": "res://objects/traps/trampoline/trampoline.tscn", "anchor": "floor", "group": "Traps", "name": "Trampoline"},
 	"fan": {"scene": "res://objects/traps/fan/fan.tscn", "anchor": "floor", "group": "Traps", "name": "Fan"},
-	"falling_platform": {"scene": "res://objects/traps/falling_platform/falling_platform.tscn", "anchor": "ceiling", "group": "Traps", "name": "FallingPlatform", "measure": "body"},
-	"moving_platform": {"scene": "res://objects/moving_platform/moving_platform.tscn", "anchor": "ceiling", "group": "Traps", "name": "MovingPlatform", "measure": "body"},
+	"falling_platform": {"scene": "res://objects/traps/falling_platform/falling_platform.tscn", "anchor": "top", "group": "Traps", "name": "FallingPlatform", "measure": "body"},
+	"moving_platform": {"scene": "res://objects/moving_platform/moving_platform.tscn", "anchor": "top", "group": "Traps", "name": "MovingPlatform", "measure": "body"},
 	"fire_trap": {"scene": "res://objects/traps/fire_trap/fire_trap.tscn", "anchor": "floor", "group": "Traps", "name": "Fire"},
 	"falling_spike": {"scene": "res://objects/enemies/falling_spike/falling_spike.tscn", "anchor": "ceiling", "group": "Traps", "name": "FallingSpike"},
 	"spiked_ball": {"scene": "res://objects/traps/spiked_ball/spiked_ball.tscn", "anchor": "pivot", "group": "Traps", "name": "SpikedBall"},
@@ -86,9 +88,11 @@ const TYPES := {
 	"candle": {"scene": "res://objects/decor/candle/candle.tscn", "anchor": "floor", "group": "Decor", "name": "Candle"},
 	"crate": {"scene": "res://objects/decor/crate/crate.tscn", "anchor": "floor", "group": "Decor", "name": "Crate", "measure": "body"},
 	"chest": {"scene": "res://objects/decor/chest/chest.tscn", "anchor": "floor", "group": "Decor", "name": "Chest"},
-	"npc": {"scene": "res://objects/npc/npc.tscn", "anchor": "floor", "group": "NPCs", "name": "NPC"},
-	"portal": {"scene": "res://objects/portal/portal.tscn", "anchor": "floor", "group": "Portals", "name": "Portal"},
-	"hub_sign": {"scene": "res://objects/hub_sign/hub_sign.tscn", "anchor": "floor", "group": "Decor", "name": "HubSign", "measure": "body"},
+	"king_pig": {"scene": "res://objects/bosses/king_pig/king_pig.tscn", "anchor": "floor", "group": "Boss", "name": "KingPig", "measure": "body"},
+	"ghost_warden": {"scene": "res://objects/bosses/ghost_warden/ghost_warden.tscn", "anchor": "center", "group": "Boss", "name": "GhostWarden", "measure": "body"},
+	"npc": {"scene": "res://objects/npc/npc.tscn", "anchor": "floor", "group": "Village", "name": "NPC"},
+	"portal": {"scene": "res://objects/portal/portal.tscn", "anchor": "floor", "group": "Village", "name": "Portal"},
+	"hub_sign": {"scene": "res://objects/hub_sign/hub_sign.tscn", "anchor": "floor", "group": "Decor", "name": "HubSign"},
 }
 
 const DEFAULT_LEGEND := {
@@ -99,7 +103,7 @@ const DEFAULT_LEGEND := {
 	"c": "cannon", "o": "opossum", "g": "frog", "e": "eagle", "p": "pig",
 	"a": "pig_ambusher", "b": "pig_bomber", "k": "skeleton", "h": "ghost", "H": "hellhound",
 	"t": "torch", "d": "dungeon_torch", "n": "candle", "x": "crate", "$": "chest",
-	"Z": "ability_gate",
+	"Z": "ability_gate", "W": "dash_wall",
 }
 ## Đồ trang trí theo world (Sprite2D tĩnh). "wall" = treo trên tường nền, đáy ảnh = đáy ô;
 ## "hang" = treo từ trần, đỉnh ảnh = đỉnh ô; còn lại đứng trên đất.
@@ -137,7 +141,7 @@ const WORLD_PROPS := {
 	},
 }
 ## Thứ tự nhóm = thứ tự vẽ. Decor đứng TRƯỚC Terrain để mép cỏ phủ lên gốc cây.
-const GROUP_ORDER := ["Decor", "Terrain", "Secrets", "Traps", "Interactables", "Portals", "NPCs", "Fruits", "Enemies"]
+const GROUP_ORDER := ["Decor", "Terrain", "Secrets", "Traps", "Interactables", "Village", "Fruits", "Enemies", "Boss"]
 
 # --- khai báo của từng màn (script con gán trong define()) ----------------------
 var id: String = ""
@@ -153,10 +157,10 @@ var map: PackedStringArray = []
 var chunks: Array = []
 var walls: bool = true
 var legend: Dictionary = {}
+## Vùng tường nền khai báo bằng back(); rỗng = không có tường nền.
+var _back_rects: Array = []
 ## Số hàng kéo dài hàng cuối của bản đồ xuống (đất liền thành khối, hố thành vực sâu).
 var extrude: int = 10
-## Tường nền sau các khoảng có mái (chỉ world có tile tường nền).
-var backwall: bool = true
 var root_props: Dictionary = {}
 ## Vật đặt bằng code: [{"type", "cell": Vector2i, ...thuộc tính}]
 var extras: Array = []
@@ -219,7 +223,7 @@ func build() -> Node2D:
 	parallax.name = "Parallax"
 	root.add_child(parallax)
 	var ts: TileSet = load(TILESETS[world])
-	if backwall and world != "forest":
+	if not _back_rects.is_empty():
 		var back := TileMapLayer.new()
 		back.name = "BackWall"
 		back.tile_set = ts
@@ -244,6 +248,10 @@ func build() -> Node2D:
 	for e: Dictionary in extras:
 		var d: Dictionary = e.duplicate()
 		d["from_extras"] = true
+		if d.has("canvas"):
+			var cv: Vector2i = d["canvas"]
+			d["cell"] = Vector2i(cv.x + (1 if walls else 0), _cv_h - 1 - cv.y)
+			d.erase("canvas")
 		_place(d)
 
 	var player: Node2D = (load(PLAYER) as PackedScene).instantiate()
@@ -266,6 +274,51 @@ func build() -> Node2D:
 
 # --- phân tích bản đồ ----------------------------------------------------------
 
+# --- vẽ bằng lệnh (màn dọc) ---------------------------------------------------
+# Toạ độ (x, b): x tính từ trái, b tính từ ĐÁY bản đồ lên (b = 0 là hàng dưới cùng) —
+# khớp cách nghĩ "leo lên". Tường 2 bên do `walls` thêm, không tính trong x.
+var _cv: Array = []
+var _cv_h: int = 0
+
+func canvas(w: int, h: int) -> void:
+	_cv_h = h
+	_cv = []
+	for i in h:
+		var line: Array = []
+		line.resize(w)
+		line.fill(".")
+		_cv.append(line)
+
+func rect(x0: int, b0: int, x1: int, b1: int, ch: String = "#") -> void:
+	for b in range(mini(b0, b1), maxi(b0, b1) + 1):
+		for x in range(mini(x0, x1), maxi(x0, x1) + 1):
+			at(x, b, ch)
+
+func at(x: int, b: int, ch: String) -> void:
+	var y := _cv_h - 1 - b
+	if y < 0 or y >= _cv_h or x < 0 or x >= (_cv[0] as Array).size():
+		errors.append("vẽ ra ngoài canvas: (%d, b%d)" % [x, b])
+		return
+	_cv[y][x] = ch
+
+## Đặt 1 vật có thuộc tính riêng tại ô canvas (x, b) — cho vật cần tham số khác nhau
+## (bẫy lửa lệch pha, bệ trôi...) mà không phải tốn 1 ký hiệu legend cho mỗi cái.
+func put(x: int, b: int, type: String, props: Dictionary = {}) -> void:
+	var d := props.duplicate()
+	d["type"] = type
+	d["canvas"] = Vector2i(x, b)
+	extras.append(d)
+
+## Tường nền (không va chạm) cho phòng kín — chỉ tô lên ô trống.
+func back(x0: int, b0: int, x1: int, b1: int) -> void:
+	_back_rects.append([x0, b0, x1, b1])
+
+## Viết một chuỗi ký hiệu bắt đầu từ ô (x0, b) sang phải; "." trong chuỗi = bỏ qua ô đó.
+func text(x0: int, b: int, s: String) -> void:
+	for i in s.length():
+		if s[i] != ".":
+			at(x0 + i, b, s[i])
+
 func _hjoin() -> void:
 	var h := 0
 	for c: Array in chunks:
@@ -287,7 +340,13 @@ func _hjoin() -> void:
 	map = PackedStringArray(rows)
 
 func _parse() -> void:
-	if map.is_empty() and not chunks.is_empty():
+	if map.is_empty() and not _cv.is_empty():
+		var rows: PackedStringArray = []
+		for line: Array in _cv:
+			var r := "".join(PackedStringArray(line))
+			rows.append(("#" + r + "#") if walls else r)
+		map = rows
+	elif map.is_empty() and not chunks.is_empty():
 		_hjoin()
 	_w = 0
 	for row in map:
@@ -344,25 +403,16 @@ func _paint_terrain(tm: TileMapLayer) -> void:
 				var kind := 2 if (l and r) else (3 if l else (1 if r else 0))
 				tm.set_cell(Vector2i(x, y), 0, Vector2i(kind + 4 * (x & 1), 4))
 
-## Tường nền cho ô trống có "mái" (đất ở phía trên trong vòng 14 ô) — trong nhà thì
-## thấy tường, ngoài trời thì thấy parallax.
+## Tường nền: chỉ trong các vùng back() đã khai báo (toạ độ canvas → cộng cột tường).
 func _paint_backwall(tm: TileMapLayer) -> void:
-	for x in _w:
-		var roofed := false
-		for y in _h:
-			if _grid[y][x] == 1:
-				roofed = true
-				continue
-			if not roofed:
-				continue
-			# mái phải thật: có đất trong 14 ô phía trên
-			var has_roof := false
-			for k in range(1, 15):
-				if y - k >= 0 and _grid[y - k][x] == 1:
-					has_roof = true
-					break
-			if has_roof:
-				tm.set_cell(Vector2i(x, y), 0, Vector2i((x & 1) + 2 * (y & 1), 5))
+	var off := 1 if walls else 0
+	for r: Array in _back_rects:
+		for b in range(r[1], r[3] + 1):
+			var y := _cv_h - 1 - b
+			for xx in range(r[0], r[2] + 1):
+				var x: int = xx + off
+				if y >= 0 and y < _h and x >= 0 and x < _w and _grid[y][x] != 1:
+					tm.set_cell(Vector2i(x, y), 0, Vector2i((x & 1) + 2 * (y & 1), 5))
 
 # --- đặt vật ---------------------------------------------------------------------
 
@@ -392,6 +442,8 @@ func _place(e: Dictionary) -> void:
 			pos = Vector2(cx - fp.get_center().x, c.y * TILE - fp.position.y)
 			if not solid(c.x, c.y - 1) and not e.get("free", false):
 				errors.append("%s ở %s không có trần phía trên" % [type, c])
+		"top":
+			pos = Vector2(cx - fp.get_center().x, c.y * TILE - fp.position.y)
 		"center":
 			pos = Vector2(cx, c.y * TILE + TILE / 2.0) - fp.get_center()
 		"pivot":
@@ -451,6 +503,8 @@ func _place_prop(e: Dictionary) -> void:
 		s.position = Vector2(cx - size.x * sc / 2.0, (c.y + 1) * TILE - size.y * sc)
 	else:
 		s.position = Vector2(cx - size.x * sc / 2.0, (c.y + 1) * TILE - size.y * sc + e.get("sink", 2.0))
+		if not (solid(c.x, c.y + 1) or plank(c.x, c.y + 1)):
+			errors.append("trang trí %s ở %s không có đất bên dưới" % [path.get_file(), c])
 	s.position += Vector2(e.get("dx", 0.0), e.get("dy", 0.0))
 	s.flip_h = e.get("flip", false)
 	if e.has("modulate"):

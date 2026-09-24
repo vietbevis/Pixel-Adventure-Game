@@ -21,11 +21,15 @@ func _initialize() -> void:
 	_ghost()
 	_hellhound()
 	_crusher()
+	_dash_wall()
+	_soul_orb()
+	_ghost_warden()
 	quit()
 
 # --- SpriteFrames ------------------------------------------------------------
 
-## anims: [[name, strip_path, frame_count, fps, loop], ...] — mỗi strip là 1 hàng ngang.
+## anims: [[name, strip_path, frame_count, fps, loop, (chỉ số khung dùng)], ...] — mỗi strip
+## là 1 hàng ngang `frame_count` khung; phần tử thứ 6 (tuỳ chọn) chọn khung con, vd [0].
 static func _frames(anims: Array, out_path: String) -> SpriteFrames:
 	var sf := SpriteFrames.new()
 	sf.remove_animation(&"default")
@@ -36,7 +40,8 @@ static func _frames(anims: Array, out_path: String) -> SpriteFrames:
 		sf.add_animation(a[0])
 		sf.set_animation_speed(a[0], a[3])
 		sf.set_animation_loop(a[0], a[4])
-		for i in count:
+		var picks: Array = a[5] if a.size() > 5 else range(count)
+		for i: int in picks:
 			var at := AtlasTexture.new()
 			at.atlas = tex
 			at.region = Rect2(i * w, 0, w, tex.get_height())
@@ -141,7 +146,7 @@ static func _ground_body(name: String, script: String, body: Vector2) -> Charact
 func _opossum() -> void:
 	var dir := "res://objects/enemies/opossum/"
 	var strip := dir + "sprites/opossum_run.png"
-	var sf := _frames([["run", strip, 6, 10.0, true], ["idle", strip, 1, 1.0, true]], dir + "sprites/opossum_frames.tres")
+	var sf := _frames([["run", strip, 6, 10.0, true], ["idle", strip, 6, 1.0, true, [0]]], dir + "sprites/opossum_frames.tres")
 	var root := _ground_body("Opossum", CRITTER, Vector2(20, 13))
 	root.set("mode", 0)
 	root.set("speed", 42.0)
@@ -154,13 +159,7 @@ func _frog() -> void:
 	var dir := "res://objects/enemies/frog/"
 	var idle := dir + "sprites/frog_idle.png"
 	var jump := dir + "sprites/frog_jump.png"
-	var sf := _frames([["idle", idle, 4, 6.0, true], ["jump", jump, 2, 1.0, false], ["fall", jump, 2, 1.0, false]], dir + "sprites/frog_frames.tres")
-	# "fall" = khung 2 của jump: giữ khung cuối.
-	sf.remove_animation(&"fall")
-	sf.add_animation(&"fall")
-	sf.set_animation_loop(&"fall", false)
-	sf.add_frame(&"fall", sf.get_frame_texture(&"jump", 1))
-	ResourceSaver.save(sf, dir + "sprites/frog_frames.tres")
+	var sf := _frames([["idle", idle, 4, 6.0, true], ["jump", jump, 2, 1.0, false, [0]], ["fall", jump, 2, 1.0, false, [1]]], dir + "sprites/frog_frames.tres")
 	var root := _ground_body("Frog", CRITTER, Vector2(18, 14))
 	root.set("mode", 1)
 	root.set("hop_velocity", Vector2(75, -260))
@@ -191,7 +190,7 @@ func _skeleton() -> void:
 	var dir := "res://objects/enemies/skeleton/"
 	var walk := dir + "sprites/skeleton_walk.png"
 	var rise := dir + "sprites/skeleton_rise.png"
-	var sf := _frames([["run", walk, 8, 9.0, true], ["idle", walk, 1, 1.0, true], ["rise", rise, 6, 9.0, false]], dir + "sprites/skeleton_frames.tres")
+	var sf := _frames([["run", walk, 8, 9.0, true], ["idle", walk, 8, 1.0, true, [0]], ["rise", rise, 6, 9.0, false]], dir + "sprites/skeleton_frames.tres")
 	var root := _ground_body("Skeleton", CRITTER, Vector2(14, 34))
 	root.set("mode", 2)
 	root.set("speed", 30.0)
@@ -226,7 +225,7 @@ func _ghost() -> void:
 func _hellhound() -> void:
 	var dir := "res://objects/enemies/hellhound/"
 	var strip := dir + "sprites/hellhound_run.png"
-	var sf := _frames([["run", strip, 4, 12.0, true], ["idle", strip, 1, 1.0, true]], dir + "sprites/hellhound_frames.tres")
+	var sf := _frames([["run", strip, 4, 12.0, true], ["idle", strip, 4, 1.0, true, [0]]], dir + "sprites/hellhound_frames.tres")
 	var root := _ground_body("Hellhound", CRITTER, Vector2(34, 20))
 	root.set("mode", 3)
 	root.set("speed", 40.0)
@@ -255,3 +254,93 @@ func _crusher() -> void:
 	_sprite(root, sf, &"idle", 0.0)
 	_rect(root, "CollisionShape2D", Vector2(34, 36), Vector2(0, 2), true)
 	_save(root, dir + "crusher.tscn")
+
+# --- Tường nứt (cổng Dash) ---------------------------------------------------------
+
+func _dash_wall() -> void:
+	var dir := "res://objects/dash_wall/"
+	var root := StaticBody2D.new()
+	root.name = "DashWall"
+	root.set_script(load(dir + "dash_wall.gd"))
+	root.collision_layer = 1
+	root.collision_mask = 0
+	_rect(root, "CollisionShape2D", Vector2(16, 48), Vector2(0, -24))
+	var blocks := Node2D.new()
+	blocks.name = "Blocks"
+	root.add_child(blocks)
+	var tex: Texture2D = load(dir + "sprites/block.png")
+	for i in 3:
+		var sp := Sprite2D.new()
+		sp.name = "Block%d" % (i + 1)
+		sp.texture = tex
+		sp.scale = Vector2(16.0 / 22.0, 16.0 / 22.0)
+		sp.position = Vector2(0, -8 - 16 * i)
+		blocks.add_child(sp)
+	var det := _area(root, "Detector", "", 0, 2)
+	_rect(det, "CollisionShape2D", Vector2(22, 44), Vector2(0, -24))
+	_save(root, dir + "dash_wall.tscn")
+
+# --- Trùm cuối: Hồn Ma Cai Ngục ----------------------------------------------------
+
+func _ghost_warden() -> void:
+	var dir := "res://objects/bosses/ghost_warden/"
+	var sf: SpriteFrames = load("res://objects/enemies/ghost/sprites/ghost_frames.tres")
+	var root := CharacterBody2D.new()
+	root.name = "GhostWarden"
+	root.set_script(load(dir + "ghost_warden.gd"))
+	root.collision_layer = 4
+	root.collision_mask = 0
+	root.add_to_group("enemy", true)
+	root.add_to_group("boss", true)
+	_rect(root, "CollisionShape2D", Vector2(24, 50), Vector2.ZERO)
+	var s := _sprite(root, sf, &"fly", 0.0)
+	s.scale = Vector2(1.5, 1.5)
+	var h := Node.new()
+	h.name = "HealthComponent"
+	h.set_script(load(HEALTH))
+	h.set("max_hp", 16)
+	h.set("invincibility_duration", 0.9)
+	root.add_child(h)
+	var hb := _area(root, "Hurtbox", HURTBOX, 16, 32)
+	_rect(hb, "CollisionShape2D", Vector2(34, 66), Vector2(0, 2))
+	var hx := _area(root, "Hitbox", HITBOX, 64, 0)
+	_rect(hx, "CollisionShape2D", Vector2(24, 54), Vector2(0, 4))
+	var sw := _area(root, "Swipe", HITBOX, 64, 0)
+	_rect(sw, "CollisionShape2D", Vector2(44, 44), Vector2(0, 6), true)
+	_save(root, dir + "ghost_warden.tscn")
+
+func _soul_orb() -> void:
+	var dir := "res://objects/bosses/ghost_warden/"
+	var root := Area2D.new()
+	root.name = "SoulOrb"
+	root.set_script(load(dir + "soul_orb.gd"))
+	root.collision_layer = 64
+	root.collision_mask = 0
+	var cs := CollisionShape2D.new()
+	cs.name = "CollisionShape2D"
+	var c := CircleShape2D.new()
+	c.radius = 6.0
+	cs.shape = c
+	root.add_child(cs)
+	var orb := Node2D.new()
+	orb.name = "Orb"
+	root.add_child(orb)
+	orb.add_child(_circle("Glow", 9.0, Color(0.55, 0.25, 0.9, 0.45)))
+	orb.add_child(_circle("Core", 6.0, Color(0.75, 0.5, 1.0, 1.0)))
+	orb.add_child(_circle("Heart", 2.5, Color(1, 0.95, 1, 1)))
+	var mark := Polygon2D.new()
+	mark.name = "Mark"
+	mark.color = Color(1.0, 0.25, 0.35, 0.9)
+	mark.polygon = PackedVector2Array([Vector2(-9, 0), Vector2(-5, -2), Vector2(5, -2), Vector2(9, 0), Vector2(5, 2), Vector2(-5, 2)])
+	root.add_child(mark)
+	_save(root, dir + "soul_orb.tscn")
+
+static func _circle(name: String, r: float, col: Color) -> Polygon2D:
+	var p := Polygon2D.new()
+	p.name = name
+	p.color = col
+	var pts := PackedVector2Array()
+	for i in 12:
+		pts.append(Vector2.from_angle(TAU * i / 12.0) * r)
+	p.polygon = pts
+	return p

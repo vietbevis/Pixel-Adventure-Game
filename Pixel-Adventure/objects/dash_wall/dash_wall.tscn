@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://objects/dash_wall/dash_wall.gd" id="1_bwydj"]
+[ext_resource type="Texture2D" path="res://objects/dash_wall/sprites/block.png" id="2_0y07k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xobto"]
+size = Vector2(16, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ckfiw"]
+size = Vector2(22, 44)
+
+[node name="DashWall" type="StaticBody2D" unique_id=1040882778]
+collision_mask = 0
+script = ExtResource("1_bwydj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=864299339]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_xobto")
+
+[node name="Blocks" type="Node2D" parent="." unique_id=521842295]
+
+[node name="Block1" type="Sprite2D" parent="Blocks" unique_id=1600482313]
+position = Vector2(0, -8)
+scale = Vector2(0.72727275, 0.72727275)
+texture = ExtResource("2_0y07k")
+
+[node name="Block2" type="Sprite2D" parent="Blocks" unique_id=1980800808]
+position = Vector2(0, -24)
+scale = Vector2(0.72727275, 0.72727275)
+texture = ExtResource("2_0y07k")
+
+[node name="Block3" type="Sprite2D" parent="Blocks" unique_id=847040911]
+position = Vector2(0, -40)
+scale = Vector2(0.72727275, 0.72727275)
+texture = ExtResource("2_0y07k")
+
+[node name="Detector" type="Area2D" parent="." unique_id=818569785]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector" unique_id=241410502]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_ckfiw")

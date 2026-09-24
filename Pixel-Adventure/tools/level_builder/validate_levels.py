@@ -50,6 +50,13 @@ class Level:
                 for k in range(4):
                     if 0 <= y - k < self.h:
                         self.solid[y - k][x] = True
+            elif t == "dash_wall":
+                # Coi là tường kín; nếu có Dash thì là tường "xuyên được khi lướt" — mô phỏng
+                # gần đúng: có Dash thì bỏ tường (người chơi luôn lướt vào phá được).
+                if not dash:
+                    for k in range(3):
+                        if 0 <= y - k < self.h:
+                            self.solid[y - k][x] = True
             elif t == "trampoline":
                 self.tramp.add((x, y))
             elif t == "fan":
@@ -165,7 +172,7 @@ class Level:
         dash_left = -1.0
         dashed = False
         path = []
-        for f in range(240):
+        for f in range(720):
             cur_dir = d if f >= plan["delay"] else 0
             if dash_left > 0:
                 dash_left -= DT

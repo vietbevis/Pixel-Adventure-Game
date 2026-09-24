@@ -6,6 +6,14 @@
 scroll_scale = Vector2(0.3, 0.55)
 repeat_size = Vector2(0, 0)
 
+[node name="BackstopSky" type="Polygon2D" parent="."]
+color = Color(0.455, 0.714, 0.878, 1)
+polygon = PackedVector2Array(-8000, -8000, 8000, -8000, 8000, 560, -8000, 560)
+
+[node name="BackstopGround" type="Polygon2D" parent="."]
+color = Color(0.439, 0.620, 0.463, 1)
+polygon = PackedVector2Array(-8000, 560, 8000, 560, 8000, 8000, -8000, 8000)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 centered = false

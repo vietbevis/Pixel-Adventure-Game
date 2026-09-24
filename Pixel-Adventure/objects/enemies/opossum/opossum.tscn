@@ -20,55 +20,55 @@ size = Vector2(18, 9)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mtxa"]
 size = Vector2(22, 6)
 
-[node name="Opossum" type="CharacterBody2D" unique_id=1666362617 groups=["enemy"]]
+[node name="Opossum" type="CharacterBody2D" unique_id=825241908 groups=["enemy"]]
 collision_layer = 4
 script = ExtResource("1_wddm4")
 speed = 42.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=148534929]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1876643206]
 position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_weidl")
 
-[node name="FloorCheck" type="RayCast2D" parent="." unique_id=722580800]
+[node name="FloorCheck" type="RayCast2D" parent="." unique_id=1155718035]
 position = Vector2(12, -4)
 target_position = Vector2(0, 14)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=957807535]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=223113462]
 sprite_frames = ExtResource("2_rfttx")
 animation = &"run"
 autoplay = "run"
 offset = Vector2(0, -14)
 
-[node name="HealthComponent" type="Node" parent="." unique_id=1920205553]
+[node name="HealthComponent" type="Node" parent="." unique_id=734856624]
 script = ExtResource("3_8j8x4")
 max_hp = 1
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1484846794]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=850239511]
 collision_layer = 16
 collision_mask = 32
 script = ExtResource("4_6s6bp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1312784554]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=762643130]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_d581u")
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=1694895890]
+[node name="Hitbox" type="Area2D" parent="." unique_id=535770959]
 collision_layer = 64
 collision_mask = 0
 script = ExtResource("5_gp57b")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2122457283]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=870174690]
 position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_vkmtx")
 
-[node name="StompBox" type="Area2D" parent="." unique_id=92354824]
+[node name="StompBox" type="Area2D" parent="." unique_id=1313231424]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("6_dsw6r")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StompBox" unique_id=351602533]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StompBox" unique_id=1651692323]
 position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_8mtxa")
 
-[node name="HitReaction" type="Node" parent="." unique_id=104424549]
+[node name="HitReaction" type="Node" parent="." unique_id=1209721827]
 script = ExtResource("7_5jsb4")

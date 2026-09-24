@@ -3,7 +3,8 @@ extends Area2D
 ## hiệu → rơi thẳng xuống tới khi chạm đất → nằm đó một nhịp → kéo lên chậm. Chỉ gây
 ## sát thương lúc đang rơi (và ngay khoảnh khắc chạm đất), nên cách vượt là: nhử cho nó
 ## rơi rồi chạy qua lúc nó đang được kéo lên.
-## Độ sâu rơi tự đo bằng raycast lúc _ready — đặt ở đâu cũng khớp mặt đất bên dưới.
+## Dừng rơi bằng raycast ngắn mỗi khung từ đáy khối — đặt ở đâu cũng khớp mặt đất
+## bên dưới (`max_fall` chỉ là chốt an toàn khi bên dưới là vực).
 
 enum St { WAIT, WARN, FALL, LANDED, RISE }
 
@@ -22,14 +23,11 @@ var _floor_y: float
 var _vy: float = 0.0
 var _timer: float = 0.0
 
+const HALF := 21.0  # nửa chiều cao sprite 42px
+
 func _ready() -> void:
 	_top_y = position.y
-	var space := get_world_2d().direct_space_state
-	await get_tree().physics_frame
-	var q := PhysicsRayQueryParameters2D.create(global_position + Vector2(0, 21), global_position + Vector2(0, 21 + max_fall), 1)
-	var hit := space.intersect_ray(q)
-	var drop: float = (hit.position.y - (global_position.y + 21)) if hit else max_fall
-	_floor_y = _top_y + drop
+	_floor_y = _top_y + max_fall
 	_shape.disabled = true
 	sprite.play(&"idle")
 
@@ -39,7 +37,7 @@ func _physics_process(delta: float) -> void:
 			var p := _player()
 			if p and absf(p.global_position.x - global_position.x) < detect_width \
 					and p.global_position.y > global_position.y \
-					and p.global_position.y < global_position.y + (_floor_y - _top_y) + 40.0:
+					and p.global_position.y < global_position.y + max_fall:
 				_st = St.WARN
 				_timer = warn_time
 				sprite.play(&"blink")
@@ -51,9 +49,14 @@ func _physics_process(delta: float) -> void:
 				_shape.disabled = false
 		St.FALL:
 			_vy = minf(_vy + 1400.0 * delta, 520.0)
-			position.y += _vy * delta
-			if position.y >= _floor_y:
-				position.y = _floor_y
+			var step := _vy * delta
+			var q := PhysicsRayQueryParameters2D.create(global_position + Vector2(0, HALF - 1.0), global_position + Vector2(0, HALF + step + 1.0), 1)
+			var hit := get_world_2d().direct_space_state.intersect_ray(q)
+			if hit:
+				step = hit.position.y - (global_position.y + HALF)
+			position.y += step
+			if hit or position.y >= _top_y + max_fall:
+				_floor_y = position.y
 				_st = St.LANDED
 				_timer = rest_time
 				sprite.play(&"slam")

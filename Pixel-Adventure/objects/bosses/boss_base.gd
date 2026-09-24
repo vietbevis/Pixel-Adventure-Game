@@ -55,6 +55,10 @@ var _pattern_step: int = 0
 var _charge_dir: int = -1
 var _base_think: float = 0.0
 var _home: Vector2
+## Miễn choáng: bị choáng 1 lần thì trong ~1.6s sau đó trúng đòn vẫn mất máu nhưng
+## KHÔNG bị ngắt — nếu không, chém liên tục sẽ khoá boss đứng yên tới chết.
+const STAGGER_IMMUNITY := 1.6
+var _stagger_cd: float = 0.0
 
 func _ready() -> void:
 	add_to_group("enemy")
@@ -79,6 +83,7 @@ func _physics_process(delta: float) -> void:
 	if _state == State.DEAD:
 		return
 	velocity.y += GRAVITY * delta
+	_stagger_cd = maxf(_stagger_cd - delta, 0.0)
 	_timer -= delta
 	_step_timer -= delta
 	if not _lock_face:
@@ -274,9 +279,10 @@ func _on_hurt(source: Area2D) -> void:
 	if not health.is_alive():
 		return
 	# Chỉ bị gián đoạn khi đang nghỉ; đang tung pattern thì "lì".
-	if _state == State.THINK or _state == State.RECOVER:
+	if (_state == State.THINK or _state == State.RECOVER) and _stagger_cd <= 0.0:
 		_state = State.HURT
 		_timer = 0.25
+		_stagger_cd = STAGGER_IMMUNITY
 		sprite.play("hit")
 	var away := 1.0 if global_position.x >= source.global_position.x else -1.0
 	velocity.x = away * 70.0
