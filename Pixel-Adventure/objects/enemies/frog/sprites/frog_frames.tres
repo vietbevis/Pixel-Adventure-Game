@@ -1,7 +1,7 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://bkkbo7tw1y4in"]
 
-[ext_resource type="Texture2D" path="res://objects/enemies/frog/sprites/frog_jump.png" id="1_dmamr"]
-[ext_resource type="Texture2D" path="res://objects/enemies/frog/sprites/frog_idle.png" id="2_1av6p"]
+[ext_resource type="Texture2D" uid="uid://s0lqf5dsxsnw" path="res://objects/enemies/frog/sprites/frog_jump.png" id="1_dmamr"]
+[ext_resource type="Texture2D" uid="uid://c27lr6ri7foqu" path="res://objects/enemies/frog/sprites/frog_idle.png" id="2_1av6p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dcs7s"]
 atlas = ExtResource("1_dmamr")

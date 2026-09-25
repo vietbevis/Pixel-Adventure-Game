@@ -1,7 +1,11 @@
-[gd_resource type="SpriteFrames" load_steps=8 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://bxedslh7xhq6c"]
 
-[ext_resource type="Texture2D" path="res://objects/npc/sprites/bubble_in.png" id="1"]
-[ext_resource type="Texture2D" path="res://objects/npc/sprites/bubble_out.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bea00yk8tx55y" path="res://objects/npc/sprites/bubble_in.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cmk720pdov00j" path="res://objects/npc/sprites/bubble_out.png" id="2"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/exclamation_in.png" id="3"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/exclamation_out.png" id="4"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/interrogation_in.png" id="5"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/interrogation_out.png" id="6"]
 
 [sub_resource type="AtlasTexture" id="in_0"]
 atlas = ExtResource("1")
@@ -23,6 +27,46 @@ region = Rect2(0, 0, 34, 16)
 atlas = ExtResource("2")
 region = Rect2(34, 0, 34, 16)
 
+[sub_resource type="AtlasTexture" id="alert_in_0"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="alert_in_1"]
+atlas = ExtResource("3")
+region = Rect2(14, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="alert_in_2"]
+atlas = ExtResource("3")
+region = Rect2(28, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="alert_out_0"]
+atlas = ExtResource("4")
+region = Rect2(0, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="alert_out_1"]
+atlas = ExtResource("4")
+region = Rect2(14, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="ask_in_0"]
+atlas = ExtResource("5")
+region = Rect2(0, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="ask_in_1"]
+atlas = ExtResource("5")
+region = Rect2(14, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="ask_in_2"]
+atlas = ExtResource("5")
+region = Rect2(28, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="ask_out_0"]
+atlas = ExtResource("6")
+region = Rect2(0, 0, 14, 12)
+
+[sub_resource type="AtlasTexture" id="ask_out_1"]
+atlas = ExtResource("6")
+region = Rect2(14, 0, 14, 12)
+
 [resource]
 animations = [{
 "frames": [{
@@ -35,7 +79,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("in_2")
 }],
-"loop": false,
+"loop": 0,
 "name": &"in",
 "speed": 14.0
 }, {
@@ -46,7 +90,57 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("out_1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"out",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("alert_in_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("alert_in_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("alert_in_2")
+}],
+"loop": false,
+"name": &"alert_in",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("alert_out_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("alert_out_1")
+}],
+"loop": false,
+"name": &"alert_out",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("ask_in_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("ask_in_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("ask_in_2")
+}],
+"loop": false,
+"name": &"ask_in",
+"speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("ask_out_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("ask_out_1")
+}],
+"loop": false,
+"name": &"ask_out",
 "speed": 14.0
 }]

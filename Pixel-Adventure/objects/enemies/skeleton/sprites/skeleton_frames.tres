@@ -1,7 +1,7 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://bq6vfiq14e4u7"]
 
-[ext_resource type="Texture2D" path="res://objects/enemies/skeleton/sprites/skeleton_walk.png" id="1_k5yr0"]
-[ext_resource type="Texture2D" path="res://objects/enemies/skeleton/sprites/skeleton_rise.png" id="2_py0km"]
+[ext_resource type="Texture2D" uid="uid://f3q4ggs5uhj7" path="res://objects/enemies/skeleton/sprites/skeleton_walk.png" id="1_k5yr0"]
+[ext_resource type="Texture2D" uid="uid://dg0sitgph37ki" path="res://objects/enemies/skeleton/sprites/skeleton_rise.png" id="2_py0km"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tygdv"]
 atlas = ExtResource("1_k5yr0")

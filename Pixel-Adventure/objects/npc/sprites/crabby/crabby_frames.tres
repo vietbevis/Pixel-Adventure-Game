@@ -1,0 +1,135 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/crabby/idle.png" id="1"]
+[ext_resource type="Texture2D" path="res://objects/npc/sprites/crabby/run.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="idle_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_1"]
+atlas = ExtResource("1")
+region = Rect2(46, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_2"]
+atlas = ExtResource("1")
+region = Rect2(92, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_3"]
+atlas = ExtResource("1")
+region = Rect2(138, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_4"]
+atlas = ExtResource("1")
+region = Rect2(184, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_5"]
+atlas = ExtResource("1")
+region = Rect2(230, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_6"]
+atlas = ExtResource("1")
+region = Rect2(276, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_7"]
+atlas = ExtResource("1")
+region = Rect2(322, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="idle_8"]
+atlas = ExtResource("1")
+region = Rect2(368, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_1"]
+atlas = ExtResource("2")
+region = Rect2(46, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_2"]
+atlas = ExtResource("2")
+region = Rect2(92, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_3"]
+atlas = ExtResource("2")
+region = Rect2(138, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_4"]
+atlas = ExtResource("2")
+region = Rect2(184, 0, 46, 29)
+
+[sub_resource type="AtlasTexture" id="run_5"]
+atlas = ExtResource("2")
+region = Rect2(230, 0, 46, 29)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("idle_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_7")
+},
+{
+"duration": 1.0,
+"texture": SubResource("idle_8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("run_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("run_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("run_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("run_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("run_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("run_5")
+}],
+"loop": true,
+"name": &"run",
+"speed": 12.0
+}]

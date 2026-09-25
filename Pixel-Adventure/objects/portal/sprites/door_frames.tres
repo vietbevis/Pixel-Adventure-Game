@@ -1,10 +1,26 @@
-[gd_resource type="SpriteFrames" load_steps=11 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://73yf3ti84vl6"]
 
-[ext_resource type="Texture2D" path="res://objects/portal/sprites/door.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://2xw6n71ao1af" path="res://objects/portal/sprites/door.png" id="1"]
 
 [sub_resource type="AtlasTexture" id="a0"]
 atlas = ExtResource("1")
 region = Rect2(0, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="a6"]
+atlas = ExtResource("1")
+region = Rect2(276, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="a7"]
+atlas = ExtResource("1")
+region = Rect2(322, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="a8"]
+atlas = ExtResource("1")
+region = Rect2(368, 0, 46, 56)
+
+[sub_resource type="AtlasTexture" id="a5"]
+atlas = ExtResource("1")
+region = Rect2(230, 0, 46, 56)
 
 [sub_resource type="AtlasTexture" id="a1"]
 atlas = ExtResource("1")
@@ -22,41 +38,55 @@ region = Rect2(138, 0, 46, 56)
 atlas = ExtResource("1")
 region = Rect2(184, 0, 46, 56)
 
-[sub_resource type="AtlasTexture" id="a5"]
-atlas = ExtResource("1")
-region = Rect2(230, 0, 46, 56)
-
-[sub_resource type="AtlasTexture" id="a6"]
-atlas = ExtResource("1")
-region = Rect2(276, 0, 46, 56)
-
-[sub_resource type="AtlasTexture" id="a7"]
-atlas = ExtResource("1")
-region = Rect2(322, 0, 46, 56)
-
-[sub_resource type="AtlasTexture" id="a8"]
-atlas = ExtResource("1")
-region = Rect2(368, 0, 46, 56)
-
 [resource]
 animations = [{
-"frames": [{"duration": 1.0, "texture": SubResource("a0")}],
-"loop": true,
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a0")
+}],
+"loop": 1,
 "name": &"closed",
 "speed": 5.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("a1")}, {"duration": 1.0, "texture": SubResource("a2")}, {"duration": 1.0, "texture": SubResource("a3")}, {"duration": 1.0, "texture": SubResource("a4")}, {"duration": 1.0, "texture": SubResource("a5")}],
-"loop": false,
-"name": &"opening",
-"speed": 12.0
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a6")
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("a6")}, {"duration": 1.0, "texture": SubResource("a7")}, {"duration": 1.0, "texture": SubResource("a8")}],
-"loop": false,
+"duration": 1.0,
+"texture": SubResource("a7")
+}, {
+"duration": 1.0,
+"texture": SubResource("a8")
+}],
+"loop": 0,
 "name": &"closing",
 "speed": 12.0
 }, {
-"frames": [{"duration": 1.0, "texture": SubResource("a5")}],
-"loop": true,
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a5")
+}],
+"loop": 1,
 "name": &"open",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("a1")
+}, {
+"duration": 1.0,
+"texture": SubResource("a2")
+}, {
+"duration": 1.0,
+"texture": SubResource("a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("a4")
+}, {
+"duration": 1.0,
+"texture": SubResource("a5")
+}],
+"loop": 0,
+"name": &"opening",
+"speed": 12.0
 }]

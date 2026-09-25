@@ -1,7 +1,8 @@
 extends Area2D
 ## NPC ở hub: có hành vi riêng (FSM nhỏ) + thoại thay đổi theo tiến trình đã lưu.
 ## Đứng gần + bấm `interact` (E) → mở hộp thoại (Dialogue autoload). Bong bóng "Hello"
-## của Kings and Pigs nổi trên đầu lúc đang nói.
+## của Kings and Pigs nổi trên đầu lúc đang nói; bong bóng "?" / "!" (Crusty Crew) khi NPC
+## để ý thấy player / hoảng sợ.
 ##
 ## FSM hand-rolled theo đúng pattern `EnemyBase` (không dùng plugin state machine).
 ## NPC là `Area2D` không có vật lý — sàn hub phẳng nên chỉ cần dịch `global_position.x`;
@@ -52,7 +53,8 @@ enum DynamicLine {
 @export var leash_extra: float = 40.0
 
 @export_group("Hiển thị")
-## SpriteFrames cho dáng đứng NPC — mặc định là Pig. Đổi trên instance nếu muốn NPC khác.
+## SpriteFrames của NPC (cần anim `idle` + `run`, đáy khung = chân). Mặc định là Pig để scene
+## gốc có hình trong editor; NPC ở hub đặt bộ riêng (objects/npc/sprites/<tên>/) trên instance.
 @export var idle_frames: SpriteFrames = preload("res://objects/enemies/pig/sprites/pig_frames.tres")
 ## Hướng nhìn mặc định của sprite: false = quay trái (Kings and Pigs), true = quay phải (Pixel Frog).
 @export var sprite_faces_right: bool = false
@@ -87,6 +89,8 @@ const WORLD_TIPS := {
 const THREAT_SPEED := 60.0
 ## STATIONARY: bao lâu thì liếc về phía portal mục tiêu một lần.
 const GLANCE_INTERVAL := 3.5
+## Bong bóng cảm xúc ("?" / "!") hiện bao lâu trước khi tắt.
+const EMOTE_TIME := 1.1
 
 @onready var _sprite: AnimatedSprite2D = $Sprite
 @onready var _bubble: AnimatedSprite2D = $Bubble
@@ -98,6 +102,9 @@ var _player: CharacterBody2D = null
 var _origin: Vector2
 var _facing: int = 1
 var _base_modulate: Color = Color.WHITE
+## Player đang trong `notice_radius` (để chỉ bật "?" lúc vừa bước vào, không bật mỗi frame).
+var _noticed: bool = false
+var _emote_timer: float = 0.0
 
 # WANDER
 var _wander_target: float = 0.0
@@ -116,7 +123,9 @@ func _ready() -> void:
 	_base_modulate = modulate
 	_sprite.sprite_frames = idle_frames
 	_sprite.play("idle")
+	_fit_to_frames()
 	_bubble.visible = false
+	_bubble.animation_finished.connect(_on_bubble_animation_finished)
 	_prompt.visible = false
 	_wander_target = _origin.x
 	body_entered.connect(_on_body_entered)
@@ -127,6 +136,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_player = get_tree().get_first_node_in_group("player") as CharacterBody2D
+	_tick_emote(delta)
 
 	# Đang nói chuyện: đứng im, quay mặt về player, nhường toàn bộ input cho Dialogue.
 	if _talking:
@@ -155,7 +165,7 @@ func _process(delta: float) -> void:
 ## đang là mục tiêu — chỉ đường mà không cần một dòng thoại nào.
 func _tick_stationary(delta: float) -> void:
 	_stand()
-	if _player_distance() <= notice_radius:
+	if _check_notice():
 		_glance_timer = 0.0
 		_face_player()
 		return
@@ -184,7 +194,7 @@ func _tick_wander(delta: float) -> void:
 	var distance := _player_distance()
 
 	# Player lại gần → dừng tuần, quay mặt, và bám theo ở khoảng cách lịch sự.
-	if distance <= notice_radius:
+	if _check_notice():
 		_face_player()
 		var gap: float = absf(_player.global_position.x - global_position.x)
 		if gap > follow_distance and _within_leash(_facing):
@@ -227,6 +237,8 @@ func _tick_skittish(delta: float) -> void:
 	var distance := _player_distance()
 
 	if distance <= flee_radius and _player_is_threatening():
+		if not _scared:
+			_emote("alert")
 		_scared = true
 		_calm_timer = 0.0
 		_flee_dir = -1 if _player.global_position.x > global_position.x else 1
@@ -306,6 +318,47 @@ func _player_distance() -> float:
 		return INF
 	return global_position.distance_to(_player.global_position)
 
+# --- Hiển thị ----------------------------------------------------------------
+
+## Đặt sprite sao cho đáy khung nằm ở gốc (chân), rồi đưa bong bóng + chữ "Nhấn E" lên
+## ngay trên đầu — mỗi bộ SpriteFrames cao khác nhau nên không thể để số cứng trong scene.
+func _fit_to_frames() -> void:
+	var tex := idle_frames.get_frame_texture(&"idle", 0)
+	if tex == null:
+		return
+	var h := float(tex.get_height())
+	_sprite.position = Vector2(0, -h * 0.5)
+	_bubble.position = Vector2(10, -h - 6)
+	_prompt.offset_top = -h - 30
+	_prompt.offset_bottom = -h - 12
+
+## Bật "?" đúng lúc player vừa bước vào `notice_radius`. Trả về player có đang ở gần không.
+func _check_notice() -> bool:
+	var near := _player_distance() <= notice_radius
+	if near and not _noticed:
+		_emote("ask")
+	_noticed = near
+	return near
+
+## Bong bóng cảm xúc ngắn; nhường chỗ cho bong bóng "Hello" lúc đang nói chuyện.
+func _emote(kind: String) -> void:
+	if _talking:
+		return
+	_bubble.visible = true
+	_bubble.play(kind + "_in")
+	_emote_timer = EMOTE_TIME
+
+func _tick_emote(delta: float) -> void:
+	if _emote_timer <= 0.0:
+		return
+	_emote_timer -= delta
+	if _emote_timer <= 0.0 and not _talking:
+		_bubble.play(String(_bubble.animation).replace("_in", "_out"))
+
+func _on_bubble_animation_finished() -> void:
+	if String(_bubble.animation).ends_with("out"):
+		_bubble.visible = false
+
 # --- Thoại --------------------------------------------------------------------
 
 ## Heo đào ngũ đang hoảng thì không nói chuyện được — đó chính là câu đố nhỏ của NPC này.
@@ -320,13 +373,18 @@ func _update_prompt() -> void:
 	_prompt.text = "Nhấn E" if _can_talk() else "Đứng yên..."
 
 func _start_dialogue() -> void:
+	# Hai NPC đứng sát nhau cùng bắt một cú nhấn: chỉ NPC mở được hộp thoại mới được
+	# coi là đang nói, NPC kia không được bật bong bóng / đứng đơ chờ `finished`.
+	if not Dialogue.open(_build_lines(), speaker):
+		return
 	_talking = true
+	_emote_timer = 0.0
+	_prompt.visible = false
 	_face_player()
 	if behavior == Behavior.WANDER:
 		_apply_mood()  # tâm trạng có thể đã đổi kể từ lần nói chuyện trước
 	_bubble.visible = true
 	_bubble.play("in")
-	Dialogue.open(_build_lines(), speaker)
 
 func _build_lines() -> PackedStringArray:
 	var lines: PackedStringArray = []
@@ -361,11 +419,14 @@ func _ability_line() -> String:
 		names.append(String(ABILITY_NAMES.get(id, id.capitalize())))
 	return "Sức mạnh ngươi đã có: %s." % ", ".join(names)
 
+## Mọi NPC đều nghe `Dialogue.finished`, chỉ NPC đang nói mới thu bong bóng về. Ẩn bong
+## bóng nằm ở `_on_bubble_animation_finished` thay vì `await` — await sẽ bắt nhầm anim
+## "in" của lần nói kế tiếp nếu player mở lại thoại trước khi "out" chạy xong.
 func _on_dialogue_finished() -> void:
-	if _bubble.visible:
-		_bubble.play("out")
-		await _bubble.animation_finished
-		_bubble.visible = false
+	if not _talking:
+		return
+	_talking = false
+	_bubble.play("out")
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

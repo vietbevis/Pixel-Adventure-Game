@@ -1,8 +1,8 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://bmmyyr7vhk5f3"]
 
-[ext_resource type="Texture2D" path="res://objects/traps/crusher/sprites/blink.png" id="1_haxgb"]
-[ext_resource type="Texture2D" path="res://objects/traps/crusher/sprites/idle.png" id="2_4dsk5"]
-[ext_resource type="Texture2D" path="res://objects/traps/crusher/sprites/bottom_hit.png" id="3_0c7ph"]
+[ext_resource type="Texture2D" uid="uid://b2ar8jxsssvsd" path="res://objects/traps/crusher/sprites/blink.png" id="1_haxgb"]
+[ext_resource type="Texture2D" uid="uid://dw2ev5pxxbf0j" path="res://objects/traps/crusher/sprites/idle.png" id="2_4dsk5"]
+[ext_resource type="Texture2D" uid="uid://d167r438pbe24" path="res://objects/traps/crusher/sprites/bottom_hit.png" id="3_0c7ph"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3djcj"]
 atlas = ExtResource("1_haxgb")

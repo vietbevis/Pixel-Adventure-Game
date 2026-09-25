@@ -6,12 +6,25 @@ extends CanvasLayer
 
 signal finished
 
-## true ngay khi `open()` được gọi — mọi chỗ polling `interact` (portal, hub_sign, npc)
-## phải kiểm tra cờ này để không kích hoạt trùng trong cùng frame mở thoại.
-var is_open: bool = false
+## Sau khi đóng, chặn mở lại trong khoảng này (ms). Cú nhấn `interact` đóng thoại vẫn còn
+## `is_action_just_pressed` trong `_process` cùng frame, nên NPC/portal/biển bên cạnh sẽ bắt
+## lại và mở hộp mới ngay lập tức — hộp đó nháy lên rồi biến mất. Chờ `process_frame` không
+## đủ: signal đó phát TRƯỚC `_process` của các node trong cùng frame.
+const REOPEN_COOLDOWN_MS := 200
 
+## true khi đang mở VÀ trong lúc hồi sau khi đóng — mọi chỗ polling `interact` (portal,
+## hub_sign, story_sign, npc) kiểm tra cờ này để không kích hoạt trùng.
+var is_open: bool:
+	get:
+		return _open or Time.get_ticks_msec() - _closed_at_ms < REOPEN_COOLDOWN_MS
+
+var _open: bool = false
+var _closed_at_ms: int = -REOPEN_COOLDOWN_MS
 var _lines: PackedStringArray = []
 var _index: int = 0
+## Tween fade hiện tại — phải kill trước khi tạo tween mới, nếu không tween đóng cũ
+## (fade về 0 rồi ẩn panel) vẫn chạy song song và giấu mất hộp vừa mở.
+var _tween: Tween
 
 @onready var _panel: Control = $Panel
 @onready var _speaker_label: Label = $Panel/Margin/VBox/Speaker
@@ -22,22 +35,23 @@ func _ready() -> void:
 	_panel.visible = false
 	_panel.modulate.a = 0.0
 
-## Bỏ qua nếu đang mở sẵn (một hộp thoại tại một thời điểm).
-func open(lines: PackedStringArray, speaker: String = "") -> void:
+## Trả về false nếu không mở được (đang mở sẵn / vừa đóng / không có dòng nào) — một hộp
+## thoại tại một thời điểm, người gọi dựa vào đó để không tự coi mình là "đang nói".
+func open(lines: PackedStringArray, speaker: String = "") -> bool:
 	if is_open or lines.is_empty():
-		return
-	is_open = true
+		return false
+	_open = true
 	_lines = lines
 	_index = 0
 	_speaker_label.text = speaker
 	_speaker_label.visible = speaker != ""
 	_body_label.text = _lines[0]
 	_panel.visible = true
-	var tween := create_tween()
-	tween.tween_property(_panel, "modulate:a", 1.0, 0.15)
+	_fade_to(1.0)
+	return true
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_open:
+	if not _open:
 		return
 	if event.is_action_pressed("interact"):
 		get_viewport().set_input_as_handled()
@@ -51,11 +65,15 @@ func _advance() -> void:
 	_body_label.text = _lines[_index]
 
 func _close() -> void:
-	var tween := create_tween()
-	tween.tween_property(_panel, "modulate:a", 0.0, 0.15)
-	tween.tween_callback(func() -> void: _panel.visible = false)
+	_open = false
+	_closed_at_ms = Time.get_ticks_msec()
+	_fade_to(0.0)
 	finished.emit()
-	# Giữ is_open thêm 1 frame: cú nhấn `interact` đóng thoại này KHÔNG được để NPC/portal
-	# bắt lại trong cùng frame (polling is_action_just_pressed bỏ qua set_input_as_handled).
-	await get_tree().process_frame
-	is_open = false
+
+func _fade_to(alpha: float) -> void:
+	if _tween != null and _tween.is_valid():
+		_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(_panel, "modulate:a", alpha, 0.15)
+	if alpha == 0.0:
+		_tween.tween_callback(func() -> void: _panel.visible = false)
