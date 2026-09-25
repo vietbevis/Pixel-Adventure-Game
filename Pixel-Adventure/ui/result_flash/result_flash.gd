@@ -59,7 +59,8 @@ func show_result(kind: String) -> void:
 
 	var out := create_tween()
 	out.tween_interval(0.32 + hold)
-	out.set_parallel(true)
+	# Chỉ ghép song song hai bước mờ dần với nhau. `set_parallel(true)` ở đây từng làm
+	# bước mờ dần chạy song song với cả khoảng chờ → chữ tắt ngay sau ~0.3s.
 	out.tween_property(_label, "modulate:a", 0.0, 0.3)
-	out.tween_property(_veil, "color:a", 0.0, 0.3)
-	out.chain().tween_callback(queue_free)
+	out.parallel().tween_property(_veil, "color:a", 0.0, 0.3)
+	out.tween_callback(queue_free)
