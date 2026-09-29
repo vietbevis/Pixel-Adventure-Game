@@ -61,7 +61,10 @@ trừ phần UI trong `ui/ai_challenge/`.
 | `core/ai_challenge.gd` (autoload `AiChallenge`) | Trạng thái chế độ: `active`, lựa chọn, spec hiện tại; `play(spec)` dựng + pack + goto; ghi thống kê | các đơn vị trên, SaveManager, SceneTransition |
 | `ui/ai_challenge/setup.tscn/.gd` | Màn Thiết lập + màn chờ + danh sách màn đã lưu | AiChallenge |
 
-`level_kit.gd` là code công cụ nhưng không dùng API editor, nên dùng lại lúc chạy được. Nếu
+`level_kit.gd` là code công cụ nhưng không dùng API editor, nên dùng lại lúc chạy được.
+**Cập nhật khi lập plan:** `build_levels.gd` làm mất các sửa tay trong `.tscn` (vd. `max_lives = 1`
+ở hai đấu trường, `z_index` của biển báo, vị trí Cố vấn) nên **chỉ dựng lại `hub`**, sau khi đưa các
+sửa tay của hub vào `hub.gd`, và so từng node bằng `tools/level_builder/compare_scenes.py`. Nếu
 cần sửa kit (vd. cho phép chế độ "tự sửa vật lơ lửng" thay vì báo lỗi), sửa có cờ bật/tắt để
 8 màn tay (6 màn thường, 2 đấu trường) dựng ra **y hệt** như cũ (dựng lại và so `git diff` rỗng);
 riêng làng chỉ khác phần cổng mới.
@@ -141,7 +144,10 @@ Mỗi luật được áp dụng thì thêm một dòng mô tả vào `fixes` (i
    chiều; không Dash). Chạy bằng `WorkerThreadPool` trên dữ liệu `to_json()` (không đụng
    scene tree). Bẫy động và quái không được mô phỏng (giống bản Python) — vì vậy có giới
    hạn số lượng ở mục 4.2.
-   - Giới hạn số bước tìm kiếm; vượt → thất bại "quá phức tạp".
+   - Bản Python mất 7–47 s cho mỗi màn tay trên máy tính, nên bản GDScript có thêm `early_exit`
+     (dừng khi đã chạm mọi checkpoint + cờ), `xs_step` (lấy mẫu vị trí thưa hơn — chỉ có thể từ
+     chối oan, không bao giờ nhận nhầm màn không đi được) và `max_ms` (vượt → thất bại "quá phức
+     tạp"). Giá trị chốt bằng số đo thật (plan Task 2).
    - Thông báo lỗi cho AI dạng: "Không tới được checkpoint ở khúc 4 (cột 12, dòng 7). Nơi
      xa nhất đi tới được: khúc 3, cột 20. Hãy sửa khúc 3–4."
 3. **Thử lại:** tối đa 2 lần sau lần đầu. Mỗi lần gửi lại bản đồ đã sửa lỗi + thông báo lỗi,
@@ -192,7 +198,7 @@ Mỗi luật được áp dụng thì thêm một dòng mô tả vào `fixes` (i
 - `test_ai_challenge.gd`: màn mẫu đi qua dựng → pack → save → load có `StartMarker`, `GoalFlag`,
   giới hạn camera đúng; kết quả chế độ AI không đổi `completed_levels`; `ai_challenge` được
   ghi; cổng cũ vẫn mở đúng màn.
-- Hồi quy: dựng lại 8 màn tay bằng kit → `git diff` rỗng (làng chỉ khác cổng mới); toàn bộ test cũ đạt.
+- Hồi quy: chỉ dựng lại hub; `compare_scenes.py` chỉ được thấy cổng mới + giới hạn camera + dữ liệu tile; toàn bộ test cũ đạt.
 
 **Thủ công:** tạo ≥ 5 màn thật với key (mỗi thế giới, mỗi độ khó) và chơi thử; đo thời gian
 ReachValidator trên máy tính (và trên điện thoại nếu có); kiểm tra AI tắt / mất mạng / Huỷ.
