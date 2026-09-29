@@ -105,7 +105,32 @@ func _run() -> void:
 	helper.level_ready()
 	await wait_ms(700)
 	check(helper._level == "level_6" and helper._hint == "", "late hint of previous level dropped")
+	await close_dialogue(dialogue)
 
+	check(helper.build_prompt("level_1", 2).contains("Checkpoint"), "prompt says whether a checkpoint is active")
+
+	# Lần gọi lại (chết thứ 5) lỗi không được xoá gợi ý AI tốt đã có.
+	gm.current_level_id = "level_1"
+	gm.has_checkpoint = false
+	helper.level_ready()
+	gemini.transport = fake("Mẹo A")
+	events.player_died.emit()
+	events.player_died.emit()
+	await wait_ms(100)
+	check(helper._hint == "Mẹo A", "AI hint stored")
+	gemini.transport = func(_u: String, _h: PackedStringArray, _b: String, _t: float) -> Dictionary:
+		return {"ok": true, "code": 500, "body": ""}
+	events.player_died.emit()
+	events.player_died.emit()
+	events.player_died.emit()
+	await wait_ms(100)
+	check(helper._hint == "Mẹo A", "failed re-prefetch keeps the earlier AI hint")
+
+	# Người chơi tắt AI sau khi đã có gợi ý AI → hiện ghi chú tay.
+	gemini.configure("")
+	helper.level_ready()
+	await wait_ms(1500)
+	check(dialogue._open and dialogue._body_label.text == notes.tip("level_1"), "AI switched off -> hand-written note, not the AI hint")
 	await close_dialogue(dialogue)
 	if _fails == 0:
 		print("ALL PASS")

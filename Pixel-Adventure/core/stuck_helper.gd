@@ -38,6 +38,7 @@ func build_prompt(level_id: String, deaths: int) -> String:
 		"Màn: %s." % level_name,
 		"Đặc điểm màn: %s" % LevelNotes.tip(level_id),
 		"Người chơi (nhân vật %s) đã chết %d lần ở màn này." % [CharacterData.get_display(GameManager.selected_character), deaths],
+		"Checkpoint: %s." % ("đã chạm, chết sẽ hồi sinh tại đó" if GameManager.has_checkpoint else "chưa có, chết là chơi lại từ đầu màn"),
 		"Sức mạnh đang có: %s." % (", ".join(abilities) if not abilities.is_empty() else "chưa có"),
 		"Hãy đưa một mẹo giúp họ vượt qua.",
 	]))
@@ -63,8 +64,8 @@ func _prefetch(level: String, deaths: int) -> void:
 		return
 	var hint: String = await Gemini.generate_text(build_prompt(level, deaths),
 		{"system": SYSTEM, "max_tokens": 120, "timeout": 15.0})
-	if level == _level:
-		_hint = hint
+	if level == _level and hint != "":
+		_hint = hint  # a failed re-prefetch keeps the earlier good hint
 
 
 func _show_after(seconds: float) -> void:
@@ -72,7 +73,8 @@ func _show_after(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout
 	if level != _level or not _pending:
 		return
-	var text := _hint if _hint != "" else LevelNotes.tip(level)
+	# AI hint only while AI is still on (the player may have switched it off since).
+	var text := _hint if Gemini.enabled and _hint != "" else LevelNotes.tip(level)
 	if text != "" and Dialogue.open(PackedStringArray([text]), SPEAKER):
 		_pending = false
 
