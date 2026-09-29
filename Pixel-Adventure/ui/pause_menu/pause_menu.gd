@@ -6,12 +6,27 @@ extends CanvasLayer
 @onready var panel: PanelContainer = $Root/CenterContainer/Panel
 @onready var resume_button: Button = $Root/CenterContainer/Panel/VBoxContainer/ResumeButton
 @onready var restart_button: Button = $Root/CenterContainer/Panel/VBoxContainer/RestartButton
+@onready var hub_button: Button = $Root/CenterContainer/Panel/VBoxContainer/HubButton
 @onready var menu_button: Button = $Root/CenterContainer/Panel/VBoxContainer/MenuButton
+@onready var confirm_panel: PanelContainer = $Root/CenterContainer/ConfirmPanel
+@onready var confirm_button: Button = $Root/CenterContainer/ConfirmPanel/VBoxContainer/ConfirmButton
+@onready var cancel_button: Button = $Root/CenterContainer/ConfirmPanel/VBoxContainer/CancelButton
+
+const HUB_SCENE := "res://levels/hub/hub.tscn"
 
 func _ready() -> void:
 	resume_button.pressed.connect(_on_resume)
 	restart_button.pressed.connect(_on_restart)
 	menu_button.pressed.connect(_on_menu)
+	confirm_button.pressed.connect(_start_new_game)
+	cancel_button.pressed.connect(_show_confirm.bind(false))
+	# Đang ở làng rồi thì "Về Làng" vô nghĩa — ô đó thành "Chơi mới".
+	if _in_hub():
+		hub_button.text = "Chơi mới"
+		hub_button.theme_type_variation = &"DangerButton"
+		hub_button.pressed.connect(_on_new_game)
+	else:
+		hub_button.pressed.connect(_on_hub)
 	resume_button.grab_focus()
 	_play_intro()
 
@@ -35,6 +50,31 @@ func _on_resume() -> void:
 func _on_restart() -> void:
 	GameManager.start_new_run(GameManager.current_level_id)
 	SceneTransition.goto(LevelData.get_scene_path(GameManager.current_level_id))
+
+## Bỏ dở màn, về làng — xoá checkpoint để lần vào lại bắt đầu sạch (như nút ở end_screen).
+func _on_hub() -> void:
+	GameManager.has_checkpoint = false
+	SceneTransition.goto(HUB_SCENE)
+
+func _in_hub() -> bool:
+	return GameManager.current_level_id == "hub"
+
+## Như nút "Chơi mới" ở main menu: save trống thì làm luôn, có tiến trình thì hỏi trước.
+func _on_new_game() -> void:
+	if SaveManager.has_progress():
+		_show_confirm(true)
+	else:
+		_start_new_game()
+
+func _show_confirm(open: bool) -> void:
+	panel.visible = not open
+	confirm_panel.visible = open
+	(cancel_button if open else hub_button).grab_focus()
+
+func _start_new_game() -> void:
+	SaveManager.reset_progress()
+	GameManager.reset_run_state()
+	SceneTransition.goto("res://ui/character_select/character_select.tscn")
 
 func _on_menu() -> void:
 	GameManager.has_checkpoint = false

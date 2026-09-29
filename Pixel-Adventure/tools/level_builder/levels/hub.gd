@@ -26,7 +26,7 @@ func define() -> void:
 			"line_1": "Bọn Heo tràn qua trong một đêm. Nhà cửa, mùa màng... cháy sạch.",
 			"line_2": "Ngài đi rồi bọn tôi mới hiểu: không có Vua, tường thành cũng chỉ là đá."},
 		"D": {"type": "npc", "name": "Deserter", "speaker": "Cá Mập đào ngũ", "dynamic_line": 3, "behavior": 2,
-			"flee_radius": 72.0, "calm_time": 1.2, "walk_speed": 22.0,
+			"flee_radius": 72.0, "calm_time": 1.2, "walk_speed": 22.0, "leash_extra": 28.0,
 			"idle_frames": NPC + "fierce_tooth/fierce_tooth_frames.tres",
 			"line_1": "Suỵt! Đừng hét. Tôi bỏ đám lính đánh thuê của Vua Heo rồi, thề đấy.",
 			"line_2": "Lão ta phát bom cho cả lũ rồi bắt xông lên trước. Điên hết cả."},

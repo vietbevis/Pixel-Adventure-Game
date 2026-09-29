@@ -39,6 +39,10 @@ func _on_collectible_collected(id: String, kind: String) -> void:
 			got += 1
 	_show("Mảnh Vương Ấn  (%d/%d)" % [got, SEAL_SHARDS.size()])
 
+## Cho nơi khác (vd NPC ở ngoài màn hình) đẩy một câu ngắn vào hàng đợi.
+func say(message: String) -> void:
+	_show(message)
+
 func _show(message: String) -> void:
 	_queue.append(message)
 	if not _busy:

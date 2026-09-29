@@ -4,5 +4,8 @@ extends LevelBase
 
 func _enter_tree() -> void:
 	GameManager.has_checkpoint = false
+	# Giữ lại màn vừa chơi trước khi ghi đè — NPC dân làng hỏi thăm theo nó.
+	if GameManager.current_level_id != "hub":
+		GameManager.hub_came_from = GameManager.current_level_id
 	GameManager.current_level_id = "hub"
 	super()

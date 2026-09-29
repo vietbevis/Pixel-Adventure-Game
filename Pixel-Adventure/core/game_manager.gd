@@ -22,6 +22,11 @@ var progress_return_scene: String = "res://ui/main_menu/main_menu.tscn"
 ## màn Tiến trình rồi quay lại end_screen — không có cờ này thì `record_result` chạy
 ## hai lần và bắn lại `Events.level_completed` (Toast thành tựu hiện lại).
 var result_recorded: bool = false
+## Lòng tin của NPC nhát gan ở hub, theo tên node (xem objects/npc/npc.gd). Runtime vì NPC
+## sinh lại mỗi lần vào hub; "Chơi mới" xoá.
+var npc_trust: Dictionary = {}
+## Màn chơi ngay trước lần vào hub gần nhất (hub ghi đè `current_level_id` thành "hub").
+var hub_came_from: String = ""
 
 ## Gọi khi bắt đầu 1 lượt chơi mới (từ Level Select / Continue).
 func start_new_run(level_id: String = current_level_id) -> void:
@@ -46,6 +51,8 @@ func reset_run_state() -> void:
 	respawn_position = Vector2.ZERO
 	_elapsed = 0.0
 	result_recorded = false
+	npc_trust.clear()
+	hub_came_from = ""
 
 func _process(delta: float) -> void:
 	if not get_tree().paused:
