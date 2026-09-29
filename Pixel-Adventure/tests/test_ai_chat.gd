@@ -29,6 +29,14 @@ func fake(code: int, text: String, delay := 0.0) -> Callable:
 		return {"ok": true, "code": code, "body": ok_body(text)}
 
 
+## Chờ theo thời gian THỰC: cooldown của Dialogue/AiChat tính bằng Time.get_ticks_msec(), còn
+## create_timer() đếm theo delta — frame đầu headless có delta lớn nên timer về sớm.
+func wait_ms(ms: int) -> void:
+	var end := Time.get_ticks_msec() + ms
+	while Time.get_ticks_msec() < end:
+		await process_frame
+
+
 func _run() -> void:
 	var gemini: Node = root.get_node("Gemini")
 	var chat: Node = root.get_node("AiChat")
@@ -91,7 +99,7 @@ func _run() -> void:
 	check(closed[0], "closed emitted")
 	check(not paused, "close unpauses tree")
 	check(chat.is_open and dialogue.is_open, "cooldown right after close")
-	await create_timer(0.25).timeout
+	await wait_ms(250)
 	check(not chat.is_open and not dialogue.is_open, "cooldown over")
 
 	# Đóng khi request đang bay -> trả lời về muộn bị bỏ qua.

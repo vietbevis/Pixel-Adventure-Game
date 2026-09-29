@@ -1,6 +1,7 @@
 extends Area2D
 ## NPC ở hub: có hành vi riêng (FSM nhỏ) + thoại thay đổi theo tiến trình đã lưu.
-## Đứng gần + bấm `interact` (E) → mở hộp thoại (Dialogue autoload). Bong bóng "Hello"
+## Đứng gần + bấm `interact` (E) → mở hộp thoại (Dialogue autoload), hoặc khung chat AI
+## (AiChat) nếu NPC có `ai_persona` và Gemini đang bật. Bong bóng "Hello"
 ## của Kings and Pigs nổi trên đầu lúc đang nói; bong bóng "?" / "!" (Crusty Crew) khi NPC
 ## để ý thấy player / hoảng sợ.
 ##
@@ -41,6 +42,9 @@ enum DynamicLine {
 ## Nếu bật: append 1 dòng về các ability người chơi đã mở khoá (dựng từ SaveManager).
 @export var report_abilities: bool = false
 @export var dynamic_line: DynamicLine = DynamicLine.NONE
+## Tính cách + vai trò của NPC, gửi cho Gemini trong system prompt. Để trống = chỉ có thoại
+## tĩnh. Có persona VÀ `Gemini.enabled` → bấm E mở `AiChat` thay cho `Dialogue`.
+@export_multiline var ai_persona: String = ""
 
 @export_group("Hành vi")
 @export var behavior: Behavior = Behavior.STATIONARY
@@ -205,6 +209,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	Dialogue.finished.connect(_on_dialogue_finished)
+	AiChat.closed.connect(_on_dialogue_finished)
 	for node: Node in get_parent().get_children():
 		if node != self and node.has_signal("alarmed"):
 			node.connect("alarmed", _on_neighbour_alarmed)
@@ -713,7 +718,7 @@ func _update_prompt() -> void:
 func _start_dialogue() -> void:
 	# Hai NPC đứng sát nhau cùng bắt một cú nhấn: chỉ NPC mở được hộp thoại mới được
 	# coi là đang nói, NPC kia không được bật bong bóng / đứng đơ chờ `finished`.
-	if not Dialogue.open(_build_lines(), speaker):
+	if not _open_conversation():
 		return
 	_talking = true
 	_emote_timer = 0.0
@@ -724,6 +729,30 @@ func _start_dialogue() -> void:
 		_apply_mood()  # tâm trạng có thể đã đổi kể từ lần nói chuyện trước
 	_bubble.visible = true
 	_bubble.play("in")
+
+## AiChat nếu NPC có persona và AI đang bật, không thì hộp thoại tĩnh như cũ. False nếu
+## không mở được gì (đang có hộp thoại khác) — cùng hợp đồng với `Dialogue.open`.
+func _open_conversation() -> bool:
+	var lines := _build_lines()
+	if lines.is_empty():
+		return false
+	if ai_persona != "" and Gemini.enabled:
+		return AiChat.open(speaker, lines[0], _ai_system_prompt(lines))
+	return Dialogue.open(lines, speaker)
+
+## System prompt cho Gemini: vai + những gì NPC "biết" (chính các dòng thoại tĩnh, đã gồm
+## mục tiêu kế tiếp / tâm trạng / mẹo world) + luật chung của AiChat.
+func _ai_system_prompt(lines: PackedStringArray) -> String:
+	return "\n".join(PackedStringArray([
+		"Ngươi là %s, một NPC ở ngôi làng trung tâm (hub) trong game platformer 2D Pixel Adventure." % speaker,
+		"Tính cách và vai trò: %s" % ai_persona,
+		"Người chơi là vị vua đang giành lại vương quốc khỏi bọn Heo; ngươi gọi họ là 'ngài'.",
+		"Mục tiêu hiện tại của người chơi: %s" % String(Progression.next_objective()["text"]),
+		_ability_line(),
+		"Những điều ngươi đã nói và biết: %s" % " ".join(lines),
+		"Ngươi vừa chào người chơi bằng câu: \"%s\"" % lines[0],
+		AiChat.RULES,
+	]))
 
 func _build_lines() -> PackedStringArray:
 	var lines: PackedStringArray = []
