@@ -38,3 +38,6 @@ Pixel-Adventure/_dev_*
 game/addons
 scratchpad
 __pycache__/
+
+# Gemini API key cục bộ (đóng gói vào APK khi demo) — KHÔNG commit
+gemini.local.cfg

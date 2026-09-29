@@ -11,6 +11,20 @@ Platformer 2D làm bằng [Godot Engine 4.7](https://godotengine.org/). Người
 1. Mở Godot, chọn **Import**, trỏ tới file `game/project.godot`.
 2. Nhấn **F5** (hoặc nút Play) để chạy từ `ui/main_menu/main_menu.tscn`.
 
+## Tính năng AI (Gemini)
+
+NPC ở làng có thể trò chuyện bằng Gemini. Không có key thì NPC dùng thoại tĩnh như cũ.
+
+1. Lấy API key tại https://aistudio.google.com/apikey (nên tạo key riêng cho demo và đặt giới hạn quota).
+2. Chọn một trong các cách:
+   - Máy tính: `export GEMINI_API_KEY=...` rồi chạy Godot từ terminal đó.
+   - Điện thoại (demo): copy `Pixel-Adventure/gemini.example.cfg` thành `Pixel-Adventure/gemini.local.cfg`, điền `api_key`.
+     Khi tạo export preset Android: bật quyền **Internet** và thêm `gemini.local.cfg` vào *Filters to export non-resource files*.
+     **Ai có APK đều trích xuất được key** — chỉ dùng cho demo cá nhân.
+3. Bật/tắt trong **Cài đặt → Tính năng AI (Gemini)**.
+
+Test (không cần mạng), chạy trong `Pixel-Adventure/`: `tests/run_tests.sh` — chạy mọi `tests/test_*.gd`, báo `ALL TEST FILES PASS`.
+
 ## Cấu trúc thư mục
 
 Toàn bộ dự án Godot nằm trong `game/`. Bên trong đó, code/scene/asset được tổ chức **theo tính năng (feature-based)**: mỗi tính năng là một thư mục chứa gần như mọi thứ nó cần (`.tscn`, `.gd`, sprite riêng) thay vì tách riêng `assets/`, `scenes/`, `scripts/` như trước. Mục tiêu: mở một thư mục là thấy đủ để hiểu/sửa tính năng đó, không phải nhảy qua lại giữa nhiều cây thư mục song song.
