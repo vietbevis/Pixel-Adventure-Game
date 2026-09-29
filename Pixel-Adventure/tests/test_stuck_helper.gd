@@ -85,6 +85,7 @@ func _run() -> void:
 	await wait_ms(100)
 	check(calls == 1 and last_timeout >= 15.0 and helper._hint == "Hãy nhảy ngay khi sóng lửa vừa tắt.", "2nd death prefetches AI hint")
 	check(helper.build_prompt("level_4", 2).contains(notes.tip("level_4")), "prompt includes level note")
+	check(helper.SYSTEM.contains("không bịa"), "hint system prompt forbids inventing mechanics")
 	gm.has_checkpoint = false
 	events.player_died.emit()
 	await wait_ms(1000)

@@ -6,7 +6,7 @@ extends Node
 
 const HINT_EVERY := 3
 const SPEAKER := "Cố vấn"
-const SYSTEM := "Ngươi là Cố vấn già của nhà vua trong game platformer 2D Pixel Adventure. Đưa MỘT mẹo cụ thể để vượt màn, tối đa 2 câu ngắn, tiếng Việt, xưng ta gọi ngài. Không markdown, không emoji."
+const SYSTEM := "Ngươi là Cố vấn già của nhà vua trong game platformer 2D Pixel Adventure. Đưa MỘT mẹo cụ thể để vượt màn, tối đa 2 câu ngắn, tiếng Việt, xưng ta gọi ngài. Chỉ dựa vào đặc điểm màn và sức mạnh được cho; không bịa ra cơ chế, vật phẩm hay đòn đánh không có (người chơi chỉ chạy, nhảy, bám tường, đánh thường, đạp đầu quái và lướt nếu đã có). Không markdown, không emoji."
 
 var _level := ""
 var _deaths := 0

@@ -8,7 +8,7 @@ const NOTES := {
 	"level_2": "Leo dọc: bám tường rồi nhảy tường, dùng quạt gió đẩy lên, ván gỗ sẽ rơi nếu đứng lâu. Cuối màn nhặt di vật Lướt rồi lướt qua tường vỡ.",
 	"level_3": "Tường thành: qua hào bằng bè, lướt để phá cổng, khối đá nghiền rơi khi đứng ngay dưới — chờ nó nâng lên rồi chạy qua.",
 	"level_4": "Hành lang ngai: sóng lửa đuổi theo, bệ di chuyển trên hố gai, phòng đại bác, quả cầu gai lắc — canh nhịp rồi mới nhảy.",
-	"boss_forest": "Vua Heo: chỉ vụ nổ của bom gây sát thương; từ giai đoạn 2 hắn lao húc (nhảy lên né, hắn choáng khi đâm tường — lúc đó đánh); giai đoạn 3 nhảy dập tạo sóng xung kích sát đất.",
+	"boss_forest": "Vua Heo ném bom về phía ngài — quả bom chỉ làm NGÀI mất máu khi phát nổ, tránh xa chỗ bom rơi. Từ giai đoạn 2 hắn lao húc: nhảy lên né, hắn đâm tường thì choáng — lúc đó áp sát đánh. Giai đoạn 3 hắn nhảy dập tạo sóng xung kích sát đất: nhảy lên khi hắn tiếp đất.",
 	"level_5": "Lối xuống hầm: gai rơi từ trần, bộ xương trỗi dậy khi lại gần, hồn ma bay xuyên tường — lúc hồn ma mờ đi thì không đánh được.",
 	"level_6": "Hầm vàng: chó săn lao tới khi đứng ngang hàng, cưa chạy trên ray, kim tự tháp lửa, bệ sụp trên vực — đừng đứng lâu trên bệ nứt.",
 	"boss_dungeon": "Cai Ngục (bay): lao chéo xuống rồi lơ lửng thấp — đó là lúc đánh; gọi 2 bộ xương; giai đoạn 2 mưa cầu linh hồn có cảnh báo trên sàn; giai đoạn 3 biến mất rồi hiện sau lưng chém.",
