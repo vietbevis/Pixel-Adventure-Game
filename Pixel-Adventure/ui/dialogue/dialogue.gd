@@ -13,10 +13,11 @@ signal finished
 const REOPEN_COOLDOWN_MS := 200
 
 ## true khi đang mở VÀ trong lúc hồi sau khi đóng — mọi chỗ polling `interact` (portal,
-## hub_sign, story_sign, npc) kiểm tra cờ này để không kích hoạt trùng.
+## hub_sign, story_sign, npc) kiểm tra cờ này để không kích hoạt trùng. Tính cả `AiChat`
+## (khung chat AI với NPC) để các chỗ đó không phải kiểm tra hai autoload.
 var is_open: bool:
 	get:
-		return _open or Time.get_ticks_msec() - _closed_at_ms < REOPEN_COOLDOWN_MS
+		return _open or Time.get_ticks_msec() - _closed_at_ms < REOPEN_COOLDOWN_MS or AiChat.is_open
 
 var _open: bool = false
 var _closed_at_ms: int = -REOPEN_COOLDOWN_MS
