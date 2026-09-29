@@ -25,6 +25,8 @@ var max_hp_bonus: int = 0
 var achievements: Array = []
 ## Màn chơi gần nhất (cho nút Continue ở main menu). "" = chưa chơi lần nào.
 var last_level: String = ""
+## boss_id -> số lần đã vào đánh. BossVoice nhắc lại trong lời khiêu khích.
+var boss_attempts: Dictionary = {}
 
 func _ready() -> void:
 	load_data()
@@ -72,6 +74,14 @@ func mark_boss_defeated(id: String) -> void:
 		return
 	defeated_bosses.append(id)
 	save_data()
+
+func get_boss_attempts(id: String) -> int:
+	return int(boss_attempts.get(id, 0))
+
+func add_boss_attempt(id: String) -> int:
+	boss_attempts[id] = get_boss_attempts(id) + 1
+	save_data()
+	return boss_attempts[id]
 
 func set_last_level(level_id: String) -> void:
 	if level_id == last_level:
@@ -146,6 +156,7 @@ func reset_progress() -> void:
 	max_hp_bonus = 0
 	achievements = []
 	last_level = ""
+	boss_attempts = {}
 	save_data()
 	Events.progress_reset.emit()
 
@@ -161,6 +172,7 @@ func save_data() -> void:
 		"max_hp_bonus": max_hp_bonus,
 		"achievements": achievements,
 		"last_level": last_level,
+		"boss_attempts": boss_attempts,
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -184,3 +196,4 @@ func load_data() -> void:
 		max_hp_bonus = int(parsed.get("max_hp_bonus", 0))
 		achievements = parsed.get("achievements", [])
 		last_level = parsed.get("last_level", "")
+		boss_attempts = parsed.get("boss_attempts", {})
