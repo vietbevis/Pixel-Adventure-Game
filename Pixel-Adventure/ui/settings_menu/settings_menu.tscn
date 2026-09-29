@@ -64,6 +64,20 @@ custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 text = "Tự động"
 
+[node name="AiRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AiLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/AiRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tính năng AI (Gemini)"
+
+[node name="AiButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/AiRow"]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+text = "Bật"
+
 [node name="MusicVolume" parent="CenterContainer/DialogPanel/VBoxContainer" instance=ExtResource("5")]
 layout_mode = 2
 title = "Nhạc nền"
