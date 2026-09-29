@@ -1,7 +1,7 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cl7lylu1pfk6e"]
 
-[ext_resource type="Texture2D" path="res://objects/npc/sprites/pink_star/idle.png" id="1"]
-[ext_resource type="Texture2D" path="res://objects/npc/sprites/pink_star/run.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cclisyl7rbieq" path="res://objects/npc/sprites/pink_star/idle.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://c8vvm28t5e2qe" path="res://objects/npc/sprites/pink_star/run.png" id="2"]
 
 [sub_resource type="AtlasTexture" id="idle_0"]
 atlas = ExtResource("1")
@@ -64,64 +64,52 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("idle_0")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_1")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_2")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_3")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_4")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_5")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_6")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("idle_7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("run_0")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("run_1")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("run_2")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("run_3")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("run_4")
-},
-{
+}, {
 "duration": 1.0,
 "texture": SubResource("run_5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"run",
 "speed": 12.0
 }]
