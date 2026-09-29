@@ -123,7 +123,7 @@ func _on_intro(boss_id: String, display_name: String) -> void:
 
 func _fetch(fight: int, boss_id: String, display_name: String, attempts: int) -> void:
 	var data: Variant = await Gemini.generate_json(build_prompt(boss_id, display_name, attempts), SCHEMA,
-		{"system": SYSTEM, "max_tokens": 300})
+		{"system": SYSTEM, "max_tokens": 300, "timeout": 15.0})
 	if fight != _fight:
 		return
 	_lines = merge(fallback_lines(boss_id), data)

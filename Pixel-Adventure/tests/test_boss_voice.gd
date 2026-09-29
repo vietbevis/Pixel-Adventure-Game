@@ -4,6 +4,7 @@ extends SceneTree
 
 var _fails := 0
 var calls := 0
+var last_timeout := 0.0
 var _save_backup := ""
 var _had_save := false
 
@@ -25,8 +26,9 @@ static func ok_body(text: String) -> String:
 
 
 func fake(text: String, delay_ms := 0) -> Callable:
-	return func(_u: String, _h: PackedStringArray, _b: String, _t: float) -> Dictionary:
+	return func(_u: String, _h: PackedStringArray, _b: String, t: float) -> Dictionary:
 		calls += 1
+		last_timeout = t
 		if delay_ms > 0:
 			await wait_ms(delay_ms)
 		return {"ok": true, "code": 200, "body": ok_body(text)}
@@ -80,6 +82,7 @@ func _run() -> void:
 	events.boss_intro.emit("forest_boss", "VUA HEO")
 	await wait_ms(200)
 	check(label.text == "AI intro", "AI on -> AI intro")
+	check(last_timeout >= 15.0, "boss request runs in background with 15s timeout")
 	events.boss_phase_changed.emit(2)
 	check(label.text == "AI giận", "phase 2 line")
 	label.text = ""
