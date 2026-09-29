@@ -23,6 +23,7 @@
 [node name="BossDungeon" type="Node2D" unique_id=1626643333]
 script = ExtResource("1_yd2qq")
 fall_death_y = 528.0
+max_lives = 1
 world_title = "HẦM NGỤC CỔ"
 level_subtitle = "Cai Ngục"
 camera_limit_left = 0

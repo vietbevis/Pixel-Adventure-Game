@@ -1,42 +1,31 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://bv6l6ig0pj4wd"]
 
-[ext_resource type="Script" path="res://levels/level_base.gd" id="1_ya87f"]
+[ext_resource type="Script" uid="uid://bx2mpgsy8w0fp" path="res://levels/level_base.gd" id="1_ya87f"]
 [ext_resource type="PackedScene" path="res://shared/backgrounds/meadow_parallax.tscn" id="2_lu7vs"]
-[ext_resource type="Texture2D" path="res://shared/props/forest/shrooms.png" id="3_wl75l"]
+[ext_resource type="Texture2D" uid="uid://bt3lb20yf873d" path="res://shared/props/forest/shrooms.png" id="3_wl75l"]
 [ext_resource type="PackedScene" path="res://objects/story_sign/story_sign.tscn" id="4_xf1kb"]
-[ext_resource type="Script" path="res://objects/story_sign/story_sign.gd" id="5_q3akp"]
-[ext_resource type="Texture2D" path="res://shared/props/forest/bush.png" id="6_60i3m"]
-[ext_resource type="Texture2D" path="res://shared/props/forest/tree.png" id="7_2jmd8"]
-[ext_resource type="Texture2D" path="res://shared/props/forest/pine.png" id="8_wx43u"]
-[ext_resource type="TileSet" path="res://levels/shared/tilesets/forest_auto.tres" id="9_tr4hg"]
+[ext_resource type="Texture2D" uid="uid://bghf6ka4h7kja" path="res://shared/props/forest/bush.png" id="6_60i3m"]
+[ext_resource type="Texture2D" uid="uid://dkcf2uyspnji1" path="res://shared/props/forest/tree.png" id="7_2jmd8"]
+[ext_resource type="Texture2D" uid="uid://ccxyu4hh1qn5w" path="res://shared/props/forest/pine.png" id="8_wx43u"]
+[ext_resource type="TileSet" uid="uid://cdgvsdxkalffp" path="res://levels/shared/tilesets/forest_auto.tres" id="9_tr4hg"]
 [ext_resource type="PackedScene" path="res://objects/collectible_diamond/collectible_diamond.tscn" id="10_s81jn"]
-[ext_resource type="Script" path="res://objects/collectible_diamond/collectible_diamond.gd" id="11_n5t7a"]
 [ext_resource type="PackedScene" path="res://objects/ability_gate/ability_gate.tscn" id="12_rflqb"]
-[ext_resource type="Script" path="res://objects/ability_gate/ability_gate.gd" id="13_jq5vq"]
-[ext_resource type="PackedScene" path="res://objects/enemies/saw/saw.tscn" id="14_daoe1"]
-[ext_resource type="Script" path="res://objects/enemies/saw/saw.gd" id="15_4idv8"]
+[ext_resource type="PackedScene" uid="uid://cblmi7knwsi3a" path="res://objects/enemies/saw/saw.tscn" id="14_daoe1"]
 [ext_resource type="PackedScene" path="res://objects/traps/trampoline/trampoline.tscn" id="16_fdo7j"]
-[ext_resource type="Script" path="res://objects/traps/trampoline/trampoline.gd" id="17_5oe72"]
 [ext_resource type="PackedScene" path="res://objects/enemies/spikes/spikes.tscn" id="18_nx43y"]
-[ext_resource type="PackedScene" path="res://objects/checkpoint/checkpoint.tscn" id="19_h8kgu"]
-[ext_resource type="Script" path="res://objects/checkpoint/checkpoint.gd" id="20_3cjb2"]
-[ext_resource type="PackedScene" path="res://objects/goal_flag/goal_flag.tscn" id="21_0j1hw"]
-[ext_resource type="Script" path="res://objects/goal_flag/goal_flag.gd" id="22_xsvho"]
+[ext_resource type="PackedScene" uid="uid://db3204psc4vcl" path="res://objects/checkpoint/checkpoint.tscn" id="19_h8kgu"]
+[ext_resource type="PackedScene" uid="uid://bhykirliujg86" path="res://objects/goal_flag/goal_flag.tscn" id="21_0j1hw"]
 [ext_resource type="PackedScene" path="res://objects/start_marker/start_marker.tscn" id="23_u7q62"]
 [ext_resource type="PackedScene" path="res://objects/fruit/fruit.tscn" id="24_033ub"]
-[ext_resource type="Script" path="res://objects/fruit/fruit.gd" id="25_uptk2"]
-[ext_resource type="SpriteFrames" path="res://objects/fruit/sprites/apple_frames.tres" id="26_onjut"]
-[ext_resource type="SpriteFrames" path="res://objects/fruit/sprites/bananas_frames.tres" id="27_2t2ib"]
-[ext_resource type="SpriteFrames" path="res://objects/fruit/sprites/cherries_frames.tres" id="28_plcgd"]
-[ext_resource type="SpriteFrames" path="res://objects/fruit/sprites/kiwi_frames.tres" id="29_v3xwt"]
-[ext_resource type="SpriteFrames" path="res://objects/fruit/sprites/orange_frames.tres" id="30_gukcl"]
+[ext_resource type="SpriteFrames" uid="uid://b5m5uip5tcheh" path="res://objects/fruit/sprites/apple_frames.tres" id="26_onjut"]
+[ext_resource type="SpriteFrames" uid="uid://caayogg3m32em" path="res://objects/fruit/sprites/bananas_frames.tres" id="27_2t2ib"]
+[ext_resource type="SpriteFrames" uid="uid://bpdou2hedlhkl" path="res://objects/fruit/sprites/cherries_frames.tres" id="28_plcgd"]
+[ext_resource type="SpriteFrames" uid="uid://casbfgcbtce46" path="res://objects/fruit/sprites/kiwi_frames.tres" id="29_v3xwt"]
+[ext_resource type="SpriteFrames" uid="uid://ctpo2tfaxxe6l" path="res://objects/fruit/sprites/orange_frames.tres" id="30_gukcl"]
 [ext_resource type="PackedScene" path="res://objects/enemies/frog/frog.tscn" id="31_13ste"]
-[ext_resource type="Script" path="res://objects/enemies/critter/critter.gd" id="32_db00x"]
 [ext_resource type="PackedScene" path="res://objects/enemies/opossum/opossum.tscn" id="33_wn8pp"]
-[ext_resource type="PackedScene" path="res://player/player.tscn" id="34_82sup"]
-[ext_resource type="Script" path="res://player/player.gd" id="35_4acx1"]
-[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="36_sqt4m"]
-[ext_resource type="Script" path="res://ui/hud/hud.gd" id="37_530me"]
+[ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="34_82sup"]
+[ext_resource type="PackedScene" uid="uid://dskiaf5lay5qv" path="res://ui/hud/hud.tscn" id="36_sqt4m"]
 
 [node name="Level1" type="Node2D" unique_id=1238389]
 script = ExtResource("1_ya87f")
@@ -48,7 +37,7 @@ camera_limit_right = 2912
 camera_limit_top = 0
 camera_limit_bottom = 496
 
-[node name="Parallax" type="Node2D" parent="." unique_id=1147181487 instance=ExtResource("2_lu7vs")]
+[node name="Parallax" parent="." unique_id=1147181487 instance=ExtResource("2_lu7vs")]
 
 [node name="Decor" type="Node2D" parent="." unique_id=1995289701]
 
@@ -57,11 +46,9 @@ position = Vector2(1888, 67)
 texture = ExtResource("3_wl75l")
 centered = false
 
-[node name="Sign1" type="Area2D" parent="Decor" unique_id=1282332391 instance=ExtResource("4_xf1kb")]
+[node name="Sign1" parent="Decor" unique_id=1282332391 instance=ExtResource("4_xf1kb")]
+z_index = 1
 position = Vector2(2712, 60)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("5_q3akp")
 line_1 = "Cổng phong ấn. Chỉ kẻ biết LƯỚT mới mở được."
 line_2 = "Di vật Lướt nằm ở cuối Rừng. Hãy quay lại sau."
 speaker = "Biển gỗ"
@@ -76,11 +63,8 @@ position = Vector2(2332.5, 83)
 texture = ExtResource("7_2jmd8")
 centered = false
 
-[node name="Sign2" type="Area2D" parent="Decor" unique_id=410655120 instance=ExtResource("4_xf1kb")]
+[node name="Sign2" parent="Decor" unique_id=410655120 instance=ExtResource("4_xf1kb")]
 position = Vector2(568, 252)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("5_q3akp")
 line_1 = "Opossum cắn đau đấy!"
 line_2 = "Nhấn J để chém — hoặc nhảy lên và ĐẠP lên đầu nó."
 speaker = "Biển gỗ"
@@ -90,20 +74,15 @@ position = Vector2(655, 144)
 texture = ExtResource("8_wx43u")
 centered = false
 
-[node name="Sign3" type="Area2D" parent="Decor" unique_id=136402794 instance=ExtResource("4_xf1kb")]
+[node name="Sign3" parent="Decor" unique_id=136402794 instance=ExtResource("4_xf1kb")]
+z_index = 1
 position = Vector2(968, 252)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("5_q3akp")
 line_1 = "Vách quá cao?"
 line_2 = "Nhấn Space thêm lần nữa khi đang ở trên không để NHẢY ĐÔI."
 speaker = "Biển gỗ"
 
-[node name="Sign4" type="Area2D" parent="Decor" unique_id=500311857 instance=ExtResource("4_xf1kb")]
+[node name="Sign4" parent="Decor" unique_id=500311857 instance=ExtResource("4_xf1kb")]
 position = Vector2(120, 268)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("5_q3akp")
 line_1 = "Dùng ← → (hoặc A / D) để chạy, Space để nhảy."
 line_2 = "Nhặt trái cây để ghi điểm."
 speaker = "Biển gỗ"
@@ -124,248 +103,144 @@ tile_set = ExtResource("9_tr4hg")
 
 [node name="Secrets" type="Node2D" parent="." unique_id=911166121]
 
-[node name="Diamond1" type="Area2D" parent="Secrets" unique_id=660972168 instance=ExtResource("10_s81jn")]
+[node name="Diamond1" parent="Secrets" unique_id=660972168 instance=ExtResource("10_s81jn")]
 position = Vector2(2806, 56)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("11_n5t7a")
 secret_id = "diamond_forest_1"
 
-[node name="AbilityGate1" type="StaticBody2D" parent="Secrets" unique_id=184606399 instance=ExtResource("12_rflqb")]
+[node name="AbilityGate1" parent="Secrets" unique_id=184606399 instance=ExtResource("12_rflqb")]
 position = Vector2(2744, 48)
-collision_mask = 0
-script = ExtResource("13_jq5vq")
 
 [node name="Traps" type="Node2D" parent="." unique_id=1090863838]
 
-[node name="Saw1" type="Area2D" parent="Traps" unique_id=927994254 instance=ExtResource("14_daoe1")]
+[node name="Saw1" parent="Traps" unique_id=927994254 instance=ExtResource("14_daoe1")]
 position = Vector2(2216, 152)
-collision_layer = 64
-collision_mask = 0
-script = ExtResource("15_4idv8")
 move_distance = Vector2(26, 0)
 move_speed = 1.4
 
-[node name="Trampoline1" type="Area2D" parent="Traps" unique_id=1009484254 instance=ExtResource("16_fdo7j")]
+[node name="Trampoline1" parent="Traps" unique_id=1009484254 instance=ExtResource("16_fdo7j")]
 position = Vector2(1656.5, 192)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("17_5oe72")
 
-[node name="Spikes1" type="Area2D" parent="Traps" unique_id=910313253 instance=ExtResource("18_nx43y")]
+[node name="Spikes1" parent="Traps" unique_id=910313253 instance=ExtResource("18_nx43y")]
 position = Vector2(2688.5, 176)
-collision_layer = 64
-collision_mask = 0
 
-[node name="Spikes2" type="Area2D" parent="Traps" unique_id=371879722 instance=ExtResource("18_nx43y")]
+[node name="Spikes2" parent="Traps" unique_id=371879722 instance=ExtResource("18_nx43y")]
 position = Vector2(2704.5, 176)
-collision_layer = 64
-collision_mask = 0
 
-[node name="Spikes3" type="Area2D" parent="Traps" unique_id=581788776 instance=ExtResource("18_nx43y")]
+[node name="Spikes3" parent="Traps" unique_id=581788776 instance=ExtResource("18_nx43y")]
 position = Vector2(2720.5, 176)
-collision_layer = 64
-collision_mask = 0
 
-[node name="Spikes4" type="Area2D" parent="Traps" unique_id=2093825488 instance=ExtResource("18_nx43y")]
+[node name="Spikes4" parent="Traps" unique_id=2093825488 instance=ExtResource("18_nx43y")]
 position = Vector2(880.5, 272)
-collision_layer = 64
-collision_mask = 0
 
-[node name="Spikes5" type="Area2D" parent="Traps" unique_id=952046317 instance=ExtResource("18_nx43y")]
+[node name="Spikes5" parent="Traps" unique_id=952046317 instance=ExtResource("18_nx43y")]
 position = Vector2(896.5, 272)
-collision_layer = 64
-collision_mask = 0
 
-[node name="Spikes6" type="Area2D" parent="Traps" unique_id=1255004576 instance=ExtResource("18_nx43y")]
+[node name="Spikes6" parent="Traps" unique_id=1255004576 instance=ExtResource("18_nx43y")]
 position = Vector2(912.5, 272)
-collision_layer = 64
-collision_mask = 0
 
 [node name="Interactables" type="Node2D" parent="." unique_id=1304986740]
 
-[node name="Checkpoint1" type="Area2D" parent="Interactables" unique_id=400953003 instance=ExtResource("19_h8kgu")]
+[node name="Checkpoint1" parent="Interactables" unique_id=400953003 instance=ExtResource("19_h8kgu")]
 position = Vector2(1232.5, 164)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("20_3cjb2")
 
-[node name="Checkpoint2" type="Area2D" parent="Interactables" unique_id=1650186583 instance=ExtResource("19_h8kgu")]
+[node name="Checkpoint2" parent="Interactables" unique_id=1650186583 instance=ExtResource("19_h8kgu")]
 position = Vector2(2368.5, 164)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("20_3cjb2")
 
-[node name="GoalFlag" type="Area2D" parent="Interactables" unique_id=1389448575 instance=ExtResource("21_0j1hw")]
+[node name="GoalFlag" parent="Interactables" unique_id=1389448575 instance=ExtResource("21_0j1hw")]
 position = Vector2(2872, 160)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("22_xsvho")
 
-[node name="StartMarker" type="Marker2D" parent="Interactables" unique_id=2082453573 instance=ExtResource("23_u7q62")]
+[node name="StartMarker" parent="Interactables" unique_id=2082453573 instance=ExtResource("23_u7q62")]
 position = Vector2(71, 272)
 
 [node name="Fruits" type="Node2D" parent="." unique_id=271016248]
 
-[node name="Fruit1" type="Area2D" parent="Fruits" unique_id=265146910 instance=ExtResource("24_033ub")]
+[node name="Fruit1" parent="Fruits" unique_id=265146910 instance=ExtResource("24_033ub")]
 position = Vector2(1768, 66)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("26_onjut")
 
-[node name="Fruit2" type="Area2D" parent="Fruits" unique_id=808193469 instance=ExtResource("24_033ub")]
+[node name="Fruit2" parent="Fruits" unique_id=808193469 instance=ExtResource("24_033ub")]
 position = Vector2(1800, 66)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("27_2t2ib")
 
-[node name="Fruit3" type="Area2D" parent="Fruits" unique_id=1044572584 instance=ExtResource("24_033ub")]
+[node name="Fruit3" parent="Fruits" unique_id=1044572584 instance=ExtResource("24_033ub")]
 position = Vector2(1832, 66)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("28_plcgd")
 
-[node name="Fruit4" type="Area2D" parent="Fruits" unique_id=1762765325 instance=ExtResource("24_033ub")]
+[node name="Fruit4" parent="Fruits" unique_id=1762765325 instance=ExtResource("24_033ub")]
 position = Vector2(1656, 130)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("29_v3xwt")
 
-[node name="Fruit5" type="Area2D" parent="Fruits" unique_id=662671483 instance=ExtResource("24_033ub")]
+[node name="Fruit5" parent="Fruits" unique_id=662671483 instance=ExtResource("24_033ub")]
 position = Vector2(2120, 130)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("30_gukcl")
 
-[node name="Fruit6" type="Area2D" parent="Fruits" unique_id=850737427 instance=ExtResource("24_033ub")]
+[node name="Fruit6" parent="Fruits" unique_id=850737427 instance=ExtResource("24_033ub")]
 position = Vector2(2584, 130)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("26_onjut")
 
-[node name="Fruit7" type="Area2D" parent="Fruits" unique_id=1773827792 instance=ExtResource("24_033ub")]
+[node name="Fruit7" parent="Fruits" unique_id=1773827792 instance=ExtResource("24_033ub")]
 position = Vector2(2616, 130)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("27_2t2ib")
 
-[node name="Fruit8" type="Area2D" parent="Fruits" unique_id=442834976 instance=ExtResource("24_033ub")]
+[node name="Fruit8" parent="Fruits" unique_id=442834976 instance=ExtResource("24_033ub")]
 position = Vector2(1048, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("28_plcgd")
 
-[node name="Fruit9" type="Area2D" parent="Fruits" unique_id=296565691 instance=ExtResource("24_033ub")]
+[node name="Fruit9" parent="Fruits" unique_id=296565691 instance=ExtResource("24_033ub")]
 position = Vector2(1080, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("29_v3xwt")
 
-[node name="Fruit10" type="Area2D" parent="Fruits" unique_id=1938411937 instance=ExtResource("24_033ub")]
+[node name="Fruit10" parent="Fruits" unique_id=1938411937 instance=ExtResource("24_033ub")]
 position = Vector2(1112, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("30_gukcl")
 
-[node name="Fruit11" type="Area2D" parent="Fruits" unique_id=73271073 instance=ExtResource("24_033ub")]
+[node name="Fruit11" parent="Fruits" unique_id=73271073 instance=ExtResource("24_033ub")]
 position = Vector2(1352, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("26_onjut")
 
-[node name="Fruit12" type="Area2D" parent="Fruits" unique_id=1290815994 instance=ExtResource("24_033ub")]
+[node name="Fruit12" parent="Fruits" unique_id=1290815994 instance=ExtResource("24_033ub")]
 position = Vector2(1384, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("27_2t2ib")
 
-[node name="Fruit13" type="Area2D" parent="Fruits" unique_id=1950916637 instance=ExtResource("24_033ub")]
+[node name="Fruit13" parent="Fruits" unique_id=1950916637 instance=ExtResource("24_033ub")]
 position = Vector2(1656, 162)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("28_plcgd")
 
-[node name="Fruit14" type="Area2D" parent="Fruits" unique_id=300821280 instance=ExtResource("24_033ub")]
+[node name="Fruit14" parent="Fruits" unique_id=300821280 instance=ExtResource("24_033ub")]
 position = Vector2(440, 242)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("29_v3xwt")
 
-[node name="Fruit15" type="Area2D" parent="Fruits" unique_id=845871631 instance=ExtResource("24_033ub")]
+[node name="Fruit15" parent="Fruits" unique_id=845871631 instance=ExtResource("24_033ub")]
 position = Vector2(472, 242)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("30_gukcl")
 
-[node name="Fruit16" type="Area2D" parent="Fruits" unique_id=1582861079 instance=ExtResource("24_033ub")]
+[node name="Fruit16" parent="Fruits" unique_id=1582861079 instance=ExtResource("24_033ub")]
 position = Vector2(168, 274)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("26_onjut")
 
-[node name="Fruit17" type="Area2D" parent="Fruits" unique_id=101042872 instance=ExtResource("24_033ub")]
+[node name="Fruit17" parent="Fruits" unique_id=101042872 instance=ExtResource("24_033ub")]
 position = Vector2(200, 274)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("27_2t2ib")
 
-[node name="Fruit18" type="Area2D" parent="Fruits" unique_id=1036112611 instance=ExtResource("24_033ub")]
+[node name="Fruit18" parent="Fruits" unique_id=1036112611 instance=ExtResource("24_033ub")]
 position = Vector2(232, 274)
-collision_layer = 8
-collision_mask = 2
-script = ExtResource("25_uptk2")
 variant_frames = ExtResource("28_plcgd")
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1287822074]
 
-[node name="Frog1" type="CharacterBody2D" parent="Enemies" unique_id=1807718043 groups=["enemy"] instance=ExtResource("31_13ste")]
+[node name="Frog1" parent="Enemies" unique_id=1807718043 instance=ExtResource("31_13ste")]
 position = Vector2(1848, 80)
-collision_layer = 4
-script = ExtResource("32_db00x")
-mode = 1
-detect_range = 120.0
-hop_velocity = Vector2(75, -260)
-hop_interval = 1.4
 
-[node name="Opossum1" type="CharacterBody2D" parent="Enemies" unique_id=825241908 groups=["enemy"] instance=ExtResource("33_wn8pp")]
+[node name="Opossum1" parent="Enemies" unique_id=825241908 instance=ExtResource("33_wn8pp")]
 position = Vector2(2504, 192)
-collision_layer = 4
-script = ExtResource("32_db00x")
-speed = 42.0
 
-[node name="Opossum2" type="CharacterBody2D" parent="Enemies" unique_id=1937147982 groups=["enemy"] instance=ExtResource("33_wn8pp")]
+[node name="Opossum2" parent="Enemies" unique_id=1937147982 instance=ExtResource("33_wn8pp")]
 position = Vector2(2824, 192)
-collision_layer = 4
-script = ExtResource("32_db00x")
-speed = 42.0
 
-[node name="Opossum3" type="CharacterBody2D" parent="Enemies" unique_id=420863083 groups=["enemy"] instance=ExtResource("33_wn8pp")]
+[node name="Opossum3" parent="Enemies" unique_id=420863083 instance=ExtResource("33_wn8pp")]
 position = Vector2(616, 272)
-collision_layer = 4
-script = ExtResource("32_db00x")
-speed = 42.0
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=79492339 instance=ExtResource("34_82sup")]
+[node name="Player" parent="." unique_id=79492339 instance=ExtResource("34_82sup")]
 position = Vector2(72, 268)
-collision_layer = 2
-script = ExtResource("35_4acx1")
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=1868046227 instance=ExtResource("36_sqt4m")]
-script = ExtResource("37_530me")
+[node name="HUD" parent="." unique_id=1868046227 instance=ExtResource("36_sqt4m")]

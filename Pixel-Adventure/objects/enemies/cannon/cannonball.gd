@@ -4,15 +4,15 @@ extends Area2D
 @export var direction: Vector2 = Vector2.LEFT
 @export var max_range: float = 320.0
 
-@onready var sprite: Sprite2D = $Sprite2D
-
 var _distance_traveled: float = 0.0
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	# Default cannonball sprite doesn't necessarily need rotation if it's a circle, 
-	# but we set it just in case.
-	rotation = direction.angle() - PI
+	# cannonball.png là khung 44x28 dùng chung với sprite pháo, quả đạn nằm lệch
+	# (+7, +5) so với tâm khung — Sprite2D.offset trong scene bù lại để quả đạn nằm
+	# đúng gốc node (khớp CollisionShape2D + điểm đầu nòng). Không xoay node, không
+	# flip_h: cả hai đều lật theo khung 44x28 → đảo offset → đạn lại lệch. Đạn tròn
+	# nên không cần quay theo hướng bắn.
 
 func _physics_process(delta: float) -> void:
 	var step: Vector2 = direction * speed * delta

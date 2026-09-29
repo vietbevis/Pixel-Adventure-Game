@@ -18,7 +18,13 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_layout)
 	_layout()
 	$BtnDash.visible = SaveManager.is_ability_unlocked("dash")
+	# Mở khoá giữa màn (nhặt relic / thắng boss) → hiện nút ngay, không đợi vào lại màn.
+	Events.ability_unlocked.connect(_on_ability_unlocked)
 	$BtnPause.pressed.connect(func() -> void: pause_pressed.emit())
+
+func _on_ability_unlocked(id: String) -> void:
+	if id == "dash":
+		$BtnDash.visible = true
 
 func _should_show() -> bool:
 	match SaveManager.get_setting("touch_controls", "auto"):

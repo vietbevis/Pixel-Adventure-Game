@@ -7,6 +7,8 @@ extends Area2D
 @export var sprite_faces_right: bool = false
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+## Đầu nòng theo sprite gốc (nòng quay trái). Quay phải thì lật x — xem _muzzle_position().
+@onready var muzzle: Marker2D = $Muzzle
 
 var _timer: float = 0.0
 var _ball_scene: PackedScene = preload("res://objects/enemies/cannon/cannonball.tscn")
@@ -41,7 +43,14 @@ func _spawn_ball() -> void:
 	var parent: Node = get_parent()
 	if parent:
 		parent.add_child(ball)
-		ball.global_position = global_position
+		ball.global_position = _muzzle_position()
+
+## Vị trí đầu nòng (global). Sprite bị flip_h khi quay ngược hướng gốc → lật x theo.
+func _muzzle_position() -> Vector2:
+	var local := muzzle.position
+	if sprite.flip_h:
+		local.x = -local.x
+	return to_global(local)
 
 func _update_facing() -> void:
 	# direction.x < 0 means facing left.

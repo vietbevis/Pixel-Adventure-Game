@@ -14,10 +14,10 @@
 [ext_resource type="TileSet" uid="uid://cdgvsdxkalffp" path="res://levels/shared/tilesets/forest_auto.tres" id="14_lgc5t"]
 [ext_resource type="PackedScene" path="res://objects/start_marker/start_marker.tscn" id="15_aovhl"]
 [ext_resource type="PackedScene" path="res://objects/npc/npc.tscn" id="16_6ojhb"]
-[ext_resource type="SpriteFrames" path="res://objects/npc/sprites/crabby/crabby_frames.tres" id="18_cdjhh"]
+[ext_resource type="SpriteFrames" uid="uid://c36q7l5ocadtu" path="res://objects/npc/sprites/crabby/crabby_frames.tres" id="18_cdjhh"]
 [ext_resource type="PackedScene" path="res://objects/portal/portal.tscn" id="19_yfgbx"]
-[ext_resource type="SpriteFrames" path="res://objects/npc/sprites/pink_star/pink_star_frames.tres" id="21_qw2n1"]
-[ext_resource type="SpriteFrames" path="res://objects/npc/sprites/fierce_tooth/fierce_tooth_frames.tres" id="22_kj1q1"]
+[ext_resource type="SpriteFrames" uid="uid://cl7lylu1pfk6e" path="res://objects/npc/sprites/pink_star/pink_star_frames.tres" id="21_qw2n1"]
+[ext_resource type="SpriteFrames" uid="uid://dkjiiwklbcex0" path="res://objects/npc/sprites/fierce_tooth/fierce_tooth_frames.tres" id="22_kj1q1"]
 [ext_resource type="PackedScene" uid="uid://d25ccr66823m7" path="res://player/player.tscn" id="23_6w446"]
 [ext_resource type="PackedScene" uid="uid://dskiaf5lay5qv" path="res://ui/hud/hud.tscn" id="25_ej0fk"]
 
@@ -49,6 +49,7 @@ texture = ExtResource("5_6r5xg")
 centered = false
 
 [node name="LoreSign" parent="Decor" unique_id=359574579 instance=ExtResource("6_7iwj6")]
+z_index = 1
 position = Vector2(856, 12)
 line_1 = "« Vương Ấn từng khắc trên Vương Miện, giữ cho ngai vàng bất khả xâm phạm. »"
 line_2 = "« Ấn vỡ làm ba mảnh trong đêm thất thủ, thất lạc giữa Rừng. »"
@@ -59,13 +60,14 @@ position = Vector2(874.5, -69)
 texture = ExtResource("8_qsbii")
 centered = false
 
-[node name="LevelsSign" parent="Decor" unique_id=1325039863 instance=ExtResource("9_m57as")]
-position = Vector2(1048, 12)
-
 [node name="House1" type="Sprite2D" parent="Decor" unique_id=976522196]
 position = Vector2(1052.5, -74)
 texture = ExtResource("11_ojt8v")
 centered = false
+
+[node name="LevelsSign" parent="Decor" unique_id=1325039863 instance=ExtResource("9_m57as")]
+z_index = 1
+position = Vector2(1048, 12)
 
 [node name="Pine1" type="Sprite2D" parent="Decor" unique_id=1975545848]
 position = Vector2(1103, -96)
@@ -93,9 +95,9 @@ position = Vector2(147.1, 32)
 line_1 = "Mừng ngài trở về, thưa Đức Vua. Trại nhỏ này là tất cả những gì còn lại."
 line_2 = "Trước mặt là ba cánh cổng. Ngài cứ hỏi, ta sẽ nói cổng nào đang chờ ngài."
 speaker = "Cố vấn"
-ai_persona = "Cố vấn già trung thành của nhà vua, điềm đạm, nói năng trang trọng. Nắm rõ ba cánh cổng của làng (Rừng Ranh Giới, Lâu Đài Thất Thủ, Hầm Ngục Cổ) và luôn hướng người chơi tới mục tiêu kế tiếp."
 report_abilities = true
 dynamic_line = 1
+ai_persona = "Cố vấn già trung thành của nhà vua, điềm đạm, nói năng trang trọng. Nắm rõ ba cánh cổng của làng (Rừng Ranh Giới, Lâu Đài Thất Thủ, Hầm Ngục Cổ) và luôn hướng người chơi tới mục tiêu kế tiếp."
 idle_frames = ExtResource("18_cdjhh")
 
 [node name="ForestPortal" parent="Village" unique_id=1663786655 instance=ExtResource("19_yfgbx")]
@@ -106,8 +108,8 @@ position = Vector2(402.1, 32)
 line_1 = "Bọn Heo tràn qua trong một đêm. Nhà cửa, mùa màng... cháy sạch."
 line_2 = "Ngài đi rồi bọn tôi mới hiểu: không có Vua, tường thành cũng chỉ là đá."
 speaker = "Dân làng"
-ai_persona = "Dân làng chất phác, hay lo nhưng hiếu khách, nói giọng bình dân. Hay kể chuyện làng bị bọn Heo đốt phá, chuyện mùa màng và niềm tin vào nhà vua."
 dynamic_line = 2
+ai_persona = "Dân làng chất phác, hay lo nhưng hiếu khách, nói giọng bình dân. Hay kể chuyện làng bị bọn Heo đốt phá, chuyện mùa màng và niềm tin vào nhà vua."
 behavior = 1
 wander_range = 60.0
 walk_speed = 24.0
@@ -122,8 +124,8 @@ position = Vector2(706.1, 32)
 line_1 = "Suỵt! Đừng hét. Tôi bỏ đám lính đánh thuê của Vua Heo rồi, thề đấy."
 line_2 = "Lão ta phát bom cho cả lũ rồi bắt xông lên trước. Điên hết cả."
 speaker = "Cá Mập đào ngũ"
-ai_persona = "Lính đánh thuê Cá Mập vừa đào ngũ khỏi quân Vua Heo, nhát gan, hay thì thào và sợ bị phát hiện. Biết nhiều về bom và cách đánh của quân Heo, kể dần khi được tin tưởng."
 dynamic_line = 3
+ai_persona = "Lính đánh thuê Cá Mập vừa đào ngũ khỏi quân Vua Heo, nhát gan, hay thì thào và sợ bị phát hiện. Biết nhiều về bom và cách đánh của quân Heo, kể dần khi được tin tưởng."
 behavior = 2
 walk_speed = 22.0
 flee_radius = 72.0

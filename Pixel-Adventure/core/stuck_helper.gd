@@ -1,7 +1,7 @@
 extends Node
 ## Autoload `StuckHelper`: người chơi chết nhiều lần ở một màn → Cố vấn đưa gợi ý.
 ## Lần chết thứ 2 gọi Gemini lấy trước gợi ý (chạy nền); lần 3, 6, 9… hiện qua `Dialogue`:
-## có checkpoint thì ngay sau khi hồi sinh, không có thì khi màn tải lại (LevelBase gọi
+## còn mạng thì ngay sau khi hồi sinh, hết mạng thì khi màn tải lại (LevelBase gọi
 ## `level_ready()`), để gợi ý không hiện đè lên màn Game Over. AI tắt/lỗi → ghi chú tay.
 
 const HINT_EVERY := 3
@@ -38,7 +38,8 @@ func build_prompt(level_id: String, deaths: int) -> String:
 		"Màn: %s." % level_name,
 		"Đặc điểm màn: %s" % LevelNotes.tip(level_id),
 		"Người chơi (nhân vật %s) đã chết %d lần ở màn này." % [CharacterData.get_display(GameManager.selected_character), deaths],
-		"Checkpoint: %s." % ("đã chạm, chết sẽ hồi sinh tại đó" if GameManager.has_checkpoint else "chưa có, chết là chơi lại từ đầu màn"),
+		"Checkpoint: %s." % ("đã chạm, còn mạng thì hồi sinh tại đó" if GameManager.has_checkpoint else "chưa có, còn mạng thì hồi sinh ở đầu màn"),
+		"Mạng còn lại: %d (hết mạng là thua, phải chơi lại cả màn)." % GameManager.lives,
 		"Sức mạnh đang có: %s." % (", ".join(abilities) if not abilities.is_empty() else "chưa có"),
 		"Hãy đưa một mẹo giúp họ vượt qua.",
 	]))
@@ -55,7 +56,7 @@ func _on_player_died() -> void:
 		_prefetch(level, _deaths)
 	elif _deaths % HINT_EVERY == 0:
 		_pending = true
-		if GameManager.has_checkpoint:
+		if GameManager.lives > 0:  # còn mạng → bung lại ngay trong màn, gợi ý sau đó
 			_show_after(0.8)
 
 

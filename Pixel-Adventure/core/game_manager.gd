@@ -12,6 +12,10 @@ var score: int = 0
 var last_result: String = ""  # "win" or "lose"
 var respawn_position: Vector2 = Vector2.ZERO
 var has_checkpoint: bool = false
+## Số mạng còn lại của lượt chơi màn hiện tại (tính cả mạng đang dùng). LevelBase nạp
+## lại `max_lives` khi vào màn từ đầu; hết tim thì player trừ 1 — còn mạng mới được
+## bung lại, hết mạng là Game Over kể cả khi đã chạm checkpoint.
+var lives: int = 3
 ## Tổng thời gian (giây) đã chơi trong lượt hiện tại (cộng dồn delta, dừng khi Pause).
 var _elapsed: float = 0.0
 ## Màn hình mà nút "Quay lại" của Progress Screen sẽ trả về. Bên gọi set trước khi

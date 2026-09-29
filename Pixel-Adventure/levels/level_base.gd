@@ -9,6 +9,9 @@ const PAUSE_MENU_SCENE := preload("res://ui/pause_menu/pause_menu.tscn")
 const TOUCH_CONTROLS_SCENE := preload("res://ui/touch_controls/touch_controls.tscn")
 
 @export var fall_death_y: float = 500.0
+## Số mạng mỗi lượt chơi màn. Hết tim → mất 1 mạng, bung lại ở checkpoint (chưa chạm
+## thì ở StartMarker); hết mạng → Game Over. Arena boss đặt 1: chết là thua như cũ.
+@export var max_lives: int = 3
 
 ## Thẻ tiêu đề mờ dần ~2.5s đầu màn (kể chuyện). "" = không hiện.
 ## world_title = tên world in hoa; level_subtitle = tên màn nhỏ bên dưới.
@@ -30,6 +33,7 @@ func _enter_tree() -> void:
 	# Runs before any child's _ready(), so Player picks up the right spawn point.
 	if not GameManager.has_checkpoint:
 		GameManager.respawn_position = $Interactables/StartMarker.global_position
+		GameManager.lives = max_lives
 	# (Tim đầy lại tự động: player được tạo mới khi load màn → HealthComponent._ready
 	# đặt hp = max_hp.)
 

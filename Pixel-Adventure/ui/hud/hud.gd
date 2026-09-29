@@ -1,4 +1,4 @@
-## HUD trong lúc chơi: số quả đã ăn, thời gian, số tim, số Diamond bí mật.
+## HUD trong lúc chơi: số quả đã ăn, thời gian, số tim, số mạng, số Diamond bí mật.
 ## Tim đọc từ `Events.player_health_changed` (player là nguồn) — số icon tim dựng
 ## LẠI theo `maximum` để hỗ trợ heart container (Phase 8), không cố định 3.
 extends CanvasLayer
@@ -9,6 +9,7 @@ const HEART_EMPTY := preload("res://ui/shared/controls/heart_empty.png")
 @onready var label: Label = $MarginContainer/VBoxContainer/FruitLabel
 @onready var time_label: Label = $MarginContainer/VBoxContainer/TimeLabel
 @onready var hearts_row: HBoxContainer = $MarginContainer/VBoxContainer/HeartsRow
+@onready var lives_label: Label = $MarginContainer/VBoxContainer/LivesLabel
 @onready var secret_label: Label = $MarginContainer/VBoxContainer/SecretLabel
 
 var _hearts: int = 3
@@ -19,6 +20,8 @@ func _ready() -> void:
 	Events.collectible_collected.connect(_on_collectible_collected)
 	_update_secret_label()
 	_rebuild_hearts()
+	# Hub không có bẫy/thua — số mạng chỉ có nghĩa trong màn chơi.
+	lives_label.visible = GameManager.current_level_id != "hub"
 
 func _on_health_changed(current: int, maximum: int) -> void:
 	_hearts = current
@@ -35,6 +38,7 @@ func _on_collectible_collected(_id: String, kind: String) -> void:
 func _process(_delta: float) -> void:
 	label.text = "Quả: %d" % GameManager.score
 	time_label.text = "Thời gian: %s" % LevelData.format_time(GameManager.elapsed_time())
+	lives_label.text = "Mạng: x%d" % GameManager.lives
 
 ## Sinh đúng `_max_hearts` icon (dùng lại các icon có sẵn trong scene, thêm/bớt cho khớp).
 func _rebuild_hearts() -> void:

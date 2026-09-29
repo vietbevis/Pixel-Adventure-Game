@@ -4,7 +4,7 @@ extends CanvasLayer
 ##
 ## Dùng: instance scene này vào `get_tree().current_scene` rồi gọi `show_result(kind)`.
 ## `player.gd` là nơi duy nhất gọi — xem PLAN.md mục 4 giải thích vì sao không nghe
-## `Events.player_died` (signal đó phát cả khi hồi sinh tại checkpoint).
+## `Events.player_died` (signal đó phát cả khi còn mạng để hồi sinh).
 
 ## Cấu hình từng kiểu kết quả: chữ, màu chữ, màu lớp phủ, thời gian giữ.
 const PRESETS := {

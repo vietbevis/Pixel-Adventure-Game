@@ -67,3 +67,6 @@ autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cannon")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(-8, -1)

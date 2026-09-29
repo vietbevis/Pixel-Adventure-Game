@@ -63,12 +63,13 @@ func _run() -> void:
 
 	gm.current_level_id = "level_3"
 	gm.has_checkpoint = true
+	gm.lives = 2
 	events.player_died.emit()
 	events.player_died.emit()
 	check(helper._deaths == 2 and not dialogue._open, "two deaths -> no hint yet")
 	events.player_died.emit()
 	await wait_ms(1000)
-	check(dialogue._open and dialogue._speaker_label.text == "Cố vấn", "3rd death + checkpoint -> advisor hint after respawn")
+	check(dialogue._open and dialogue._speaker_label.text == "Cố vấn", "3rd death with lives left -> advisor hint after respawn")
 	check(dialogue._body_label.text == notes.tip("level_3"), "AI off -> hand-written level note")
 	await close_dialogue(dialogue)
 
@@ -86,10 +87,10 @@ func _run() -> void:
 	check(calls == 1 and last_timeout >= 15.0 and helper._hint == "Hãy nhảy ngay khi sóng lửa vừa tắt.", "2nd death prefetches AI hint")
 	check(helper.build_prompt("level_4", 2).contains(notes.tip("level_4")), "prompt includes level note")
 	check(helper.SYSTEM.contains("không bịa"), "hint system prompt forbids inventing mechanics")
-	gm.has_checkpoint = false
+	gm.lives = 0
 	events.player_died.emit()
 	await wait_ms(1000)
-	check(not dialogue._open and helper._pending, "no checkpoint -> hint waits for the level to reload")
+	check(not dialogue._open and helper._pending, "out of lives -> hint waits for the level to reload")
 	helper.level_ready()
 	await wait_ms(1500)
 	check(dialogue._open and dialogue._body_label.text == "Hãy nhảy ngay khi sóng lửa vừa tắt.", "level reload shows the AI hint")
@@ -108,6 +109,7 @@ func _run() -> void:
 	await close_dialogue(dialogue)
 
 	check(helper.build_prompt("level_1", 2).contains("Checkpoint"), "prompt says whether a checkpoint is active")
+	check(helper.build_prompt("level_1", 2).contains("Mạng còn lại"), "prompt says how many lives are left")
 
 	# Lần gọi lại (chết thứ 5) lỗi không được xoá gợi ý AI tốt đã có.
 	gm.current_level_id = "level_1"

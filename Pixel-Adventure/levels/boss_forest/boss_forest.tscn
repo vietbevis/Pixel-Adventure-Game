@@ -26,6 +26,7 @@
 [node name="BossForest" type="Node2D" unique_id=1969408889]
 script = ExtResource("1_kfu7e")
 fall_death_y = 496.0
+max_lives = 1
 world_title = "LÂU ĐÀI THẤT THỦ"
 level_subtitle = "Phòng Ngai — Vua Heo"
 camera_limit_left = 0

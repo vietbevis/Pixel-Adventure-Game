@@ -319,17 +319,21 @@ func _on_hurt(_source: Area2D) -> void:
 		sprite.play("hit")
 		Events.player_damaged.emit(1)
 
-## Hết tim: chết thật. Có checkpoint → bung lại tại đó; không thì sang màn Game Over.
+## Hết tim: mất 1 mạng. Còn mạng → bung lại ở điểm respawn (checkpoint hoặc đầu màn);
+## hết mạng → Game Over, kể cả khi đã chạm checkpoint (trước đây checkpoint cho hồi
+## sinh vô hạn nên qua checkpoint rồi thì không thể thua).
 func _on_health_died() -> void:
 	is_dead = true
 	_end_attack()
 	velocity = Vector2.ZERO
 	sprite.play("hit")
+	# Trừ mạng TRƯỚC khi phát signal: listener (StuckHelper) đọc `lives` để biết có bung lại không.
+	GameManager.lives = max(GameManager.lives - 1, 0)
 	Events.player_died.emit()
 
-	if GameManager.has_checkpoint:
+	if GameManager.lives > 0:
 		await get_tree().create_timer(0.4).timeout
-		_respawn_at_checkpoint()
+		_respawn()
 	else:
 		GameManager.last_result = "lose"
 		_flash_result("lose")
@@ -337,9 +341,9 @@ func _on_health_died() -> void:
 		await get_tree().create_timer(1.4).timeout
 		SceneTransition.goto("res://ui/end_screen/end_screen.tscn")
 
-## Bung lại tại vị trí checkpoint gần nhất, đầy lại tim, cho chơi tiếp ngay
-## trong màn hiện tại (không đổi scene, không qua màn Game Over).
-func _respawn_at_checkpoint() -> void:
+## Bung lại tại điểm respawn (checkpoint gần nhất, hoặc StartMarker), đầy lại tim, cho
+## chơi tiếp ngay trong màn hiện tại (không đổi scene, không qua màn Game Over).
+func _respawn() -> void:
 	health.revive()
 	global_position = GameManager.respawn_position
 	velocity = Vector2.ZERO
@@ -392,7 +396,7 @@ func win() -> void:
 
 ## Báo kết quả ngay trên màn chơi (chữ lớn + lớp phủ + sting) trước khi đổi scene.
 ## Đặt ở đây chứ không ở listener của `Events.player_died` vì signal đó phát cả khi
-## người chơi còn checkpoint để bung lại — chỉ nhánh trong `_on_health_died` mới biết
+## người chơi còn mạng để bung lại — chỉ nhánh trong `_on_health_died` mới biết
 ## đây là kết thúc thật. AudioManager là autoload nên sting ngân tiếp qua lúc đổi scene.
 func _flash_result(kind: String) -> void:
 	AudioManager.play_sting(String(RESULT_STINGS[kind]))
