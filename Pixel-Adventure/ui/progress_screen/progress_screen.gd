@@ -18,12 +18,21 @@ const TOTAL_SECRETS := 3
 const ABILITY_NAMES := {"dash": "Lướt (Dash)"}
 const BOSS_NAMES := {"forest_boss": "Vua Heo", "dungeon_boss": "Cai Ngục"}
 
-const COLOR_HEADER := Color(0.85, 0.78, 0.55)
-const COLOR_DONE := Color(0.62, 0.88, 0.6)
-const COLOR_LOCKED := Color(0.55, 0.55, 0.6)
+const COLOR_HEADER := Color(1.0, 0.86, 0.5)
+const COLOR_DONE := Color(0.62, 0.95, 0.58)
+const COLOR_LOCKED := Color(0.8, 0.8, 0.86)
+## Panel DialogPanel sáng màu: chữ nhạt đặt thẳng lên đó không đọc được, nên mọi dòng
+## đều có viền tối dày (giống tiêu đề) thay vì đổi sang chữ tối, để màu trạng thái vẫn rõ.
+const OUTLINE_COLOR := Color(0.08, 0.06, 0.1)
+const HEADER_SIZE := 24
+const LINE_SIZE := 20
 
 @onready var goal_label: Label = $CenterContainer/DialogPanel/VBoxContainer/GoalLabel
-@onready var body_box: VBoxContainer = $CenterContainer/DialogPanel/VBoxContainer/BodyScroll/BodyBox
+## Hai cột để không phải cuộn: trái = thế giới + tổng kết, phải = sức mạnh / boss / Vương Ấn / thành tựu.
+@onready var left_box: VBoxContainer = $CenterContainer/DialogPanel/VBoxContainer/BodyScroll/Columns/LeftBox
+@onready var right_box: VBoxContainer = $CenterContainer/DialogPanel/VBoxContainer/BodyScroll/Columns/RightBox
+## Cột mà `_header` / `_line` đang ghi vào.
+var body_box: VBoxContainer
 @onready var back_button: Button = $CenterContainer/DialogPanel/VBoxContainer/BackButton
 
 func _ready() -> void:
@@ -31,8 +40,9 @@ func _ready() -> void:
 	_populate()
 
 func _populate() -> void:
-	for child in body_box.get_children():
-		child.queue_free()
+	for box: VBoxContainer in [left_box, right_box]:
+		for child in box.get_children():
+			child.queue_free()
 
 	var beat_game := SaveManager.is_boss_defeated(FINAL_BOSS_ID)
 	if beat_game:
@@ -43,12 +53,14 @@ func _populate() -> void:
 		goal_label.text = "%s\nBƯỚC KẾ TIẾP: %s" % [GOAL_LINE, Progression.next_objective()["text"]]
 	goal_label.add_theme_color_override("font_color", COLOR_DONE if beat_game else COLOR_HEADER)
 
+	body_box = left_box
 	_add_worlds()
+	_add_summary()
+	body_box = right_box
 	_add_abilities()
 	_add_bosses()
 	_add_secrets()
 	_add_achievements()
-	_add_summary()
 
 func _add_worlds() -> void:
 	_header("THẾ GIỚI")
@@ -59,7 +71,7 @@ func _add_worlds() -> void:
 		_line("  %s" % (world_name if unlocked else "🔒 %s" % world_name),
 			COLOR_HEADER if unlocked else COLOR_LOCKED)
 		for level_id: String in world["levels"]:
-			_line("      %s" % _level_line(level_id),
+			_line("    %s" % _level_line(level_id),
 				COLOR_DONE if SaveManager.is_level_completed(level_id) else COLOR_LOCKED)
 
 ## Một dòng màn: trạng thái + tên + điểm cao + thời gian tốt nhất.
@@ -80,35 +92,35 @@ func _add_abilities() -> void:
 	_header("SỨC MẠNH")
 	var unlocked: Array = SaveManager.get_unlocked_abilities()
 	if unlocked.is_empty():
-		_line("      Chưa mở khoá sức mạnh nào.", COLOR_LOCKED)
+		_line("    Chưa mở khoá sức mạnh nào.", COLOR_LOCKED)
 		return
 	for id: String in unlocked:
-		_line("      ✓ %s" % String(ABILITY_NAMES.get(id, id.capitalize())), COLOR_DONE)
+		_line("    ✓ %s" % String(ABILITY_NAMES.get(id, id.capitalize())), COLOR_DONE)
 
 func _add_bosses() -> void:
 	_header("BOSS ĐÃ HẠ")
 	var any := false
 	for boss_id: String in BOSS_NAMES.keys():
 		if SaveManager.is_boss_defeated(boss_id):
-			_line("      ✓ %s" % String(BOSS_NAMES[boss_id]), COLOR_DONE)
+			_line("    ✓ %s" % String(BOSS_NAMES[boss_id]), COLOR_DONE)
 			any = true
 	if not any:
-		_line("      Chưa hạ được boss nào.", COLOR_LOCKED)
+		_line("    Chưa hạ được boss nào.", COLOR_LOCKED)
 
 func _add_secrets() -> void:
 	_header("MẢNH VƯƠNG ẤN")
 	var found: int = SaveManager.collected_secrets.size()
 	var bonus := SaveManager.get_max_hp_bonus()
-	_line("      %d / %d mảnh đã tìm thấy" % [found, TOTAL_SECRETS],
+	_line("    %d / %d mảnh đã tìm thấy" % [found, TOTAL_SECRETS],
 		COLOR_DONE if found >= TOTAL_SECRETS else COLOR_LOCKED)
 	if bonus > 0:
-		_line("      +%d tim tối đa từ phần thưởng" % bonus, COLOR_DONE)
+		_line("    +%d tim tối đa từ phần thưởng" % bonus, COLOR_DONE)
 
 func _add_achievements() -> void:
 	_header("THÀNH TỰU")
 	for id: String in Achievements.ACHIEVEMENTS.keys():
 		var got := SaveManager.has_achievement(id)
-		_line("      %s %s" % ["🏆" if got else "🔒", String(Achievements.ACHIEVEMENTS[id])],
+		_line("    %s %s" % ["🏆" if got else "🔒", String(Achievements.ACHIEVEMENTS[id])],
 			COLOR_DONE if got else COLOR_LOCKED)
 
 func _add_summary() -> void:
@@ -120,26 +132,29 @@ func _add_summary() -> void:
 			total += 1
 			if SaveManager.is_level_completed(level_id):
 				done += 1
-	_line("      Màn đã hoàn thành: %d / %d" % [done, total], COLOR_HEADER)
-	_line("      Thành tựu: %d / %d" % [SaveManager.achievements.size(), Achievements.ACHIEVEMENTS.size()],
+	_line("    Màn đã hoàn thành: %d / %d" % [done, total], COLOR_HEADER)
+	_line("    Thành tựu: %d / %d" % [SaveManager.achievements.size(), Achievements.ACHIEVEMENTS.size()],
 		COLOR_HEADER)
 
 func _header(text: String) -> void:
-	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(0, 8)
-	body_box.add_child(spacer)
-	var label := Label.new()
-	label.text = text
-	label.add_theme_font_size_override("font_size", 15)
-	label.add_theme_color_override("font_color", COLOR_HEADER)
-	body_box.add_child(label)
+	if body_box.get_child_count() > 0:
+		var spacer := Control.new()
+		spacer.custom_minimum_size = Vector2(0, 4)
+		body_box.add_child(spacer)
+	body_box.add_child(_make_label(text, COLOR_HEADER, HEADER_SIZE))
 
 func _line(text: String, color: Color) -> void:
+	body_box.add_child(_make_label(text, color, LINE_SIZE))
+
+func _make_label(text: String, color: Color, font_size: int) -> Label:
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override("font_size", 12)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
-	body_box.add_child(label)
+	label.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
+	label.add_theme_constant_override("outline_size", 5)
+	return label
 
 ## Tên hiển thị của từng màn — tra từ LevelData để không lặp chuỗi (giống level_select).
 func _level_name(level_id: String) -> String:
