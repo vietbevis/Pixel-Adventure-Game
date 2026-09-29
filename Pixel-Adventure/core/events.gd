@@ -40,5 +40,7 @@ signal achievement_unlocked(id: String, title: String)
 # --- Flow ---
 signal level_started(level_id: String)
 signal level_completed(level_id: String)
+## "Chơi mới" vừa xoá save — autoload nào giữ bộ đếm runtime theo tiến trình thì về 0.
+signal progress_reset
 
 @warning_ignore_restore("unused_signal")

@@ -34,6 +34,19 @@ func start_new_run(level_id: String = current_level_id) -> void:
 	result_recorded = false
 	SaveManager.set_last_level(level_id)
 
+## "Chơi mới": đưa state runtime về như lúc vừa mở game (giữ `selected_character` —
+## màn chọn nhân vật sẽ ghi đè ngay sau đó). Không gọi `start_new_run` vì nó ghi
+## `last_level` vào save → nút "Chơi tiếp" hiện lại dù chưa chơi màn nào.
+func reset_run_state() -> void:
+	current_level_id = "level_1"
+	current_world = ""
+	score = 0
+	last_result = ""
+	has_checkpoint = false
+	respawn_position = Vector2.ZERO
+	_elapsed = 0.0
+	result_recorded = false
+
 func _process(delta: float) -> void:
 	if not get_tree().paused:
 		_elapsed += delta

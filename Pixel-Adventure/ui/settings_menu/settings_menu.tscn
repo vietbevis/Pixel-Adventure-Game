@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://ui/settings_menu/settings_menu.gd" id="1"]
 [ext_resource type="Texture2D" path="res://shared/backgrounds/menu/night_town.png" id="2"]
 [ext_resource type="Texture2D" path="res://ui/shared/buttons/Back.png" id="3"]
 [ext_resource type="PackedScene" path="res://ui/components/icon_toggle/icon_toggle.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://ui/components/volume_bar/volume_bar.tscn" id="5"]
 
 [node name="SettingsMenu" type="Control"]
 anchor_right = 1.0
@@ -63,47 +64,16 @@ custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 text = "Tự động"
 
-[node name="VolumeBox" type="VBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+[node name="MusicVolume" parent="CenterContainer/DialogPanel/VBoxContainer" instance=ExtResource("5")]
 layout_mode = 2
-theme_override_constants/separation = 10
+title = "Nhạc nền"
+bus_name = "Music"
 
-[node name="VolumeHeader" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox"]
+[node name="SfxVolume" parent="CenterContainer/DialogPanel/VBoxContainer" instance=ExtResource("5")]
 layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="VolumeLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox/VolumeHeader"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Âm lượng"
-
-[node name="VolumeValue" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox/VolumeHeader"]
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-horizontal_alignment = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
-text = "80%"
-
-[node name="VolumeControl" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 10
-
-[node name="MinusButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox/VolumeControl"]
-custom_minimum_size = Vector2(38, 34)
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "−"
-
-[node name="VolumeBlocks" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox/VolumeControl"]
-layout_mode = 2
-mouse_filter = 0
-theme_override_constants/separation = 3
-
-[node name="PlusButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/VolumeBox/VolumeControl"]
-custom_minimum_size = Vector2(38, 34)
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "+"
+title = "Hiệu ứng"
+bus_name = "SFX"
+preview_sfx = "pickup"
 
 [node name="Spacer" type="Control" parent="CenterContainer/DialogPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 4)

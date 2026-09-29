@@ -1,7 +1,9 @@
 extends Node
 ## Autoload: nhạc nền theo world + SFX. Nghe `Events` cho phần lớn SFX; player.gd
 ## gọi thẳng `AudioManager.play_sfx("jump"/"attack")` cho hành động của player.
-## Bus: Master → Music, SFX. Âm lượng Master lưu qua SaveManager setting "volume".
+## Bus: Master → Music, SFX. Nhạc nền và hiệu ứng chỉnh âm lượng RIÊNG (setting
+## "music_volume" / "sfx_volume") — trước chỉ có 1 setting "volume" trên Master nên muốn
+## nhỏ nhạc là mất luôn tiếng nhảy/đánh. Master giữ 0 dB.
 
 const MUSIC := {
 	"": "res://audio/music/hub.ogg",
@@ -15,12 +17,19 @@ const SFX_PATHS := {
 	"hurt": "res://audio/sfx/hurt.ogg",
 	"enemy_die": "res://audio/sfx/enemy_die.ogg",
 	"pickup": "res://audio/sfx/pickup.ogg",
+	## fruit/step: tổng hợp bằng tools/audio/gen_sfx.py (không pack nào có sẵn).
+	"fruit": "res://audio/sfx/fruit.wav",
+	"step": "res://audio/sfx/step.wav",
 	## Sting kết quả: .wav (máy dev không có bộ mã hoá ogg; Godot import wav native).
 	"game_over": "res://audio/sfx/game_over.wav",
 	"victory": "res://audio/sfx/victory.wav",
 	"final_victory": "res://audio/sfx/final_victory.wav",
 }
 const POOL_SIZE := 6
+
+## Bus → key setting lưu âm lượng 0..1 của bus đó.
+const VOLUME_KEYS := {"Music": "music_volume", "SFX": "sfx_volume"}
+const DEFAULT_VOLUME := 0.8
 
 var _music: AudioStreamPlayer
 var _pool: Array[AudioStreamPlayer] = []
@@ -42,11 +51,13 @@ func _ready() -> void:
 		_pool.append(p)
 
 	# Áp thôi, không lưu: giá trị vừa đọc từ save, ghi lại chỉ tốn 1 lần IO mỗi lần mở game.
-	apply_master_volume(float(SaveManager.get_setting("volume", 0.8)))
+	for bus_name: String in VOLUME_KEYS:
+		apply_volume(bus_name, get_volume(bus_name))
 
 	Events.player_damaged.connect(func(_a: int) -> void: play_sfx("hurt"))
 	Events.enemy_died.connect(func(_n: Node, _p: Vector2) -> void: play_sfx("enemy_die"))
 	Events.ability_unlocked.connect(func(_id: String) -> void: play_sfx("pickup"))
+	Events.fruit_collected.connect(func(_t: int) -> void: play_sfx("fruit"))
 	Events.collectible_collected.connect(func(_id: String, _k: String) -> void: play_sfx("pickup"))
 	Events.checkpoint_activated.connect(func(_p: Vector2) -> void: play_sfx("pickup"))
 	Events.max_hp_increased.connect(func(_m: int) -> void: play_sfx("pickup"))
@@ -89,11 +100,17 @@ func play_sting(sting_name: String) -> void:
 	stop_music()
 	play_sfx(sting_name, 0.0)
 
-## Áp âm lượng lên bus Master NGAY mà không ghi đĩa. value 0..1 (0 = tắt tiếng).
-## Tách khỏi `set_master_volume` để lúc kéo/bấm liên tục không ghi file mỗi bước —
+## Âm lượng đã lưu của 1 bus (0..1). Save cũ chỉ có "volume" chung → dùng nó làm
+## mặc định cho cả hai để người chơi không bị đổi mức sau khi cập nhật.
+func get_volume(bus_name: String) -> float:
+	var legacy: float = float(SaveManager.get_setting("volume", DEFAULT_VOLUME))
+	return float(SaveManager.get_setting(VOLUME_KEYS[bus_name], legacy))
+
+## Áp âm lượng lên bus NGAY mà không ghi đĩa. value 0..1 (0 = tắt tiếng).
+## Tách khỏi `set_volume` để lúc kéo/bấm liên tục không ghi file mỗi bước —
 ## `SaveManager.set_setting` gọi `save_data()` mỗi lần.
-func apply_master_volume(value: float) -> void:
-	var bus := AudioServer.get_bus_index("Master")
+func apply_volume(bus_name: String, value: float) -> void:
+	var bus := AudioServer.get_bus_index(bus_name)
 	if value <= 0.001:
 		AudioServer.set_bus_mute(bus, true)
 	else:
@@ -101,6 +118,6 @@ func apply_master_volume(value: float) -> void:
 		AudioServer.set_bus_volume_db(bus, linear_to_db(clampf(value, 0.0, 1.0)))
 
 ## Áp + lưu. Gọi khi người chơi đã chốt giá trị.
-func set_master_volume(value: float) -> void:
-	apply_master_volume(value)
-	SaveManager.set_setting("volume", value)
+func set_volume(bus_name: String, value: float) -> void:
+	apply_volume(bus_name, value)
+	SaveManager.set_setting(VOLUME_KEYS[bus_name], value)

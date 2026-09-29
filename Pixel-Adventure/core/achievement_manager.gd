@@ -20,6 +20,7 @@ func _ready() -> void:
 	Events.boss_defeated.connect(_on_boss_defeated)
 	Events.max_hp_increased.connect(func(_m: int) -> void: _grant("royal_seal"))
 	Events.enemy_died.connect(_on_enemy_died)
+	Events.progress_reset.connect(func() -> void: _kills = 0)
 
 func _on_level_completed(level_id: String) -> void:
 	if level_id == "level_1":

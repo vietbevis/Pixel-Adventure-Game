@@ -1,5 +1,6 @@
 ## Màn hình chính (Main Menu): màn chờ đầu tiên khi mở game.
-## Continue (nếu đã có tiến trình) → về hub để chọn world. Play → chọn nhân vật.
+## Continue (nếu đã có tiến trình) → về hub để chọn world. Chơi mới → (xác nhận nếu
+## đã có save) xoá tiến trình → chọn nhân vật.
 extends Control
 
 const HUB_SCENE := "res://levels/hub/hub.tscn"
@@ -10,6 +11,10 @@ const PROGRESS_SCENE := "res://ui/progress_screen/progress_screen.tscn"
 @onready var progress_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ProgressButton
 @onready var settings_button: Button = $CenterContainer/DialogPanel/VBoxContainer/SettingsButton
 @onready var quit_button: Button = $CenterContainer/DialogPanel/VBoxContainer/QuitButton
+@onready var menu_panel: PanelContainer = $CenterContainer/DialogPanel
+@onready var confirm_panel: PanelContainer = $CenterContainer/ConfirmPanel
+@onready var confirm_button: Button = $CenterContainer/ConfirmPanel/VBoxContainer/ConfirmButton
+@onready var cancel_button: Button = $CenterContainer/ConfirmPanel/VBoxContainer/CancelButton
 
 func _ready() -> void:
 	var continue_level := SaveManager.get_continue_level()
@@ -19,6 +24,8 @@ func _ready() -> void:
 	progress_button.pressed.connect(_on_progress)
 	settings_button.pressed.connect(_on_settings)
 	quit_button.pressed.connect(_on_quit)
+	confirm_button.pressed.connect(_start_new_game)
+	cancel_button.pressed.connect(_show_confirm.bind(false))
 	_apply_saved_fullscreen()
 	# Nhạc menu: cần gọi tường minh vì sting thắng/thua đã `stop_music()` ở màn chơi,
 	# nếu không menu sẽ im lặng khi người chơi vừa từ end_screen quay về.
@@ -39,8 +46,23 @@ func _apply_saved_fullscreen() -> void:
 		var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if want else DisplayServer.WINDOW_MODE_WINDOWED
 		DisplayServer.window_set_mode(mode)
 
-## Sang màn chọn nhân vật để bắt đầu chơi
+## Chơi mới: save trống thì vào thẳng, còn đã có tiến trình thì hỏi trước vì xoá là mất hẳn.
 func _on_play() -> void:
+	if SaveManager.has_progress():
+		_show_confirm(true)
+	else:
+		_start_new_game()
+
+func _show_confirm(open: bool) -> void:
+	menu_panel.visible = not open
+	confirm_panel.visible = open
+	(cancel_button if open else play_button).grab_focus()
+
+## Trước đây nút này chỉ sang màn chọn nhân vật — save cũ còn nguyên nên màn/boss/Dash
+## đã mở vẫn mở. Giờ xoá tiến trình (giữ settings) + state runtime rồi mới chọn nhân vật.
+func _start_new_game() -> void:
+	SaveManager.reset_progress()
+	GameManager.reset_run_state()
 	SceneTransition.goto("res://ui/character_select/character_select.tscn")
 
 ## Xem tiến trình đã lưu (màn đã qua, sức mạnh, thành tựu). Quay lại thì về đây.

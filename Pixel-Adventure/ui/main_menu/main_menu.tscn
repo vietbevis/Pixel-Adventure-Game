@@ -77,3 +77,37 @@ custom_minimum_size = Vector2(220, 52)
 layout_mode = 2
 text = "  Thoát"
 icon = ExtResource("5")
+
+[node name="ConfirmPanel" type="PanelContainer" parent="CenterContainer"]
+visible = false
+theme_type_variation = &"DialogPanel"
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/ConfirmPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/ConfirmPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Chơi mới?"
+horizontal_alignment = 1
+
+[node name="BodyLabel" type="Label" parent="CenterContainer/ConfirmPanel/VBoxContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+text = "Toàn bộ tiến trình (màn đã qua, kỷ lục, sức mạnh, boss, bí mật, thành tựu) sẽ bị xoá. Cài đặt được giữ nguyên."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="CenterContainer/ConfirmPanel/VBoxContainer"]
+theme_type_variation = &"DangerButton"
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+text = "Xoá & chơi mới"
+
+[node name="CancelButton" type="Button" parent="CenterContainer/ConfirmPanel/VBoxContainer"]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+text = "Huỷ"

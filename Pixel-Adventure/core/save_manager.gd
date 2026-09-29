@@ -129,6 +129,26 @@ func unlock_achievement(id: String) -> void:
 	achievements.append(id)
 	save_data()
 
+## Đã có gì để mất chưa — main menu chỉ hỏi xác nhận "Chơi mới" khi hàm này true.
+func has_progress() -> bool:
+	return last_level != "" or not completed_levels.is_empty() or not unlocked_abilities.is_empty() \
+		or not defeated_bosses.is_empty() or not collected_secrets.is_empty() or not achievements.is_empty()
+
+## "Chơi mới": xoá sạch tiến trình nhưng GIỮ `settings` (âm lượng, toàn màn hình, nhân vật...)
+## vì đó là tuỳ chọn của người dùng chứ không phải trạng thái lượt chơi.
+func reset_progress() -> void:
+	completed_levels = {}
+	high_scores = {}
+	best_times = {}
+	unlocked_abilities = []
+	defeated_bosses = []
+	collected_secrets = []
+	max_hp_bonus = 0
+	achievements = []
+	last_level = ""
+	save_data()
+	Events.progress_reset.emit()
+
 func save_data() -> void:
 	var data := {
 		"completed_levels": completed_levels,

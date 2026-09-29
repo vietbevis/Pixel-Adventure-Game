@@ -221,6 +221,12 @@ func _on_sprite_frame_changed() -> void:
 	# Bật Hitbox từ frame thứ 2 của đòn đánh (lúc vũ khí thực sự quét tới).
 	if is_attacking and sprite.animation == ATTACK_ANIM and sprite.frame >= 1:
 		hitbox.enable()
+	# Tiếng bước chân: 2 bước mỗi vòng anim "run" (frame 0 và giữa vòng) — tính theo
+	# số frame để khớp cả King (8 frame) lẫn Captain (6 frame).
+	if sprite.animation == &"run" and is_on_floor():
+		var half: int = maxi(1, sprite.sprite_frames.get_frame_count(&"run") / 2)
+		if sprite.frame % half == 0:
+			AudioManager.play_sfx("step", 0.12)
 
 func _on_sprite_animation_finished() -> void:
 	if sprite.animation == ATTACK_ANIM:
