@@ -13,7 +13,7 @@ extends Node
 signal enabled_changed(enabled: bool)
 
 const API_URL := "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
-const DEFAULT_MODEL := "gemini-2.5-flash-lite"
+const DEFAULT_MODEL := "gemini-3.5-flash-lite"
 const CONFIG_PATHS: Array[String] = ["user://gemini.cfg", "res://gemini.local.cfg"]
 const PREFS_PATH := "user://gemini_prefs.cfg"
 const CACHE_PATH := "user://gemini_cache.json"
