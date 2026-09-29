@@ -49,6 +49,10 @@ func _ready() -> void:
 	if world_title != "":
 		_show_title_card()
 
+	# Báo màn đã tải: nếu người chơi vừa chết nhiều lần ở màn này (không checkpoint → qua
+	# Game Over rồi chơi lại), Cố vấn đưa gợi ý đã chuẩn bị.
+	StuckHelper.level_ready()
+
 ## Thẻ tiêu đề: 1 CanvasLayer tạm với tiêu đề world + phụ đề màn, tween fade in/hold/out
 ## rồi tự huỷ. Dựng bằng code để mọi màn dùng chung không cần thêm node vào scene.
 func _show_title_card() -> void:

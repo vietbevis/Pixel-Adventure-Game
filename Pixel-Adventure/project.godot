@@ -33,6 +33,7 @@ Toast="*res://ui/toast/toast.tscn"
 Dialogue="*res://ui/dialogue/dialogue.tscn"
 AiChat="*res://ui/ai_chat/ai_chat.gd"
 BossVoice="*res://core/boss_voice.gd"
+StuckHelper="*res://core/stuck_helper.gd"
 _mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
