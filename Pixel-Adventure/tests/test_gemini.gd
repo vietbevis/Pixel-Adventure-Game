@@ -59,6 +59,7 @@ func _run() -> void:
 	await test_network_failure()
 	await test_safety_block()
 	await test_cache()
+	await test_cached_and_persist()
 	await test_chat_roles()
 	await test_in_flight_limit()
 	test_clean_text()
@@ -199,3 +200,19 @@ func test_process_always() -> void:
 	var g := make_client()
 	check(g.process_mode == Node.PROCESS_MODE_ALWAYS, "client runs while tree is paused")
 	g.queue_free()
+
+
+func test_cached_and_persist() -> void:
+	var g := make_client()
+	g.cache_path = "user://gemini_cache_test.json"
+	g.transport = fake(200, ok_body("{\"a\": 1}"))
+	check(g.cached("p") == null, "cached() missing -> null")
+	await g.generate_json("x", {"type": "OBJECT"}, {"cache_key": "p", "persist": true})
+	check(g.cached("p") is Dictionary and int(g.cached("p").a) == 1, "cached() returns stored value")
+	var g2: Node = GeminiScript.new()
+	g2.cache_path = "user://gemini_cache_test.json"
+	root.add_child(g2)
+	check(g2.cached("p") is Dictionary, "persisted cache reloads from cache_path")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://gemini_cache_test.json"))
+	g.queue_free()
+	g2.queue_free()

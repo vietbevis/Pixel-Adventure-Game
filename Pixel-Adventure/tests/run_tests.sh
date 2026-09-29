@@ -2,6 +2,8 @@
 # Chạy các test headless (tests/test_*.gd, hoặc các file truyền vào) và chỉ coi là PASS
 # khi output có dòng "ALL PASS". Godot thoát với mã 0 cả khi script test lỗi parse, và
 # treo mãi nếu test crash trước khi gọi quit() — nên kiểm tra output và đặt timeout.
+# SCRIPT ERROR trong một hàm test async chỉ bỏ dở hàm đó còn _run vẫn in "ALL PASS",
+# nên output có SCRIPT ERROR cũng tính là FAIL.
 #
 # Dùng (trong thư mục project Godot):  tests/run_tests.sh [tests/test_x.gd ...]
 set -u
@@ -17,7 +19,7 @@ files=("$@")
 failed=0
 for f in "${files[@]}"; do
 	out=$(perl -e 'alarm shift; exec @ARGV' "$TIMEOUT" "$GODOT" --headless --path . --script "res://$f" 2>&1)
-	if printf '%s\n' "$out" | grep -q '^ALL PASS$'; then
+	if printf '%s\n' "$out" | grep -q '^ALL PASS$' && ! printf '%s\n' "$out" | grep -q 'SCRIPT ERROR'; then
 		echo "ok   $f"
 	else
 		failed=$((failed + 1))

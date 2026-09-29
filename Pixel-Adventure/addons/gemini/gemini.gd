@@ -29,6 +29,8 @@ var model: String = DEFAULT_MODEL
 ## (url, headers, body, timeout) -> {"ok": bool, "code": int, "body": String}.
 ## Mặc định gửi HTTP thật; test gán hàm giả.
 var transport: Callable
+## Đổi được để test không ghi đè cache thật của game.
+var cache_path: String = CACHE_PATH
 
 var _api_key := ""
 var _user_enabled := true
@@ -146,6 +148,12 @@ func cache_age(key: String) -> float:
 	if not _cache.has(key):
 		return INF
 	return Time.get_unix_time_from_system() - float(_cache[key].saved_at)
+
+
+## Giá trị đã cache cho `key` (kể cả nạp từ đĩa), hoặc null. Tính năng đọc cache lúc đang
+## chơi mà không gọi mạng (vd. truyền thuyết vùng cảnh).
+func cached(key: String) -> Variant:
+	return _cache[key].value if _cache.has(key) else null
 
 
 # --- Request --------------------------------------------------------------------
@@ -280,15 +288,15 @@ func _save_cache() -> void:
 	for key: String in _cache:
 		if _cache[key].persist:
 			out[key] = {"value": _cache[key].value, "saved_at": _cache[key].saved_at}
-	var f := FileAccess.open(CACHE_PATH, FileAccess.WRITE)
+	var f := FileAccess.open(cache_path, FileAccess.WRITE)
 	if f != null:
 		f.store_string(JSON.stringify(out))
 
 
 func _load_cache() -> void:
-	if not FileAccess.file_exists(CACHE_PATH):
+	if not FileAccess.file_exists(cache_path):
 		return
-	var data: Variant = _parse_json(FileAccess.get_file_as_string(CACHE_PATH))
+	var data: Variant = _parse_json(FileAccess.get_file_as_string(cache_path))
 	if not (data is Dictionary):
 		return
 	for key: String in data:
