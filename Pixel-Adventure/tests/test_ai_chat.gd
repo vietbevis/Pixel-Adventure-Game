@@ -86,6 +86,18 @@ func _run() -> void:
 	check(chat._history.size() == 4, "failed question dropped from history")
 	check(not chat.is_waiting, "not waiting after error")
 
+	# AI lỗi (mất mạng, 5xx, hết quota) -> nói lần lượt thoại tĩnh NPC truyền vào, để mất mạng
+	# không làm mất thông tin (mục tiêu kế tiếp...) như khi chơi không có AI.
+	chat.close()
+	await wait_ms(250)
+	check(chat.open("Cố vấn", "Chào", "SYS", PackedStringArray(["Dòng A", "Dòng B"])), "open with static fallback lines")
+	await chat.ask("q1")
+	check(chat._body_label.text == "Dòng A", "error -> first static line")
+	await chat.ask("q2")
+	check(chat._body_label.text == "Dòng B", "error again -> next static line")
+	await chat.ask("q3")
+	check(chat._body_label.text == "Dòng A", "static lines cycle")
+
 	# Câu hỏi dài bị cắt.
 	gemini.transport = fake(200, "ok")
 	calls = []

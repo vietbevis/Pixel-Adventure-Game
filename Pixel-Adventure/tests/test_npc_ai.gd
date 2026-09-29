@@ -67,6 +67,17 @@ func _run() -> void:
 	check(sys.contains(chat.RULES), "system prompt has shared rules")
 	await reset_dialogs(chat, dialogue)
 
+	# AI bật nhưng lỗi (vd. mất mạng): Cố vấn vẫn phải chỉ được mục tiêu kế tiếp.
+	var guide := make_npc("Cố vấn.")
+	guide.dynamic_line = 1  # NEXT_OBJECTIVE
+	gemini.transport = func(_u: String, _h: PackedStringArray, _b: String, _t: float) -> Dictionary:
+		return {"ok": false, "code": 0, "body": ""}
+	check(guide._open_conversation() and chat._open, "guide opens AiChat")
+	await chat.ask("Tôi nên đi đâu?")
+	var objective := String(root.get_node("Progression").next_objective()["text"])
+	check(chat._body_label.text == objective, "AI failing -> NPC still tells the next objective")
+	await reset_dialogs(chat, dialogue)
+
 	var plain := make_npc("")
 	check(plain._open_conversation() and dialogue._open and not chat._open, "no persona -> Dialogue even with AI on")
 	await reset_dialogs(chat, dialogue)

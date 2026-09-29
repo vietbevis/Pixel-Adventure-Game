@@ -23,6 +23,7 @@ const PRESET_QUESTIONS: Array[String] = [
 	"Kể về vùng đất này đi.",
 	"Ở đây có bí mật gì không?",
 ]
+## Chỉ dùng khi NPC không truyền thoại tĩnh nào cho `open()`.
 const FALLBACK_REPLY := "…(gãi đầu) Ta không nhớ ra. Ngài hỏi lại sau nhé."
 ## Luật chung nối vào cuối system prompt của mọi NPC.
 const RULES := "Luật: luôn nhập vai nhân vật trên và trả lời bằng tiếng Việt, tối đa 2 câu ngắn (dưới 200 ký tự). Chỉ nói về thế giới trong game; không bịa ra phần thưởng, vật phẩm, nhân vật hay cơ chế không có trong bối cảnh ở trên. Nếu bị hỏi chuyện ngoài thế giới game (đời thực, lập trình, chính trị...) thì từ chối khéo đúng giọng nhân vật. Không dùng markdown, không dùng emoji."
@@ -39,6 +40,9 @@ var _system := ""
 var _history: Array = []
 ## Tăng mỗi lần mở/đóng; câu trả lời về muộn của phiên cũ bị bỏ.
 var _session := 0
+## Thoại tĩnh của NPC, nói lần lượt khi Gemini lỗi — mất mạng không làm mất thông tin.
+var _fallback_lines: PackedStringArray = []
+var _fallback_index := 0
 
 var _panel: PanelContainer
 var _speaker_label: Label
@@ -56,13 +60,16 @@ func _ready() -> void:
 
 
 ## Trả về false nếu không mở được (AI tắt / đang có hộp thoại khác / vừa đóng).
-func open(speaker: String, greeting: String, system: String) -> bool:
+## `fallback_lines`: thoại tĩnh nói thay khi Gemini lỗi (mất mạng, 5xx, hết quota).
+func open(speaker: String, greeting: String, system: String, fallback_lines: PackedStringArray = []) -> bool:
 	if not Gemini.enabled or Dialogue.is_open:
 		return false
 	_open = true
 	_session += 1
 	_system = system
 	_history = []
+	_fallback_lines = fallback_lines
+	_fallback_index = 0
 	_speaker_label.text = speaker
 	_body_label.text = greeting
 	_input.clear()
@@ -90,11 +97,19 @@ func ask(question: String) -> void:
 		return  # đã đóng (hoặc mở phiên mới) trong lúc chờ
 	if reply == "":
 		_history.pop_back()  # giữ lịch sử xen kẽ user/model
-		reply = FALLBACK_REPLY
+		reply = _next_fallback()
 	else:
 		_history.append({"role": "model", "text": reply})
 	_body_label.text = reply
 	_set_waiting(false)
+
+
+func _next_fallback() -> String:
+	if _fallback_lines.is_empty():
+		return FALLBACK_REPLY
+	var line := _fallback_lines[_fallback_index % _fallback_lines.size()]
+	_fallback_index += 1
+	return line
 
 
 func close() -> void:

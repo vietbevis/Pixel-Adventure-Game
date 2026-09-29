@@ -737,7 +737,10 @@ func _open_conversation() -> bool:
 	if lines.is_empty():
 		return false
 	if ai_persona != "" and Gemini.enabled:
-		return AiChat.open(speaker, lines[0], _ai_system_prompt(lines))
+		# Gemini lỗi thì AiChat nói lần lượt các dòng sau câu chào (mục tiêu, tâm trạng...),
+		# nên mất mạng vẫn nghe được đủ thông tin như thoại tĩnh.
+		var fallback := lines.slice(1) if lines.size() > 1 else lines
+		return AiChat.open(speaker, lines[0], _ai_system_prompt(lines), fallback)
 	return Dialogue.open(lines, speaker)
 
 ## System prompt cho Gemini: vai + những gì NPC "biết" (chính các dòng thoại tĩnh, đã gồm
