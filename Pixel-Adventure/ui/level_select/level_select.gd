@@ -6,6 +6,8 @@ extends Control
 @onready var back_button: Button = $CenterContainer/DialogPanel/VBoxContainer/BackButton
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($CenterContainer, [], [$CenterContainer/DialogPanel/VBoxContainer/LevelsScroll])
 	back_button.pressed.connect(_on_back)
 	_populate_levels()
 

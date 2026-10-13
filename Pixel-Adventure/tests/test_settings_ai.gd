@@ -21,7 +21,7 @@ func _run() -> void:
 	gemini.configure("")
 	var menu: Control = load("res://ui/settings_menu/settings_menu.tscn").instantiate()
 	root.add_child(menu)
-	var button: Button = menu.get_node("CenterContainer/DialogPanel/VBoxContainer/AiRow/AiButton")
+	var button: Button = menu.get_node("CenterContainer/DialogPanel/VBoxContainer/Body/ColA/AiRow/AiButton")
 	check(button.disabled and button.text == "Chưa có key", "no key -> disabled")
 
 	gemini.configure("k")

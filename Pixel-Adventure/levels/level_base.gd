@@ -43,6 +43,8 @@ func _ready() -> void:
 	camera.limit_right = camera_limit_right
 	camera.limit_top = camera_limit_top
 	camera.limit_bottom = camera_limit_bottom
+	# Trên điện thoại MobileScale phóng cả canvas; camera bù lại để thế giới chỉ to vừa phải.
+	camera.zoom *= MobileScale.camera_zoom_mult()
 
 	var touch := TOUCH_CONTROLS_SCENE.instantiate()
 	touch.pause_pressed.connect(_on_pause_requested)

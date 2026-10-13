@@ -100,6 +100,7 @@ func get_setting(key: String, default: Variant) -> Variant:
 func set_setting(key: String, value: Variant) -> void:
 	settings[key] = value
 	save_data()
+	Events.setting_changed.emit(key, value)
 
 ## Level 1 luôn mở sẵn; các màn sau chỉ mở khi đã thắng màn ngay trước đó.
 func is_level_unlocked(level_id: String) -> bool:

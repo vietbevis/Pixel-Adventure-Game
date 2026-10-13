@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var panel: PanelContainer = $Root/CenterContainer/Panel
 @onready var resume_button: Button = $Root/CenterContainer/Panel/VBoxContainer/ResumeButton
 @onready var restart_button: Button = $Root/CenterContainer/Panel/VBoxContainer/RestartButton
+@onready var settings_button: Button = $Root/CenterContainer/Panel/VBoxContainer/SettingsButton
 @onready var hub_button: Button = $Root/CenterContainer/Panel/VBoxContainer/HubButton
 @onready var menu_button: Button = $Root/CenterContainer/Panel/VBoxContainer/MenuButton
 @onready var confirm_panel: PanelContainer = $Root/CenterContainer/ConfirmPanel
@@ -13,10 +14,14 @@ extends CanvasLayer
 @onready var cancel_button: Button = $Root/CenterContainer/ConfirmPanel/VBoxContainer/CancelButton
 
 const HUB_SCENE := "res://levels/hub/hub.tscn"
+const SETTINGS_SCENE := preload("res://ui/settings_menu/settings_menu.tscn")
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($Root/CenterContainer)
 	resume_button.pressed.connect(_on_resume)
 	restart_button.pressed.connect(_on_restart)
+	settings_button.pressed.connect(_on_settings)
 	menu_button.pressed.connect(_on_menu)
 	confirm_button.pressed.connect(_start_new_game)
 	cancel_button.pressed.connect(_show_confirm.bind(false))
@@ -46,6 +51,18 @@ func _play_intro() -> void:
 func _on_resume() -> void:
 	get_tree().paused = false
 	queue_free()
+
+## Mở Cài đặt chồng lên (Root chạy ALWAYS nên vẫn bấm được khi tree pause), game vẫn dừng.
+func _on_settings() -> void:
+	var settings: Control = SETTINGS_SCENE.instantiate()
+	settings.overlay = true
+	settings.closed.connect(_on_settings_closed)
+	$Root.add_child(settings)
+	panel.visible = false
+
+func _on_settings_closed() -> void:
+	panel.visible = true
+	settings_button.grab_focus()
 
 func _on_restart() -> void:
 	GameManager.start_new_run(GameManager.current_level_id)

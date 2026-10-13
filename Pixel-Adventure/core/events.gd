@@ -43,4 +43,9 @@ signal level_completed(level_id: String)
 ## "Chơi mới" vừa xoá save — autoload nào giữ bộ đếm runtime theo tiến trình thì về 0.
 signal progress_reset
 
+# --- Settings ---
+## SaveManager.set_setting vừa ghi 1 tuỳ chọn. Cài đặt mở được giữa màn (menu pause)
+## nên ai phụ thuộc tuỳ chọn (vd nút cảm ứng) nghe signal này để áp ngay.
+signal setting_changed(key: String, value: Variant)
+
 @warning_ignore_restore("unused_signal")

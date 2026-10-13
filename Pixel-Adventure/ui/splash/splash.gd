@@ -26,6 +26,8 @@ var _elapsed: float = 0.0
 var _ready_to_go: bool = false
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($CenterContainer)
 	start_button.visible = false
 	start_button.pressed.connect(_go)
 	bar.min_value = 0.0

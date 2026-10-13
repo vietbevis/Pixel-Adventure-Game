@@ -32,6 +32,8 @@ const TOTAL_SECRETS := 3
 @onready var progress_button: Button = $CenterContainer/Panel/VBoxContainer/ButtonsGrid/ProgressButton
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($CenterContainer)
 	_play_intro()
 	var won := GameManager.last_result == "win"
 	var is_final := won and GameManager.current_level_id == FINAL_LEVEL_ID

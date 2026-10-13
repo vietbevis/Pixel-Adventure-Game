@@ -7,6 +7,8 @@ extends Control
 @onready var back_button: Button = $CenterContainer/VBoxContainer/BackButton
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($CenterContainer)
 	back_button.pressed.connect(_on_back)
 	_populate()
 

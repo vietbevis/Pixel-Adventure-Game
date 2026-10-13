@@ -30,5 +30,11 @@ func _run() -> void:
 	events.ability_unlocked.emit("dash")
 	check(dash.visible, "dash unlocked mid-level -> dash button shows at once")
 
+	# Đổi "Nút cảm ứng" trong Cài đặt (mở từ menu pause) áp dụng ngay, không đợi vào lại màn.
+	events.setting_changed.emit("touch_controls", "off")
+	check(not touch.visible, "touch setting off mid-level -> controls hide at once")
+	events.setting_changed.emit("touch_controls", "on")
+	check(touch.visible, "touch setting on mid-level -> controls show at once")
+
 	print("ALL PASS" if _fails == 0 else "%d FAILED" % _fails)
 	quit(1 if _fails > 0 else 0)

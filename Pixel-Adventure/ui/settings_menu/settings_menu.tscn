@@ -38,52 +38,71 @@ theme_override_font_sizes/font_size = 30
 theme_override_constants/outline_size = 4
 text = "CÀI ĐẶT"
 
-[node name="FullscreenRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+[node name="Body" type="BoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+layout_mode = 2
+vertical = true
+theme_override_constants/separation = 22
+
+[node name="ColA" type="VBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Body"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 22
+
+[node name="FullscreenRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="FullscreenLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/FullscreenRow"]
+[node name="FullscreenLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/FullscreenRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Toàn màn hình"
 
-[node name="FullscreenCheck" parent="CenterContainer/DialogPanel/VBoxContainer/FullscreenRow" instance=ExtResource("4")]
+[node name="FullscreenCheck" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/FullscreenRow" instance=ExtResource("4")]
 layout_mode = 2
 
-[node name="TouchRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+[node name="TouchRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="TouchLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
+[node name="TouchLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/TouchRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Nút cảm ứng"
 
-[node name="TouchButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/TouchRow"]
+[node name="TouchButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/TouchRow"]
 custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 text = "Tự động"
 
-[node name="AiRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer"]
+[node name="AiRow" type="HBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="AiLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/AiRow"]
+[node name="AiLabel" type="Label" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/AiRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Tính năng AI (Gemini)"
 
-[node name="AiButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/AiRow"]
+[node name="AiButton" type="Button" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColA/AiRow"]
 custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 text = "Bật"
 
-[node name="MusicVolume" parent="CenterContainer/DialogPanel/VBoxContainer" instance=ExtResource("5")]
+[node name="ColB" type="VBoxContainer" parent="CenterContainer/DialogPanel/VBoxContainer/Body"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 22
+
+[node name="MusicVolume" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColB" instance=ExtResource("5")]
 layout_mode = 2
 title = "Nhạc nền"
 bus_name = "Music"
 
-[node name="SfxVolume" parent="CenterContainer/DialogPanel/VBoxContainer" instance=ExtResource("5")]
+[node name="SfxVolume" parent="CenterContainer/DialogPanel/VBoxContainer/Body/ColB" instance=ExtResource("5")]
 layout_mode = 2
 title = "Hiệu ứng"
 bus_name = "SFX"

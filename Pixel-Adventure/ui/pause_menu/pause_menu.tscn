@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://ui/pause_menu/pause_menu.gd" id="1"]
 [ext_resource type="Texture2D" path="res://ui/shared/buttons/Restart.png" id="2"]
+[ext_resource type="Texture2D" path="res://ui/shared/buttons/Settings.png" id="3"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -59,6 +60,12 @@ custom_minimum_size = Vector2(240, 50)
 layout_mode = 2
 text = "  Chơi lại"
 icon = ExtResource("2")
+
+[node name="SettingsButton" type="Button" parent="Root/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "  Cài đặt"
+icon = ExtResource("3")
 
 [node name="HubButton" type="Button" parent="Root/CenterContainer/Panel/VBoxContainer"]
 custom_minimum_size = Vector2(240, 50)

@@ -20,14 +20,20 @@ func _ready() -> void:
 	$BtnDash.visible = SaveManager.is_ability_unlocked("dash")
 	# Mở khoá giữa màn (nhặt relic / thắng boss) → hiện nút ngay, không đợi vào lại màn.
 	Events.ability_unlocked.connect(_on_ability_unlocked)
+	# Đổi "Nút cảm ứng" trong Cài đặt mở từ menu pause → áp ngay giữa màn.
+	Events.setting_changed.connect(_on_setting_changed)
 	$BtnPause.pressed.connect(func() -> void: pause_pressed.emit())
 
 func _on_ability_unlocked(id: String) -> void:
 	if id == "dash":
 		$BtnDash.visible = true
 
-func _should_show() -> bool:
-	match SaveManager.get_setting("touch_controls", "auto"):
+func _on_setting_changed(key: String, value: Variant) -> void:
+	if key == "touch_controls":
+		visible = _should_show(String(value))
+
+func _should_show(mode: String = SaveManager.get_setting("touch_controls", "auto")) -> bool:
+	match mode:
 		"on":
 			return true
 		"off":
@@ -38,7 +44,11 @@ func _should_show() -> bool:
 ## TouchScreenButton là Node2D (không anchor) → tự đặt vị trí theo mép an toàn.
 ## Trừ safe-area (tai thỏ / bo góc) khỏi vùng bố trí nút.
 func _layout() -> void:
-	var vp := get_viewport().get_visible_rect().size
+	# MobileScale phóng to cả canvas; thu layer lại để nút giữ đúng cỡ trên màn (vốn
+	# đã vừa ngón tay), rồi bố trí theo kích thước viewport tính ở tỉ lệ đó.
+	var k := MobileScale.factor
+	scale = Vector2.ONE / k
+	var vp := get_viewport().get_visible_rect().size * k
 	var bottom := vp.y - MARGIN - BTN
 	var corner_x := vp.x - MARGIN - BTN
 	$BtnLeft.position = Vector2(MARGIN, bottom)

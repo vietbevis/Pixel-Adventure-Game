@@ -6,17 +6,19 @@ extends Control
 const HUB_SCENE := "res://levels/hub/hub.tscn"
 const PROGRESS_SCENE := "res://ui/progress_screen/progress_screen.tscn"
 
-@onready var continue_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ContinueButton
-@onready var play_button: Button = $CenterContainer/DialogPanel/VBoxContainer/PlayButton
-@onready var progress_button: Button = $CenterContainer/DialogPanel/VBoxContainer/ProgressButton
-@onready var settings_button: Button = $CenterContainer/DialogPanel/VBoxContainer/SettingsButton
-@onready var quit_button: Button = $CenterContainer/DialogPanel/VBoxContainer/QuitButton
+@onready var continue_button: Button = $CenterContainer/DialogPanel/VBoxContainer/Buttons/ContinueButton
+@onready var play_button: Button = $CenterContainer/DialogPanel/VBoxContainer/Buttons/PlayButton
+@onready var progress_button: Button = $CenterContainer/DialogPanel/VBoxContainer/Buttons/ProgressButton
+@onready var settings_button: Button = $CenterContainer/DialogPanel/VBoxContainer/Buttons/SettingsButton
+@onready var quit_button: Button = $CenterContainer/DialogPanel/VBoxContainer/Buttons/QuitButton
 @onready var menu_panel: PanelContainer = $CenterContainer/DialogPanel
 @onready var confirm_panel: PanelContainer = $CenterContainer/ConfirmPanel
 @onready var confirm_button: Button = $CenterContainer/ConfirmPanel/VBoxContainer/ConfirmButton
 @onready var cancel_button: Button = $CenterContainer/ConfirmPanel/VBoxContainer/CancelButton
 
 func _ready() -> void:
+	# Khối menu co giãn theo kích thước/tỉ lệ màn thật (xem ui/shared/screen_fit.gd).
+	ScreenFit.attach($CenterContainer, [$CenterContainer/DialogPanel/VBoxContainer])
 	var continue_level := SaveManager.get_continue_level()
 	continue_button.visible = continue_level != "" and LevelData.get_index(continue_level) != -1
 	continue_button.pressed.connect(_on_continue)
