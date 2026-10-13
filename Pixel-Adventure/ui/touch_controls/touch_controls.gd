@@ -1,6 +1,7 @@
 extends CanvasLayer
-## Nút điều khiển cảm ứng cho mobile. Mỗi nút là TouchScreenButton có `action` → kích
-## hoạt đúng InputMap action như bàn phím, nên player.gd/level_base không cần biết gì.
+## Nút điều khiển cảm ứng cho mobile. Trái/phải là joystick (joystick.gd), các nút còn
+## lại là TouchScreenButton có `action` → kích hoạt đúng InputMap action như bàn phím,
+## nên player.gd/level_base không cần biết gì.
 ## level_base instance scene này lúc vào màn; tự ẩn nếu không phải thiết bị cảm ứng
 ## (hoặc theo SaveManager.get_setting("touch_controls")).
 
@@ -11,6 +12,9 @@ signal pause_pressed
 const BTN := 96.0
 const MARGIN := 40.0
 const GAP := 22.0
+## Vùng chạm của joystick: phần trái màn (tỉ lệ bề ngang), bỏ dải trên (HUD tim/điểm).
+const STICK_ZONE_W := 0.45
+const STICK_ZONE_TOP := 0.3
 
 func _ready() -> void:
 	layer = 10
@@ -51,8 +55,9 @@ func _layout() -> void:
 	var vp := get_viewport().get_visible_rect().size * k
 	var bottom := vp.y - MARGIN - BTN
 	var corner_x := vp.x - MARGIN - BTN
-	$BtnLeft.position = Vector2(MARGIN, bottom)
-	$BtnRight.position = Vector2(MARGIN + BTN + GAP, bottom)
+	var stick: TouchJoystick = $Joystick
+	stick.position = Vector2(MARGIN + stick.radius, vp.y - MARGIN - stick.radius)
+	stick.zone = Rect2(0.0, vp.y * STICK_ZONE_TOP, vp.x * STICK_ZONE_W, vp.y * (1.0 - STICK_ZONE_TOP))
 	$BtnJump.position = Vector2(corner_x, bottom)
 	$BtnAttack.position = Vector2(corner_x - BTN - GAP, bottom)
 	$BtnDash.position = Vector2(corner_x, bottom - BTN - GAP)
